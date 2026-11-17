@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vestora — Invest with clarity</title>
+  <meta name="description" content="Vestora helps you plan, track and grow your investments.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="#top">Vestora</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <h1>Invest with <span>clarity</span>.</h1>
+      <p>Plan your goals, see how your money can grow, and stay on track — all in one place.</p>
+      <a class="btn" href="#calculator">Try the growth calculator</a>
+    </section>
+
+    <section id="features" class="features">
+      <article><h3>Plan</h3><p>Set a target and see the monthly amount it takes to reach it.</p></article>
+      <article><h3>Track</h3><p>Follow your progress with simple, honest numbers.</p></article>
+      <article><h3>Grow</h3><p>Understand the power of compounding over time.</p></article>
+    </section>
+
+    <section id="calculator" class="calc">
+      <h2>Growth calculator</h2>
+      <form id="calc-form">
+        <label>Starting amount ($)<input id="initial" type="number" min="0" value="1000"></label>
+        <label>Monthly contribution ($)<input id="monthly" type="number" min="0" value="200"></label>
+        <label>Annual return (%)<input id="rate" type="number" min="0" max="50" step="0.1" value="7"></label>
+        <label>Years<input id="years" type="number" min="1" max="60" value="20"></label>
+      </form>
+      <div class="results">
+        <div><span>Final balance</span><strong id="out-final">—</strong></div>
+        <div><span>You contributed</span><strong id="out-contrib">—</strong></div>
+        <div><span>Growth earned</span><strong id="out-growth">—</strong></div>
+      </div>
+      <canvas id="chart" width="800" height="300" aria-label="Balance over time"></canvas>
+      <p class="note">Illustration only, not financial advice. Returns are not guaranteed.</p>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>Contact</h2>
+      <p>Questions? Reach out and we'll get back to you.</p>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> Vestora</footer>
+  <script src="app.js"></script>
+</body>
+</html>
