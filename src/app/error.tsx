@@ -1,9 +1,8 @@
 "use client";
+import { ErrorState } from "@/components/feedback/States";
+import { Container } from "@/components/layout/PageShell";
+import { Button } from "@/components/ui/Button";
+
 export default function Error({ reset }: { error: Error; reset: () => void }) {
-  return (
-    <div className="space-y-3">
-      <p>Something went wrong.</p>
-      <button className="rounded-lg bg-white/10 px-4 py-2" onClick={reset}>Try again</button>
-    </div>
-  );
+  return <Container className="py-24"><ErrorState action={<Button onClick={reset} variant="secondary">Try again</Button>}>An unexpected error occurred. You can try again.</ErrorState></Container>;
 }

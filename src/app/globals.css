@@ -1,4 +1,59 @@
 @import "tailwindcss";
 
-:root { color-scheme: dark; }
-body { background: #0b0b0f; color: #ececf1; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+/* ───────────── Design tokens ─────────────
+   One source of truth. Components use token utilities (bg-paper, text-ink,
+   rounded-md, shadow-card …) and never raw hex values.
+   Breakpoints (Tailwind defaults): sm 40rem · md 48rem · lg 64rem · xl 80rem · 2xl 96rem */
+@theme {
+  --color-paper: #f5f3ef;      /* page background: warm gallery white */
+  --color-surface: #ffffff;    /* cards, panels */
+  --color-ink: #121212;        /* primary text, primary buttons */
+  --color-mute: #5c5953;       /* secondary text (6:1 on paper) */
+  --color-line: #d8d4cb;       /* hairlines, borders */
+  --color-accent: #ff5a1f;     /* fills, highlights (not for small text) */
+  --color-accent-ink: #b32f08; /* accent used as text (≥4.5:1 on paper) */
+  --color-ok: #1d6b47;
+  --color-warn: #8a5a00;
+  --color-danger: #b3261e;
+
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --text-display: clamp(2.75rem, 7vw, 6rem);
+  --text-display--line-height: 0.95;
+  --text-headline: clamp(1.75rem, 3.5vw, 3rem);
+  --text-headline--line-height: 1.05;
+
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px rgb(0 0 0 / 0.06);
+  --shadow-pop: 0 12px 40px rgb(0 0 0 / 0.18);
+
+  --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --default-transition-duration: 200ms;   /* fast 120 · base 200 · slow 400 */
+  --default-transition-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ───────────── Department identities ─────────────
+   Wrap a section in <ThemeScope theme="street"> (or set data-theme) to restyle
+   everything inside by overriding the same tokens. */
+[data-theme="luxury"] { --color-paper:#efe9df; --color-surface:#faf6ee; --color-ink:#1c1712; --color-mute:#5d5446; --color-line:#d3c8b6; --color-accent:#b08d3c; --color-accent-ink:#7a5c14; }
+[data-theme="street"] { --color-paper:#101010; --color-surface:#1b1b1b; --color-ink:#f4f4f0; --color-mute:#b0b0a8; --color-line:#343434; --color-accent:#d6ff3d; --color-accent-ink:#d6ff3d; }
+[data-theme="minimal"] { --color-paper:#fafafa; --color-surface:#ffffff; --color-ink:#0a0a0a; --color-mute:#595959; --color-line:#e2e2e2; --color-accent:#2b4cff; --color-accent-ink:#2b4cff; }
+[data-theme="tech"] { --color-paper:#0b1117; --color-surface:#121b24; --color-ink:#e8f1f8; --color-mute:#9db0c0; --color-line:#243442; --color-accent:#37e0c8; --color-accent-ink:#37e0c8; }
+
+/* ───────────── Base ───────────── */
+html { color-scheme: light; scroll-behavior: smooth; }
+[data-theme="street"], [data-theme="tech"] { color-scheme: dark; }
+body { background: var(--color-paper); color: var(--color-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+
+:focus-visible { outline: 2px solid var(--color-accent-ink); outline-offset: 3px; border-radius: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+@keyframes vestora-slide { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+@keyframes vestora-toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

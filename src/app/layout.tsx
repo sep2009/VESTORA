@@ -1,24 +1,25 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { ToastViewport } from "@/components/feedback/ToastViewport";
 
 export const metadata: Metadata = {
-  title: "Vestora — Immersive fashion",
+  title: { default: "Vestora — Immersive fashion", template: "%s — Vestora" },
   description: "A 3D fashion showroom with virtual fitting, outfit creation and AI styling.",
 };
+export const viewport: Viewport = { width: "device-width", initialScale: 1 };
+export const revalidate = 60;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        <header className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-          <Link href="/" className="text-lg font-semibold tracking-widest">VESTORA</Link>
-          <nav className="flex gap-6 text-sm text-neutral-300">
-            <Link href="/shop">Shop</Link>
-            <Link href="/cart">Cart</Link>
-          </nav>
-        </header>
-        <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
+      <body className="flex min-h-dvh flex-col">
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-sm focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">Skip to content</a>
+        <SiteHeader />
+        <main id="main" className="flex-1">{children}</main>
+        <SiteFooter />
+        <ToastViewport />
       </body>
     </html>
   );
