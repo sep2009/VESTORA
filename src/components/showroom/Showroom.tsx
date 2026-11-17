@@ -1,8 +1,9 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef } from "react";
-import { resolveDisplays } from "@/modules/showroom/resolve";
-import type { ShowroomCatalogProduct } from "@/modules/showroom/types";
+import { assignProducts } from "@/modules/showroom/assign";
+import { zoneByDepartment } from "@/modules/showroom/layout";
+import type { MallProduct } from "@/modules/showroom/types";
 import { cameraManager } from "@/modules/showroom/camera/manager";
 import { useCameraStore } from "@/stores/camera-store";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
@@ -24,8 +25,8 @@ const HINTS = {
   focus: "Drag to look around · Esc or Return to go back",
 } as const;
 
-export default function Showroom({ catalog }: { catalog: ShowroomCatalogProduct[] }) {
-  const displays = useMemo(() => resolveDisplays(catalog), [catalog]);
+export default function Showroom({ products }: { products: MallProduct[] }) {
+  const displays = useMemo(() => assignProducts(products), [products]);
   const mode = useCameraStore((s) => s.mode);
   const stops = useCameraStore((s) => s.guided.count);
   const depth = useCameraStore((s) => s.backDepth);
@@ -39,9 +40,26 @@ export default function Showroom({ catalog }: { catalog: ShowroomCatalogProduct[
 
   // Start in guided mode, or explore when the visitor prefers reduced motion. Reset when leaving the page.
   useEffect(() => {
-    cameraManager.setMode(reduced ? "explore" : "guided");
+    // Phones and reduced-motion visitors start in Explore: a long scroll tour is a poor default there.
+    cameraManager.setMode(reduced || window.innerWidth < 768 ? "explore" : "guided");
     return () => { cameraManager.setMode("explore"); };
   }, [reduced]);
+
+  // Deep links from the shop and search: /?p=<product slug> opens that exact product, /?dept=<department> flies to it.
+  useEffect(() => {
+    const sp = new URLSearchParams(window.location.search);
+    const slug = sp.get("p"), dept = sp.get("dept");
+    const product = slug ? products.find((x) => x.slug === slug) : undefined;
+    const zone = dept ? zoneByDepartment(dept) : undefined;
+    if (!product && !zone) return;
+    cameraManager.setMode("explore");
+    cameraManager.whenReady(() => {
+      if (product && cameraManager.hasProduct(product.id)) cameraManager.focusProduct(product.id);
+      else if (zone) cameraManager.focusZone(zone.id);
+    });
+    // runs once per mount; the URL is the source of truth for the initial target
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Wheel/trackpad scrolling over the scene must scroll the page; only Ctrl/Cmd+wheel (and pinch) zooms.
   useEffect(() => {

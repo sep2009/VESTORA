@@ -3,7 +3,7 @@ import gsap from "gsap";
 import type { PerspectiveCamera } from "three";
 import type { OrbitControls } from "three-stdlib";
 import { ZONES } from "../layout";
-import type { DisplayPlacement, ZoneId } from "../types";
+import type { ResolvedDisplay, DisplaySlot, ZoneId } from "../types";
 import { useCameraStore, type CameraMode, type Focus } from "@/stores/camera-store";
 import { buildStops, displayPose, guidedPoseAt, lerpPose, overviewPose, poseDistance, zonePose, type Pose, type Stop, type V3 } from "./poses";
 
@@ -31,7 +31,9 @@ class CameraManager {
   private stops: Stop[] = buildStops(1.6);
   private scroll = 0;
   private smooth = 0;
-  private displays = new Map<string, DisplayPlacement>();
+  /** catalog product id → the fixture that shows it */
+  private slotByProduct = new Map<string, DisplaySlot>();
+  private pendingReady: (() => void)[] = [];
   private listeners = new Set<LocationListener>();
   private lastEmit = 0;
   readonly keys = new Set<string>();
@@ -46,6 +48,9 @@ class CameraManager {
     const start = mode === "guided" ? guidedPoseAt(this.stops, this.scroll, reduced).pose : overviewPose(aspect);
     this.apply(start);
     this.settle();
+    const queued = this.pendingReady; this.pendingReady = [];
+    // next tick: lets sibling effects (display map, quality) finish before queued requests run
+    setTimeout(() => queued.forEach((fn) => fn()), 0);
   }
   detach() {
     this.killTween();
@@ -59,7 +64,12 @@ class CameraManager {
     this.stops = buildStops(aspect);
   }
   setReduced(reduced: boolean) { this.reduced = reduced; }
-  setDisplays(list: readonly DisplayPlacement[]) { this.displays = new Map(list.map((d) => [d.id, d])); }
+  setDisplays(list: readonly ResolvedDisplay[]) {
+    this.slotByProduct = new Map(list.flatMap((d) => d.products.map((p) => [p.id, d.slot] as const)));
+  }
+  /** Run `fn` once the scene (camera and controls) is attached; immediately if it already is. */
+  whenReady(fn: () => void) { if (this.camera) fn(); else this.pendingReady.push(fn); }
+  hasProduct(id: string) { return this.slotByProduct.has(id); }
   onLocation(fn: LocationListener) { this.listeners.add(fn); return () => { this.listeners.delete(fn); }; }
 
   /* ───────── scroll (guided) ───────── */
@@ -82,14 +92,15 @@ class CameraManager {
     set({ mode: "focus", focus: { kind: "zone", zoneId: id }, currentZoneId: id, backDepth: this.stack.length });
     this.transition(() => zonePose(id, this.aspect));
   }
-  focusDisplay(id: string) {
-    const d = this.displays.get(id);
-    if (!d) return;
+  /** Fly to the fixture that shows this catalog product and open it. Does nothing if the mall does not display it. */
+  focusProduct(id: string) {
+    const slot = this.slotByProduct.get(id);
+    if (!slot) return;
     const cur = store().focus;
-    if (cur?.kind === "display" && cur.displayId === id) { this.back(); return; }
+    if (cur?.kind === "product" && cur.productId === id) { this.back(); return; }
     this.pushSnapshot();
-    set({ mode: "focus", focus: { kind: "display", displayId: id, zoneId: d.departmentId }, currentZoneId: d.departmentId, backDepth: this.stack.length });
-    this.transition(() => displayPose(d, this.aspect));
+    set({ mode: "focus", focus: { kind: "product", productId: id, zoneId: slot.departmentId }, currentZoneId: slot.departmentId, backDepth: this.stack.length });
+    this.transition(() => displayPose(slot, this.aspect));
   }
   /** Undo one focus level, restoring exactly the camera state saved before it. */
   back() {

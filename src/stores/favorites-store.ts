@@ -1,11 +1,10 @@
 "use client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { ProductId } from "@/domain";
 
-type FavoritesState = { ids: ProductId[]; toggle: (id: ProductId) => boolean };
+type FavoritesState = { ids: string[]; toggle: (id: string) => boolean };
 
-/** Returns true when the product is now a favorite. Ids only; product data stays in the catalog. */
+/** Catalog product ids only; product data always comes from the catalog. Returns true when the product is now a favorite. */
 export const useFavorites = create<FavoritesState>()(
   persist(
     (set, get) => ({
@@ -16,6 +15,6 @@ export const useFavorites = create<FavoritesState>()(
         return !has;
       },
     }),
-    { name: "vestora-favorites" },
+    { name: "vestora-favorites-v2" },
   ),
 );

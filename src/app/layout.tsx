@@ -3,15 +3,19 @@ import "./globals.css";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ToastViewport } from "@/components/feedback/ToastViewport";
+import { NavMemory } from "@/components/layout/NavMemory";
+import { Suspense } from "react";
+import { getCatalog } from "@/server/catalog/catalog";
 
 export const metadata: Metadata = {
   title: { default: "Vestora — Immersive fashion", template: "%s — Vestora" },
   description: "A 3D fashion showroom with virtual fitting, outfit creation and AI styling.",
 };
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const slugs = Object.fromEntries(getCatalog().products.map((p) => [p.id, p.slug]));
   return (
     <html lang="en">
       <body className="flex min-h-dvh flex-col">
@@ -19,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         <main id="main" className="flex-1">{children}</main>
         <SiteFooter />
+        <Suspense fallback={null}><NavMemory productSlugs={slugs} /></Suspense>
         <ToastViewport />
       </body>
     </html>

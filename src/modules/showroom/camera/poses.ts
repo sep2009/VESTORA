@@ -1,5 +1,5 @@
 import { getZone } from "../layout";
-import type { DisplayPlacement, DisplayType, ZoneId } from "../types";
+import type { DisplaySlot, DisplayType, ZoneId } from "../types";
 
 /** Pure camera maths: no THREE, no React, no DOM. Poses are plain tuples so they can be tested in Node. */
 export type V3 = readonly [number, number, number];
@@ -22,8 +22,8 @@ const OVERVIEW_DIR = norm([0.62, 0.66, 0.78]);
 const ZONE_DIR = norm([0.6, 0.5, 0.8]);
 
 export function overviewPose(aspect: number): Pose {
-  const target: V3 = [0, 0, 3];
-  return { target, pos: along(target, OVERVIEW_DIR, clamp(fitDistance(aspect, 40, 31), 18, 240)) };
+  const target: V3 = [0, 0, 16];
+  return { target, pos: along(target, OVERVIEW_DIR, clamp(fitDistance(aspect, 40, 37), 18, 260)) };
 }
 
 /** A room, seen from its open south-east side so the whole interior is visible. */
@@ -36,7 +36,7 @@ export function zonePose(id: ZoneId, aspect: number): Pose {
 const AIM_HEIGHT: Record<DisplayType, number> = { rack: 1, mannequin: 1.1, platform: 1.2, pedestal: 1.1, table: 0.8, shelf: 1.1, niche: 0 };
 
 /** In front of a display, biased slightly towards the usual viewing side, looking at its middle. */
-export function displayPose(p: DisplayPlacement, aspect: number): Pose {
+export function displayPose(p: DisplaySlot, aspect: number): Pose {
   const ry = p.rotation[1];
   const front: V3 = [Math.sin(ry), 0, Math.cos(ry)];
   const dir = norm([front[0] * 0.75 + 0.62 * 0.25, 0, front[2] * 0.75 + 0.78 * 0.25]);
@@ -48,15 +48,17 @@ export function displayPose(p: DisplayPlacement, aspect: number): Pose {
 type StopSpec = { id: string; label: string; pose: (a: number) => Pose };
 const STOPS: StopSpec[] = [
   { id: "overview", label: "The mall", pose: overviewPose },
-  { id: "approach", label: "Arrival", pose: () => ({ pos: [-6, 5.5, 52], target: [0, 3.2, 30] }) },
-  { id: "lobby", label: "Entrance hall", pose: () => ({ pos: [8, 8, 37], target: [0, 1.5, 21] }) },
-  { id: "new-arrivals", label: "New Arrivals", pose: (a) => zonePose("new-arrivals", a) },
-  { id: "streetwear", label: "Streetwear", pose: (a) => zonePose("streetwear", a) },
+  { id: "approach", label: "Arrival", pose: () => ({ pos: [-6, 5.5, 76], target: [0, 3.2, 52] }) },
+  { id: "lobby", label: "Entrance hall", pose: () => ({ pos: [8, 8, 59], target: [0, 1.5, 43] }) },
+  { id: "sneakers", label: "Sneakers", pose: (a) => zonePose("sneakers", a) },
   { id: "casual", label: "Casual", pose: (a) => zonePose("casual", a) },
-  { id: "formal", label: "Formal", pose: (a) => zonePose("formal", a) },
-  { id: "minimal", label: "Minimal", pose: (a) => zonePose("minimal", a) },
+  { id: "streetwear", label: "Streetwear", pose: (a) => zonePose("streetwear", a) },
+  { id: "denim", label: "Denim", pose: (a) => zonePose("denim", a) },
   { id: "luxury", label: "Luxury", pose: (a) => zonePose("luxury", a) },
+  { id: "formal", label: "Formal", pose: (a) => zonePose("formal", a) },
+  { id: "sportswear", label: "Sportswear", pose: (a) => zonePose("sportswear", a) },
   { id: "accessories", label: "Accessories", pose: (a) => zonePose("accessories", a) },
+  { id: "new-arrivals", label: "New Arrivals", pose: (a) => zonePose("new-arrivals", a) },
   { id: "finale", label: "The mall", pose: overviewPose },
 ];
 /** Portrait screens get a shorter tour: the approach and lobby shots add little on a narrow view. */
@@ -64,7 +66,7 @@ const PORTRAIT_SKIP = new Set(["approach", "lobby"]);
 
 /**
  * The guided tour visits the rooms in the order they are physically connected
- * (hub → streetwear → casual → formal → minimal → luxury → accessories), so the camera never crosses the map.
+ * (entrance → sneakers → casual → streetwear → denim → luxury → formal → sportswear → accessories → new arrivals), so the camera never crosses the map.
  */
 export function buildStops(aspect: number): Stop[] {
   return STOPS.filter((s) => aspect >= 0.8 || !PORTRAIT_SKIP.has(s.id)).map((s) => ({ id: s.id, label: s.label, pose: s.pose(aspect) }));

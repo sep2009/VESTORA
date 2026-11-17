@@ -1,58 +1,63 @@
 import type { Metadata } from "next";
-import { listDepartments, listProducts } from "@/server/catalog/repository";
-import { CatalogNotice } from "@/components/ui/CatalogNotice";
+import Link from "next/link";
 import { EmptyState } from "@/components/feedback/States";
 import { PageShell } from "@/components/layout/PageShell";
 import { ProductCard } from "@/components/product/ProductCard";
-import { ProductFilters, type FilterGroup } from "@/components/product/ProductFilters";
+import { FilterDrawer } from "@/components/shop/FilterDrawer";
+import { ShopFilters } from "@/components/shop/ShopFilters";
 import { Button } from "@/components/ui/Button";
-import { stockLevel } from "@/lib/product-info";
+import { CATEGORY_LABEL, DEPARTMENT_LABEL } from "@/modules/catalog/kinds";
+import { facets, parseQuery, queryProducts } from "@/modules/catalog/query";
+import { getCatalog } from "@/server/catalog/catalog";
+import { getIndex } from "@/server/catalog/index-data";
 
 export const metadata: Metadata = { title: "Shop" };
 export const dynamic = "force-dynamic";
 
+const PAGE_SIZE = 24;
 type Params = Record<string, string | string[] | undefined>;
-const list = (v: string | string[] | undefined): string[] => (v === undefined ? [] : Array.isArray(v) ? v : [v]);
 
 export default async function ShopPage({ searchParams }: { searchParams: Promise<Params> }) {
   const sp = await searchParams;
-  const q = list(sp.q)[0]?.trim() ?? "";
-  const depts = list(sp.dept), sizes = list(sp.size), colors = list(sp.color);
-  const inStock = list(sp.instock)[0] === "1";
-
-  const [products, departments] = await Promise.all([listProducts(), listDepartments()]);
-  if (products.status !== "ok") return <PageShell eyebrow="Shop" title="All pieces"><CatalogNotice status={products.status} message={products.status === "error" ? products.message : undefined} /></PageShell>;
-
-  const deptList = departments.status === "ok" ? departments.data : [];
-  const all = products.data;
-  const uniq = <T extends { code: string; label: string }>(xs: T[]) => [...new Map(xs.map((x) => [x.code, x])).values()];
-  const groups: FilterGroup[] = [
-    { name: "dept", legend: "Department", options: deptList.map((d) => ({ value: d.slug, label: d.name })), selected: depts },
-    { name: "size", legend: "Size", options: uniq(all.flatMap((p) => p.variants.map((v) => v.size))).map((s) => ({ value: s.code, label: s.label })), selected: sizes },
-    { name: "color", legend: "Color", options: uniq(all.flatMap((p) => p.variants.map((v) => v.color))).map((c) => ({ value: c.code, label: c.label })), selected: colors },
+  const query = parseQuery(sp);
+  const page = Math.max(1, Number(Array.isArray(sp.page) ? sp.page[0] : sp.page) || 1);
+  const { products, brands } = getCatalog();
+  if (products.length === 0) {
+    return <PageShell eyebrow="Shop mode" title="Shop"><EmptyState title="No products connected">The catalog is empty. Add verified product records to <code>data/catalog</code> or connect a product feed (see <code>data/catalog/README.md</code>).</EmptyState></PageShell>;
+  }
+  const f = facets(products, brands);
+  const found = queryProducts(products, brands, query);
+  const index = new Map(getIndex().items.map((i) => [i.id, i]));
+  const shown = found.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map((p) => index.get(p.id)!);
+  const pages = Math.max(1, Math.ceil(found.length / PAGE_SIZE));
+  const active = (query.brand?.length ?? 0) + (query.category?.length ?? 0) + (query.department?.length ?? 0) + (query.size?.length ?? 0) + (query.color?.length ?? 0) + (query.min !== undefined ? 1 : 0) + (query.max !== undefined ? 1 : 0) + (query.available ? 1 : 0);
+  const brandName = new Map(brands.map((b) => [b.slug, b.name]));
+  const chips = [
+    ...(query.department ?? []).map((v) => DEPARTMENT_LABEL[v] ?? v), ...(query.brand ?? []).map((v) => brandName.get(v) ?? v),
+    ...(query.category ?? []).map((v) => CATEGORY_LABEL[v as keyof typeof CATEGORY_LABEL] ?? v), ...(query.size ?? []).map((v) => `Size ${v}`), ...(query.color ?? []),
   ];
-  const deptIds = deptList.filter((d) => depts.includes(d.slug)).map((d) => d.id);
-  const shown = all.filter((p) =>
-    (!q || p.name.toLowerCase().includes(q.toLowerCase())) &&
-    (depts.length === 0 || deptIds.includes(p.departmentId)) &&
-    (sizes.length === 0 || p.variants.some((v) => sizes.includes(v.size.code))) &&
-    (colors.length === 0 || p.variants.some((v) => colors.includes(v.color.code))) &&
-    (!inStock || stockLevel(p) !== "out"));
-
+  const hasDemo = products.some((p) => p.source.kind === "demo");
+  const pageHref = (n: number) => { const u = new URLSearchParams(); Object.entries(sp).forEach(([k, v]) => { if (k !== "page") (Array.isArray(v) ? v : [v]).forEach((x) => x && u.append(k, x)); }); if (n > 1) u.set("page", String(n)); return `/shop${u.size ? `?${u}` : ""}`; };
   return (
-    <PageShell eyebrow="Shop" title={q ? `Results for “${q}”` : "All pieces"} intro={all.length ? `${shown.length} of ${all.length} pieces` : undefined}>
-      {all.length === 0 ? <CatalogNotice status="empty" /> : (
-        <div className="grid gap-10 lg:grid-cols-[14rem_1fr]">
-          <aside><ProductFilters groups={groups} q={q} inStock={inStock} /></aside>
+    <PageShell eyebrow="Shop mode" title={query.q ? `Results for “${query.q}”` : "The catalog"} intro={`${found.length} of ${products.length} products${chips.length ? ` · ${chips.join(" · ")}` : ""}`}>
+      {hasDemo && <p role="note" className="mb-8 rounded-md border border-line bg-surface p-3 text-sm text-mute"><strong className="text-ink">Demo catalog.</strong> These records are test data with fictional brands, so the whole store can be tried out. They are not real products and cannot be purchased.</p>}
+      <div className="grid gap-10 lg:grid-cols-[15rem_1fr]">
+        <aside aria-label="Filters"><FilterDrawer activeCount={active}><ShopFilters facets={f} query={query} /></FilterDrawer></aside>
+        <section aria-label="Products">
           {shown.length === 0 ? (
-            <EmptyState title="No matches" action={<Button href="/shop" variant="secondary">Clear filters</Button>}>No pieces match these filters.</EmptyState>
+            <EmptyState title="No products match" action={<Button href="/shop" variant="secondary">Clear search and filters</Button>}>Try fewer filters or a different search term.</EmptyState>
           ) : (
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-4">
-              {shown.map((p) => <li key={p.id}><ProductCard product={p} /></li>)}
-            </ul>
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 xl:grid-cols-4">{shown.map((it) => <li key={it.id}><ProductCard item={it} /></li>)}</ul>
           )}
-        </div>
-      )}
+          {pages > 1 && (
+            <nav aria-label="Pages" className="mt-12 flex items-center justify-center gap-3 text-sm">
+              {page > 1 && <Link href={pageHref(page - 1)} className="rounded-sm border border-line px-4 py-2">← Previous</Link>}
+              <span className="text-mute">Page {page} of {pages}</span>
+              {page < pages && <Link href={pageHref(page + 1)} className="rounded-sm border border-line px-4 py-2">Next →</Link>}
+            </nav>
+          )}
+        </section>
+      </div>
     </PageShell>
   );
 }

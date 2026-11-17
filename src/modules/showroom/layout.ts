@@ -18,24 +18,26 @@ const zone = (
 ): ZoneDef => ({ id, department, name, tagline, col, row, center: [col * GRID_SPACING, row * GRID_SPACING], palette });
 
 export const ZONES: readonly ZoneDef[] = [
-  zone("minimal", "minimal", "Minimal", "Clean lines, quiet colour", -1, -1,
-    P({ floor: "#d9d6ce", floorLine: "", floorKind: "limestone", wall: "#ece9e3", trim: "#2e2e2f", accent: "#2e2e2f", accent2: "#9b978f", light: "#fff1dc", lightIntensity: 1 })),
-  zone("formal", "formal", "Formal", "Tailoring and eveningwear", 0, -1,
+  zone("formal", "formal", "Formal", "Tailoring and eveningwear", -1, -1,
     P({ floor: "#6d4d33", floorLine: "", floorKind: "parquet", wall: "#232b3d", trim: "#b08d57", accent: "#6f2230", accent2: "#b08d57", light: "#ffe4c0", lightIntensity: 1 })),
-  zone("casual", "casual", "Casual", "Everyday, easy, comfortable", 1, -1,
-    P({ floor: "#bf9d72", floorLine: "", floorKind: "oak", wall: "#e5d9c6", trim: "#8a6b48", accent: "#6f8b6c", accent2: "#c08a52", light: "#ffe0b5", lightIntensity: 1 })),
-  zone("luxury", "luxury", "Luxury", "Craft, marble and brass", -1, 0,
+  zone("luxury", "luxury", "Luxury", "Craft, marble and brass", 0, -1,
     P({ floor: "#ece9e2", floorLine: "", floorKind: "marble", wall: "#2c3b34", trim: "#b08d57", accent: "#b08d57", accent2: "#5a2a30", light: "#ffe1b5", lightIntensity: 1.1 })),
+  zone("denim", "denim", "Denim", "Indigo, selvedge and copper", 1, -1,
+    P({ floor: "#8f6f4c", floorLine: "", floorKind: "oak", wall: "#2a3850", trim: "#7a5a3a", accent: "#c78a4a", accent2: "#d9d2c3", light: "#ffe3bb", lightIntensity: 1 })),
+  zone("sportswear", "sportswear", "Sportswear", "Performance and training", -1, 0,
+    P({ floor: "#d6d9da", floorLine: "", floorKind: "limestone", wall: "#eceff0", trim: "#33383d", accent: "#3d72b4", accent2: "#9aa3aa", light: "#f2f7ff", lightIntensity: 1 })),
   zone("new-arrivals", "new-arrivals", "New Arrivals", "Just in this season", 0, 0,
     P({ floor: "#e8e4db", floorLine: "", floorKind: "terrazzo", wall: "#f0ede7", trim: "#b08d57", accent: "#c4602b", accent2: "#1f1f20", light: "#fff4e2", lightIntensity: 1 })),
-  zone("streetwear", "streetwear", "Streetwear", "Concrete, steel and sneakers", 1, 0,
+  zone("streetwear", "streetwear", "Streetwear", "Concrete, steel and graphics", 1, 0,
     P({ floor: "#74736f", floorLine: "", floorKind: "concrete", wall: "#2d2d2f", trim: "#17171a", accent: "#c8cd72", accent2: "#9b3b32", light: "#e9e4f3", lightIntensity: 1 })),
-  zone("accessories", "accessories", "Accessories", "Shoes, bags, watches, eyewear", -1, 1,
+  zone("accessories", "accessories", "Accessories", "Bags, watches, eyewear", -1, 1,
     P({ floor: "#cdd2cf", floorLine: "", floorKind: "limestone", wall: "#3b5254", trim: "#b08d57", accent: "#c9a15a", accent2: "#e8eeee", light: "#f3fbff", lightIntensity: 1 })),
-  zone("entrance", null, "Entrance", "Welcome to Vestora", 0, 1,
+  zone("sneakers", "sneakers", "Sneakers", "A gallery for footwear", 0, 1,
+    P({ floor: "#8a8985", floorLine: "", floorKind: "concrete", wall: "#222427", trim: "#101012", accent: "#e7dcc2", accent2: "#b5483a", light: "#fff0dc", lightIntensity: 1 })),
+  zone("casual", "casual", "Casual", "Everyday, easy, comfortable", 1, 1,
+    P({ floor: "#d2b48c", floorLine: "", floorKind: "oak", wall: "#e5d9c6", trim: "#8a6b48", accent: "#6f8b6c", accent2: "#c08a52", light: "#ffe0b5", lightIntensity: 1 })),
+  zone("entrance", null, "Entrance", "Welcome to Vestora", 0, 2,
     P({ floor: "#d3c8b4", floorLine: "", floorKind: "travertine", wall: "#ece8e0", trim: "#1c1c1d", accent: "#b9582b", accent2: "#1c1c1d", light: "#fff3e0", lightIntensity: 1 })),
-  zone("lounge", null, "Lounge", "Sit, browse, regroup", 1, 1,
-    P({ floor: "#c7aa86", floorLine: "", floorKind: "oak", wall: "#e5dfd2", trim: "#6c7f6f", accent: "#6c7f6f", accent2: "#b88455", light: "#ffe2b8", lightIntensity: 0.9 })),
 ];
 
 export const DEPARTMENT_ZONES = ZONES.filter((z) => z.department !== null);
@@ -75,5 +77,5 @@ export const CORRIDORS: readonly CorridorDef[] = ZONES.flatMap((a) => {
   return out;
 });
 
-/** Half of the world footprint, used to size the base slab and camera framing. */
-export const WORLD_HALF = GRID_SPACING + ZONE_SIZE / 2 + 2;
+/** World bounds (metres) used by the base slab, minimap and camera framing. z includes the street portal in front of the entrance. */
+export const WORLD = { xMin: -30, xMax: 30, zMin: -30, zMax: 62 } as const;

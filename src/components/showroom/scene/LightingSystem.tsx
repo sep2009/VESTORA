@@ -36,10 +36,10 @@ export function LightingSystem() {
       </Environment>
       <hemisphereLight args={["#f6f1e8", "#9d958a", 0.22]} />
       <directionalLight
-        position={[34, 58, 30]} intensity={1.9} color="#fff1dd" castShadow
+        position={[34, 58, 46]} intensity={1.9} color="#fff1dd" castShadow
         shadow-mapSize={high ? [4096, 4096] : [1536, 1536]}
-        shadow-camera-left={-48} shadow-camera-right={48} shadow-camera-top={48} shadow-camera-bottom={-48}
-        shadow-camera-near={10} shadow-camera-far={160} shadow-bias={-0.0003} shadow-normalBias={0.04}
+        shadow-camera-left={-66} shadow-camera-right={66} shadow-camera-top={66} shadow-camera-bottom={-66}
+        shadow-camera-near={10} shadow-camera-far={190} shadow-bias={-0.0003} shadow-normalBias={0.04}
       />
       {high && ZONES.map((z) => <RoomSpot key={z.id} x={z.center[0]} z={z.center[1]} color={z.palette.light} intensity={90 * z.palette.lightIntensity} />)}
     </>

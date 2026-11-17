@@ -1,14 +1,14 @@
+/** Explore and Shop are the two modes (see ModeToggle); these are the other places in the persistent navigation. */
 export const primaryLinks = [
-  { href: "/shop", label: "Shop" },
-  { href: "/collections", label: "Collections" },
-  { href: "/style-quiz", label: "Style quiz" },
-  { href: "/virtual-try-on", label: "Try on" },
-  { href: "/assistant", label: "Assistant" },
+  { href: "/brands", label: "Brands" },
+  { href: "/categories", label: "Categories" },
+  { href: "/style-creator", label: "Outfit Studio" },
+  { href: "/assistant", label: "AI Stylist" },
 ] as const;
 
 export const accountLinks = [
-  { href: "/account", label: "Account" },
-  { href: "/orders", label: "Orders" },
   { href: "/favorites", label: "Favorites" },
-  { href: "/style-creator", label: "Style creator" },
+  { href: "/cart", label: "Cart" },
+  { href: "/orders", label: "Orders" },
+  { href: "/account", label: "Account" },
 ] as const;

@@ -8,8 +8,8 @@ import { Walls } from "./Walls";
 import { floor, paint } from "./pbr/materials";
 
 const WALL_FOR: Record<string, WallVariant | null> = {
-  luxury: "marble", streetwear: "graphic", minimal: "slats", casual: "slats", formal: "panels",
-  accessories: "panels", "new-arrivals": "accent", entrance: null, lounge: null,
+  luxury: "marble", streetwear: "graphic", sportswear: "accent", casual: "slats", formal: "panels", denim: "panels",
+  accessories: "panels", sneakers: "panels", "new-arrivals": "accent", entrance: null,
 };
 
 /** One department area: floor slab with a polished or textured finish, walls with doorways, feature wall, sign and decor. */
@@ -20,7 +20,6 @@ export function DepartmentZone({ zone }: { zone: ZoneDef }) {
   const signInk = ["#2e2e2f", "#1c1c1d"].includes(palette.accent) ? "#e9e4d8" : palette.accent;
   // The feature wall is split around a doorway on the north side.
   const segments = open.n ? [{ x: -5.2, w: 5.4 }, { x: 5.2, w: 5.4 }] : [{ x: 0, w: 14 }];
-  const showSneakerWall = zone.id === "streetwear";
   return (
     <group position={[zone.center[0], 0, zone.center[1]]}>
       {/* structural slab (its edge is visible on the cutaway side) and the finished floor on top */}
@@ -34,12 +33,6 @@ export function DepartmentZone({ zone }: { zone: ZoneDef }) {
           <ExhibitionWall variant={variant} width={s.w} height={3.4} palette={palette} />
         </group>
       ))}
-      {showSneakerWall && (
-        <>
-          <group position={[-7.6, 0, open.w ? -4.9 : 0]} rotation={[0, Math.PI / 2, 0]}><ExhibitionWall variant="grid" width={open.w ? 5 : 14} height={3.4} palette={palette} /></group>
-          {open.w && <group position={[-7.6, 0, 4.9]} rotation={[0, Math.PI / 2, 0]}><ExhibitionWall variant="grid" width={5} height={3.4} palette={palette} /></group>}
-        </>
-      )}
       <DepartmentSign
         title={zone.name} subtitle={zone.tagline}
         style={{ bg: "#161618", fg: signInk, sub: "#a9a499" }} accent={signInk}

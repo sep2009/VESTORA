@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { CORRIDORS, CORRIDOR_WIDTH, DEPARTMENT_ZONES, ZONES, ZONE_SIZE } from "@/modules/showroom/layout";
+import { CORRIDORS, CORRIDOR_WIDTH, DEPARTMENT_ZONES, WORLD, ZONES, ZONE_SIZE } from "@/modules/showroom/layout";
 import { cameraManager } from "@/modules/showroom/camera/manager";
 import { selectFocusedZoneId, useCameraStore } from "@/stores/camera-store";
 import type { ZoneDef } from "@/modules/showroom/types";
@@ -9,9 +9,9 @@ import { cn } from "@/lib/cn";
 const K = 1.4; // world metres → map units
 const PAD = 4;
 const sx = (x: number) => (x + 30) * K + PAD;
-const sz = (z: number) => (z + 30) * K + PAD;
-const W = 60 * K + PAD * 2;
-const H = 78 * K + PAD * 2; // includes the street portal in front of the entrance
+const sz = (z: number) => (z - WORLD.zMin) * K + PAD;
+const W = (WORLD.xMax - WORLD.xMin) * K + PAD * 2;
+const H = (WORLD.zMax - WORLD.zMin) * K + PAD * 2; // includes the street portal in front of the entrance
 
 function Room({ zone, selected, here, onPick }: { zone: ZoneDef; selected: boolean; here: boolean; onPick: () => void }) {
   const size = ZONE_SIZE * K;
@@ -69,7 +69,7 @@ export function Minimap() {
             <path d={`M${ex - 3} ${ey + 8} L${ex} ${ey + 3.5} L${ex + 3} ${ey + 8}`} fill="none" stroke="var(--color-ink)" strokeWidth={1} />
             <text x={ex} y={ey + 13.5} textAnchor="middle" fontSize={3.8} fill="var(--color-ink)" style={{ fontWeight: 600 }}>ENTRANCE</text>
           </g>
-          <g ref={you} aria-hidden="true" transform={`translate(${sx(0)} ${sz(3)})`} style={{ pointerEvents: "none" }}>
+          <g ref={you} aria-hidden="true" transform={`translate(${sx(0)} ${sz(16)})`} style={{ pointerEvents: "none" }}>
             <path ref={wedge} d="M0 0 L-5 -11 A12 12 0 0 1 5 -11 Z" fill="var(--color-ink)" fillOpacity={0.22} />
             <circle r={2.6} fill="var(--color-ink)" stroke="var(--color-surface)" strokeWidth={1} />
           </g>

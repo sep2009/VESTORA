@@ -1,0 +1,4337 @@
+{
+  "brands": [
+    {
+      "slug": "atlas-sport",
+      "name": "Atlas Sport",
+      "demo": true,
+      "website": null
+    },
+    {
+      "slug": "stride-lab",
+      "name": "Stride Lab",
+      "demo": true,
+      "website": null
+    },
+    {
+      "slug": "meridian-street",
+      "name": "Meridian Street",
+      "demo": true,
+      "website": null
+    },
+    {
+      "slug": "maison-verde",
+      "name": "Maison Verde",
+      "demo": true,
+      "website": null
+    },
+    {
+      "slug": "harbor-co",
+      "name": "Harbor & Co",
+      "demo": true,
+      "website": null
+    },
+    {
+      "slug": "indigo-works",
+      "name": "Indigo Works",
+      "demo": true,
+      "website": null
+    },
+    {
+      "slug": "courtland-tailoring",
+      "name": "Courtland Tailoring",
+      "demo": true,
+      "website": null
+    },
+    {
+      "slug": "linea-accessori",
+      "name": "Linea Accessori",
+      "demo": true,
+      "website": null
+    },
+    {
+      "slug": "northfield-studio",
+      "name": "Northfield Studio",
+      "demo": true,
+      "website": null
+    }
+  ],
+  "products": [
+    {
+      "id": "demo-001",
+      "slug": "training-hoodie-atlas-sport",
+      "name": "Training Hoodie",
+      "brand": "atlas-sport",
+      "department": "sportswear",
+      "category": "hoodies",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (hoodies, sportswear).",
+      "images": [
+        {
+          "url": "/api/demo-image/training-hoodie-atlas-sport/1",
+          "alt": "Training Hoodie, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/training-hoodie-atlas-sport/2",
+          "alt": "Training Hoodie, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/training-hoodie-atlas-sport/3",
+          "alt": "Training Hoodie, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 10900,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Charcoal",
+          "hex": "#3a3a3d"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-002",
+      "slug": "performance-tee-atlas-sport",
+      "name": "Performance Tee",
+      "brand": "atlas-sport",
+      "department": "sportswear",
+      "category": "t-shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (t-shirts, sportswear).",
+      "images": [
+        {
+          "url": "/api/demo-image/performance-tee-atlas-sport/1",
+          "alt": "Performance Tee, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/performance-tee-atlas-sport/2",
+          "alt": "Performance Tee, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/performance-tee-atlas-sport/3",
+          "alt": "Performance Tee, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 4600,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-003",
+      "slug": "track-jacket-atlas-sport",
+      "name": "Track Jacket",
+      "brand": "atlas-sport",
+      "department": "sportswear",
+      "category": "jackets",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jackets, sportswear).",
+      "images": [
+        {
+          "url": "/api/demo-image/track-jacket-atlas-sport/1",
+          "alt": "Track Jacket, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/track-jacket-atlas-sport/2",
+          "alt": "Track Jacket, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/track-jacket-atlas-sport/3",
+          "alt": "Track Jacket, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 17300,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "out_of_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-004",
+      "slug": "jogger-trousers-atlas-sport",
+      "name": "Jogger Trousers",
+      "brand": "atlas-sport",
+      "department": "sportswear",
+      "category": "trousers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (trousers, sportswear).",
+      "images": [
+        {
+          "url": "/api/demo-image/jogger-trousers-atlas-sport/1",
+          "alt": "Jogger Trousers, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/jogger-trousers-atlas-sport/2",
+          "alt": "Jogger Trousers, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/jogger-trousers-atlas-sport/3",
+          "alt": "Jogger Trousers, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 11200,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Charcoal",
+          "hex": "#3a3a3d"
+        },
+        {
+          "name": "Olive",
+          "hex": "#5b6340"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-005",
+      "slug": "zip-fleece-atlas-sport",
+      "name": "Zip Fleece",
+      "brand": "atlas-sport",
+      "department": "sportswear",
+      "category": "hoodies",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (hoodies, sportswear).",
+      "images": [
+        {
+          "url": "/api/demo-image/zip-fleece-atlas-sport/1",
+          "alt": "Zip Fleece, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/zip-fleece-atlas-sport/2",
+          "alt": "Zip Fleece, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/zip-fleece-atlas-sport/3",
+          "alt": "Zip Fleece, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 9800,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        },
+        {
+          "name": "Forest",
+          "hex": "#2f4a3a"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "unknown",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-006",
+      "slug": "seamless-tee-atlas-sport",
+      "name": "Seamless Tee",
+      "brand": "atlas-sport",
+      "department": "sportswear",
+      "category": "t-shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (t-shirts, sportswear).",
+      "images": [
+        {
+          "url": "/api/demo-image/seamless-tee-atlas-sport/1",
+          "alt": "Seamless Tee, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/seamless-tee-atlas-sport/2",
+          "alt": "Seamless Tee, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/seamless-tee-atlas-sport/3",
+          "alt": "Seamless Tee, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 4200,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-007",
+      "slug": "wind-shell-atlas-sport",
+      "name": "Wind Shell",
+      "brand": "atlas-sport",
+      "department": "sportswear",
+      "category": "jackets",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jackets, sportswear).",
+      "images": [
+        {
+          "url": "/api/demo-image/wind-shell-atlas-sport/1",
+          "alt": "Wind Shell, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/wind-shell-atlas-sport/2",
+          "alt": "Wind Shell, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/wind-shell-atlas-sport/3",
+          "alt": "Wind Shell, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 15500,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-008",
+      "slug": "training-tapered-trousers-atlas-sport",
+      "name": "Training Tapered Trousers",
+      "brand": "atlas-sport",
+      "department": "sportswear",
+      "category": "trousers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (trousers, sportswear).",
+      "images": [
+        {
+          "url": "/api/demo-image/training-tapered-trousers-atlas-sport/1",
+          "alt": "Training Tapered Trousers, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/training-tapered-trousers-atlas-sport/2",
+          "alt": "Training Tapered Trousers, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/training-tapered-trousers-atlas-sport/3",
+          "alt": "Training Tapered Trousers, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 10000,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-009",
+      "slug": "court-low-stride-lab",
+      "name": "Court Low",
+      "brand": "stride-lab",
+      "department": "sneakers",
+      "category": "sneakers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (sneakers, sneakers).",
+      "images": [
+        {
+          "url": "/api/demo-image/court-low-stride-lab/1",
+          "alt": "Court Low, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/court-low-stride-lab/2",
+          "alt": "Court Low, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/court-low-stride-lab/3",
+          "alt": "Court Low, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 12600,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-010",
+      "slug": "runner-mesh-stride-lab",
+      "name": "Runner Mesh",
+      "brand": "stride-lab",
+      "department": "sneakers",
+      "category": "sneakers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (sneakers, sneakers).",
+      "images": [
+        {
+          "url": "/api/demo-image/runner-mesh-stride-lab/1",
+          "alt": "Runner Mesh, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/runner-mesh-stride-lab/2",
+          "alt": "Runner Mesh, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/runner-mesh-stride-lab/3",
+          "alt": "Runner Mesh, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 12300,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        },
+        {
+          "name": "Charcoal",
+          "hex": "#3a3a3d"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "out_of_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-011",
+      "slug": "trail-mid-stride-lab",
+      "name": "Trail Mid",
+      "brand": "stride-lab",
+      "department": "sneakers",
+      "category": "sneakers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (sneakers, sneakers).",
+      "images": [
+        {
+          "url": "/api/demo-image/trail-mid-stride-lab/1",
+          "alt": "Trail Mid, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/trail-mid-stride-lab/2",
+          "alt": "Trail Mid, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/trail-mid-stride-lab/3",
+          "alt": "Trail Mid, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 11900,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Olive",
+          "hex": "#5b6340"
+        },
+        {
+          "name": "Sand",
+          "hex": "#c9b697"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-012",
+      "slug": "heritage-high-stride-lab",
+      "name": "Heritage High",
+      "brand": "stride-lab",
+      "department": "sneakers",
+      "category": "sneakers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (sneakers, sneakers).",
+      "images": [
+        {
+          "url": "/api/demo-image/heritage-high-stride-lab/1",
+          "alt": "Heritage High, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/heritage-high-stride-lab/2",
+          "alt": "Heritage High, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/heritage-high-stride-lab/3",
+          "alt": "Heritage High, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 11500,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-013",
+      "slug": "canvas-slip-on-stride-lab",
+      "name": "Canvas Slip-on",
+      "brand": "stride-lab",
+      "department": "sneakers",
+      "category": "sneakers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (sneakers, sneakers).",
+      "images": [
+        {
+          "url": "/api/demo-image/canvas-slip-on-stride-lab/1",
+          "alt": "Canvas Slip-on, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/canvas-slip-on-stride-lab/2",
+          "alt": "Canvas Slip-on, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/canvas-slip-on-stride-lab/3",
+          "alt": "Canvas Slip-on, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 11100,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        },
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-014",
+      "slug": "leather-court-stride-lab",
+      "name": "Leather Court",
+      "brand": "stride-lab",
+      "department": "sneakers",
+      "category": "sneakers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (sneakers, sneakers).",
+      "images": [
+        {
+          "url": "/api/demo-image/leather-court-stride-lab/1",
+          "alt": "Leather Court, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/leather-court-stride-lab/2",
+          "alt": "Leather Court, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/leather-court-stride-lab/3",
+          "alt": "Leather Court, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 15900,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        },
+        {
+          "name": "Camel",
+          "hex": "#b08a58"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-015",
+      "slug": "retro-runner-stride-lab",
+      "name": "Retro Runner",
+      "brand": "stride-lab",
+      "department": "sneakers",
+      "category": "sneakers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (sneakers, sneakers).",
+      "images": [
+        {
+          "url": "/api/demo-image/retro-runner-stride-lab/1",
+          "alt": "Retro Runner, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/retro-runner-stride-lab/2",
+          "alt": "Retro Runner, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/retro-runner-stride-lab/3",
+          "alt": "Retro Runner, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 15500,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Burgundy",
+          "hex": "#6b2432"
+        },
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-016",
+      "slug": "studio-knit-stride-lab",
+      "name": "Studio Knit",
+      "brand": "stride-lab",
+      "department": "sneakers",
+      "category": "sneakers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (sneakers, sneakers).",
+      "images": [
+        {
+          "url": "/api/demo-image/studio-knit-stride-lab/1",
+          "alt": "Studio Knit, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/studio-knit-stride-lab/2",
+          "alt": "Studio Knit, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/studio-knit-stride-lab/3",
+          "alt": "Studio Knit, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 15100,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Charcoal",
+          "hex": "#3a3a3d"
+        },
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "unknown",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-017",
+      "slug": "heavyweight-hoodie-meridian-street",
+      "name": "Heavyweight Hoodie",
+      "brand": "meridian-street",
+      "department": "streetwear",
+      "category": "hoodies",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (hoodies, streetwear).",
+      "images": [
+        {
+          "url": "/api/demo-image/heavyweight-hoodie-meridian-street/1",
+          "alt": "Heavyweight Hoodie, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/heavyweight-hoodie-meridian-street/2",
+          "alt": "Heavyweight Hoodie, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/heavyweight-hoodie-meridian-street/3",
+          "alt": "Heavyweight Hoodie, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 10100,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "out_of_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-018",
+      "slug": "boxy-tee-meridian-street",
+      "name": "Boxy Tee",
+      "brand": "meridian-street",
+      "department": "streetwear",
+      "category": "t-shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (t-shirts, streetwear).",
+      "images": [
+        {
+          "url": "/api/demo-image/boxy-tee-meridian-street/1",
+          "alt": "Boxy Tee, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/boxy-tee-meridian-street/2",
+          "alt": "Boxy Tee, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/boxy-tee-meridian-street/3",
+          "alt": "Boxy Tee, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 4300,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        },
+        {
+          "name": "Olive",
+          "hex": "#5b6340"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-019",
+      "slug": "coach-jacket-meridian-street",
+      "name": "Coach Jacket",
+      "brand": "meridian-street",
+      "department": "streetwear",
+      "category": "jackets",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jackets, streetwear).",
+      "images": [
+        {
+          "url": "/api/demo-image/coach-jacket-meridian-street/1",
+          "alt": "Coach Jacket, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/coach-jacket-meridian-street/2",
+          "alt": "Coach Jacket, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/coach-jacket-meridian-street/3",
+          "alt": "Coach Jacket, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 16100,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Burgundy",
+          "hex": "#6b2432"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-020",
+      "slug": "cargo-trousers-meridian-street",
+      "name": "Cargo Trousers",
+      "brand": "meridian-street",
+      "department": "streetwear",
+      "category": "trousers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (trousers, streetwear).",
+      "images": [
+        {
+          "url": "/api/demo-image/cargo-trousers-meridian-street/1",
+          "alt": "Cargo Trousers, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/cargo-trousers-meridian-street/2",
+          "alt": "Cargo Trousers, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/cargo-trousers-meridian-street/3",
+          "alt": "Cargo Trousers, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 10400,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Olive",
+          "hex": "#5b6340"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-021",
+      "slug": "oversized-crew-meridian-street",
+      "name": "Oversized Crew",
+      "brand": "meridian-street",
+      "department": "streetwear",
+      "category": "hoodies",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (hoodies, streetwear).",
+      "images": [
+        {
+          "url": "/api/demo-image/oversized-crew-meridian-street/1",
+          "alt": "Oversized Crew, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/oversized-crew-meridian-street/2",
+          "alt": "Oversized Crew, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/oversized-crew-meridian-street/3",
+          "alt": "Oversized Crew, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 9100,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Charcoal",
+          "hex": "#3a3a3d"
+        },
+        {
+          "name": "Sand",
+          "hex": "#c9b697"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-022",
+      "slug": "graphic-tee-meridian-street",
+      "name": "Graphic Tee",
+      "brand": "meridian-street",
+      "department": "streetwear",
+      "category": "t-shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (t-shirts, streetwear).",
+      "images": [
+        {
+          "url": "/api/demo-image/graphic-tee-meridian-street/1",
+          "alt": "Graphic Tee, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/graphic-tee-meridian-street/2",
+          "alt": "Graphic Tee, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/graphic-tee-meridian-street/3",
+          "alt": "Graphic Tee, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 3900,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-023",
+      "slug": "quilted-liner-meridian-street",
+      "name": "Quilted Liner",
+      "brand": "meridian-street",
+      "department": "streetwear",
+      "category": "jackets",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jackets, streetwear).",
+      "images": [
+        {
+          "url": "/api/demo-image/quilted-liner-meridian-street/1",
+          "alt": "Quilted Liner, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/quilted-liner-meridian-street/2",
+          "alt": "Quilted Liner, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/quilted-liner-meridian-street/3",
+          "alt": "Quilted Liner, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 14300,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        },
+        {
+          "name": "Olive",
+          "hex": "#5b6340"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-024",
+      "slug": "wide-utility-trousers-meridian-street",
+      "name": "Wide Utility Trousers",
+      "brand": "meridian-street",
+      "department": "streetwear",
+      "category": "trousers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (trousers, streetwear).",
+      "images": [
+        {
+          "url": "/api/demo-image/wide-utility-trousers-meridian-street/1",
+          "alt": "Wide Utility Trousers, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/wide-utility-trousers-meridian-street/2",
+          "alt": "Wide Utility Trousers, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/wide-utility-trousers-meridian-street/3",
+          "alt": "Wide Utility Trousers, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 9200,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "out_of_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-025",
+      "slug": "wool-overcoat-maison-verde",
+      "name": "Wool Overcoat",
+      "brand": "maison-verde",
+      "department": "luxury",
+      "category": "coats",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (coats, luxury).",
+      "images": [
+        {
+          "url": "/api/demo-image/wool-overcoat-maison-verde/1",
+          "alt": "Wool Overcoat, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/wool-overcoat-maison-verde/2",
+          "alt": "Wool Overcoat, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/wool-overcoat-maison-verde/3",
+          "alt": "Wool Overcoat, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 104700,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Camel",
+          "hex": "#b08a58"
+        },
+        {
+          "name": "Charcoal",
+          "hex": "#3a3a3d"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-026",
+      "slug": "silk-evening-dress-maison-verde",
+      "name": "Silk Evening Dress",
+      "brand": "maison-verde",
+      "department": "luxury",
+      "category": "dresses",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (dresses, luxury).",
+      "images": [
+        {
+          "url": "/api/demo-image/silk-evening-dress-maison-verde/1",
+          "alt": "Silk Evening Dress, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/silk-evening-dress-maison-verde/2",
+          "alt": "Silk Evening Dress, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/silk-evening-dress-maison-verde/3",
+          "alt": "Silk Evening Dress, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 56700,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Burgundy",
+          "hex": "#6b2432"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-027",
+      "slug": "tailored-blazer-maison-verde",
+      "name": "Tailored Blazer",
+      "brand": "maison-verde",
+      "department": "luxury",
+      "category": "jackets",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jackets, luxury).",
+      "images": [
+        {
+          "url": "/api/demo-image/tailored-blazer-maison-verde/1",
+          "alt": "Tailored Blazer, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/tailored-blazer-maison-verde/2",
+          "alt": "Tailored Blazer, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/tailored-blazer-maison-verde/3",
+          "alt": "Tailored Blazer, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 44700,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "unknown",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-028",
+      "slug": "leather-handbag-maison-verde",
+      "name": "Leather Handbag",
+      "brand": "maison-verde",
+      "department": "luxury",
+      "category": "bags",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (bags, luxury).",
+      "images": [
+        {
+          "url": "/api/demo-image/leather-handbag-maison-verde/1",
+          "alt": "Leather Handbag, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/leather-handbag-maison-verde/2",
+          "alt": "Leather Handbag, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/leather-handbag-maison-verde/3",
+          "alt": "Leather Handbag, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 59700,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Camel",
+          "hex": "#b08a58"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-029",
+      "slug": "cashmere-coat-maison-verde",
+      "name": "Cashmere Coat",
+      "brand": "maison-verde",
+      "department": "luxury",
+      "category": "coats",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (coats, luxury).",
+      "images": [
+        {
+          "url": "/api/demo-image/cashmere-coat-maison-verde/1",
+          "alt": "Cashmere Coat, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/cashmere-coat-maison-verde/2",
+          "alt": "Cashmere Coat, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/cashmere-coat-maison-verde/3",
+          "alt": "Cashmere Coat, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 104700,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-030",
+      "slug": "pleated-dress-maison-verde",
+      "name": "Pleated Dress",
+      "brand": "maison-verde",
+      "department": "luxury",
+      "category": "dresses",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (dresses, luxury).",
+      "images": [
+        {
+          "url": "/api/demo-image/pleated-dress-maison-verde/1",
+          "alt": "Pleated Dress, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/pleated-dress-maison-verde/2",
+          "alt": "Pleated Dress, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/pleated-dress-maison-verde/3",
+          "alt": "Pleated Dress, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 56700,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        },
+        {
+          "name": "Forest",
+          "hex": "#2f4a3a"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-031",
+      "slug": "structured-shoulder-bag-maison-verde",
+      "name": "Structured Shoulder Bag",
+      "brand": "maison-verde",
+      "department": "luxury",
+      "category": "bags",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (bags, luxury).",
+      "images": [
+        {
+          "url": "/api/demo-image/structured-shoulder-bag-maison-verde/1",
+          "alt": "Structured Shoulder Bag, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/structured-shoulder-bag-maison-verde/2",
+          "alt": "Structured Shoulder Bag, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/structured-shoulder-bag-maison-verde/3",
+          "alt": "Structured Shoulder Bag, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 59700,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Burgundy",
+          "hex": "#6b2432"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "out_of_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-032",
+      "slug": "steel-dress-watch-maison-verde",
+      "name": "Steel Dress Watch",
+      "brand": "maison-verde",
+      "department": "luxury",
+      "category": "watches",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (watches, luxury).",
+      "images": [
+        {
+          "url": "/api/demo-image/steel-dress-watch-maison-verde/1",
+          "alt": "Steel Dress Watch, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/steel-dress-watch-maison-verde/2",
+          "alt": "Steel Dress Watch, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/steel-dress-watch-maison-verde/3",
+          "alt": "Steel Dress Watch, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 74700,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-033",
+      "slug": "everyday-tee-harbor-co",
+      "name": "Everyday Tee",
+      "brand": "harbor-co",
+      "department": "casual",
+      "category": "t-shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (t-shirts, casual).",
+      "images": [
+        {
+          "url": "/api/demo-image/everyday-tee-harbor-co/1",
+          "alt": "Everyday Tee, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/everyday-tee-harbor-co/2",
+          "alt": "Everyday Tee, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/everyday-tee-harbor-co/3",
+          "alt": "Everyday Tee, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 4100,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        },
+        {
+          "name": "Olive",
+          "hex": "#5b6340"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-034",
+      "slug": "linen-shirt-harbor-co",
+      "name": "Linen Shirt",
+      "brand": "harbor-co",
+      "department": "casual",
+      "category": "shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (shirts, casual).",
+      "images": [
+        {
+          "url": "/api/demo-image/linen-shirt-harbor-co/1",
+          "alt": "Linen Shirt, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/linen-shirt-harbor-co/2",
+          "alt": "Linen Shirt, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/linen-shirt-harbor-co/3",
+          "alt": "Linen Shirt, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 8100,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Sand",
+          "hex": "#c9b697"
+        },
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-035",
+      "slug": "relaxed-hoodie-harbor-co",
+      "name": "Relaxed Hoodie",
+      "brand": "harbor-co",
+      "department": "casual",
+      "category": "hoodies",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (hoodies, casual).",
+      "images": [
+        {
+          "url": "/api/demo-image/relaxed-hoodie-harbor-co/1",
+          "alt": "Relaxed Hoodie, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/relaxed-hoodie-harbor-co/2",
+          "alt": "Relaxed Hoodie, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/relaxed-hoodie-harbor-co/3",
+          "alt": "Relaxed Hoodie, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 8900,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        },
+        {
+          "name": "Forest",
+          "hex": "#2f4a3a"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-036",
+      "slug": "chino-trousers-harbor-co",
+      "name": "Chino Trousers",
+      "brand": "harbor-co",
+      "department": "casual",
+      "category": "trousers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (trousers, casual).",
+      "images": [
+        {
+          "url": "/api/demo-image/chino-trousers-harbor-co/1",
+          "alt": "Chino Trousers, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/chino-trousers-harbor-co/2",
+          "alt": "Chino Trousers, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/chino-trousers-harbor-co/3",
+          "alt": "Chino Trousers, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 9600,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Sand",
+          "hex": "#c9b697"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-037",
+      "slug": "pocket-tee-harbor-co",
+      "name": "Pocket Tee",
+      "brand": "harbor-co",
+      "department": "casual",
+      "category": "t-shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (t-shirts, casual).",
+      "images": [
+        {
+          "url": "/api/demo-image/pocket-tee-harbor-co/1",
+          "alt": "Pocket Tee, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/pocket-tee-harbor-co/2",
+          "alt": "Pocket Tee, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/pocket-tee-harbor-co/3",
+          "alt": "Pocket Tee, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 3700,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        },
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-038",
+      "slug": "striped-shirt-harbor-co",
+      "name": "Striped Shirt",
+      "brand": "harbor-co",
+      "department": "casual",
+      "category": "shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (shirts, casual).",
+      "images": [
+        {
+          "url": "/api/demo-image/striped-shirt-harbor-co/1",
+          "alt": "Striped Shirt, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/striped-shirt-harbor-co/2",
+          "alt": "Striped Shirt, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/striped-shirt-harbor-co/3",
+          "alt": "Striped Shirt, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 7200,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        },
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "out_of_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-039",
+      "slug": "field-jacket-harbor-co",
+      "name": "Field Jacket",
+      "brand": "harbor-co",
+      "department": "casual",
+      "category": "jackets",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jackets, casual).",
+      "images": [
+        {
+          "url": "/api/demo-image/field-jacket-harbor-co/1",
+          "alt": "Field Jacket, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/field-jacket-harbor-co/2",
+          "alt": "Field Jacket, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/field-jacket-harbor-co/3",
+          "alt": "Field Jacket, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 13100,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Olive",
+          "hex": "#5b6340"
+        },
+        {
+          "name": "Sand",
+          "hex": "#c9b697"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-040",
+      "slug": "easy-trousers-harbor-co",
+      "name": "Easy Trousers",
+      "brand": "harbor-co",
+      "department": "casual",
+      "category": "trousers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (trousers, casual).",
+      "images": [
+        {
+          "url": "/api/demo-image/easy-trousers-harbor-co/1",
+          "alt": "Easy Trousers, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/easy-trousers-harbor-co/2",
+          "alt": "Easy Trousers, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/easy-trousers-harbor-co/3",
+          "alt": "Easy Trousers, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 8400,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        },
+        {
+          "name": "Charcoal",
+          "hex": "#3a3a3d"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-041",
+      "slug": "navy-two-piece-suit-courtland-tailoring",
+      "name": "Navy Two-piece Suit",
+      "brand": "courtland-tailoring",
+      "department": "formal",
+      "category": "suits",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (suits, formal).",
+      "images": [
+        {
+          "url": "/api/demo-image/navy-two-piece-suit-courtland-tailoring/1",
+          "alt": "Navy Two-piece Suit, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/navy-two-piece-suit-courtland-tailoring/2",
+          "alt": "Navy Two-piece Suit, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/navy-two-piece-suit-courtland-tailoring/3",
+          "alt": "Navy Two-piece Suit, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 48700,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-042",
+      "slug": "charcoal-suit-courtland-tailoring",
+      "name": "Charcoal Suit",
+      "brand": "courtland-tailoring",
+      "department": "formal",
+      "category": "suits",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (suits, formal).",
+      "images": [
+        {
+          "url": "/api/demo-image/charcoal-suit-courtland-tailoring/1",
+          "alt": "Charcoal Suit, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/charcoal-suit-courtland-tailoring/2",
+          "alt": "Charcoal Suit, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/charcoal-suit-courtland-tailoring/3",
+          "alt": "Charcoal Suit, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 47500,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Charcoal",
+          "hex": "#3a3a3d"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-043",
+      "slug": "black-dinner-suit-courtland-tailoring",
+      "name": "Black Dinner Suit",
+      "brand": "courtland-tailoring",
+      "department": "formal",
+      "category": "suits",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (suits, formal).",
+      "images": [
+        {
+          "url": "/api/demo-image/black-dinner-suit-courtland-tailoring/1",
+          "alt": "Black Dinner Suit, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/black-dinner-suit-courtland-tailoring/2",
+          "alt": "Black Dinner Suit, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/black-dinner-suit-courtland-tailoring/3",
+          "alt": "Black Dinner Suit, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 46300,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-044",
+      "slug": "poplin-dress-shirt-courtland-tailoring",
+      "name": "Poplin Dress Shirt",
+      "brand": "courtland-tailoring",
+      "department": "formal",
+      "category": "shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (shirts, formal).",
+      "images": [
+        {
+          "url": "/api/demo-image/poplin-dress-shirt-courtland-tailoring/1",
+          "alt": "Poplin Dress Shirt, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/poplin-dress-shirt-courtland-tailoring/2",
+          "alt": "Poplin Dress Shirt, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/poplin-dress-shirt-courtland-tailoring/3",
+          "alt": "Poplin Dress Shirt, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 8900,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        },
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-045",
+      "slug": "oxford-dress-shirt-courtland-tailoring",
+      "name": "Oxford Dress Shirt",
+      "brand": "courtland-tailoring",
+      "department": "formal",
+      "category": "shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (shirts, formal).",
+      "images": [
+        {
+          "url": "/api/demo-image/oxford-dress-shirt-courtland-tailoring/1",
+          "alt": "Oxford Dress Shirt, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/oxford-dress-shirt-courtland-tailoring/2",
+          "alt": "Oxford Dress Shirt, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/oxford-dress-shirt-courtland-tailoring/3",
+          "alt": "Oxford Dress Shirt, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 8700,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "out_of_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-046",
+      "slug": "evening-gown-courtland-tailoring",
+      "name": "Evening Gown",
+      "brand": "courtland-tailoring",
+      "department": "formal",
+      "category": "dresses",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (dresses, formal).",
+      "images": [
+        {
+          "url": "/api/demo-image/evening-gown-courtland-tailoring/1",
+          "alt": "Evening Gown, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/evening-gown-courtland-tailoring/2",
+          "alt": "Evening Gown, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/evening-gown-courtland-tailoring/3",
+          "alt": "Evening Gown, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 20200,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Burgundy",
+          "hex": "#6b2432"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-047",
+      "slug": "satin-midi-dress-courtland-tailoring",
+      "name": "Satin Midi Dress",
+      "brand": "courtland-tailoring",
+      "department": "formal",
+      "category": "dresses",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (dresses, formal).",
+      "images": [
+        {
+          "url": "/api/demo-image/satin-midi-dress-courtland-tailoring/1",
+          "alt": "Satin Midi Dress, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/satin-midi-dress-courtland-tailoring/2",
+          "alt": "Satin Midi Dress, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/satin-midi-dress-courtland-tailoring/3",
+          "alt": "Satin Midi Dress, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 19700,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Forest",
+          "hex": "#2f4a3a"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-048",
+      "slug": "wool-dress-trousers-courtland-tailoring",
+      "name": "Wool Dress Trousers",
+      "brand": "courtland-tailoring",
+      "department": "formal",
+      "category": "trousers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (trousers, formal).",
+      "images": [
+        {
+          "url": "/api/demo-image/wool-dress-trousers-courtland-tailoring/1",
+          "alt": "Wool Dress Trousers, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/wool-dress-trousers-courtland-tailoring/2",
+          "alt": "Wool Dress Trousers, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/wool-dress-trousers-courtland-tailoring/3",
+          "alt": "Wool Dress Trousers, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 10000,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Charcoal",
+          "hex": "#3a3a3d"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-049",
+      "slug": "straight-jeans-indigo-works",
+      "name": "Straight Jeans",
+      "brand": "indigo-works",
+      "department": "denim",
+      "category": "jeans",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jeans, denim).",
+      "images": [
+        {
+          "url": "/api/demo-image/straight-jeans-indigo-works/1",
+          "alt": "Straight Jeans, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/straight-jeans-indigo-works/2",
+          "alt": "Straight Jeans, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/straight-jeans-indigo-works/3",
+          "alt": "Straight Jeans, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 11700,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Indigo",
+          "hex": "#2d3f66"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "unknown",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-050",
+      "slug": "slim-jeans-indigo-works",
+      "name": "Slim Jeans",
+      "brand": "indigo-works",
+      "department": "denim",
+      "category": "jeans",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jeans, denim).",
+      "images": [
+        {
+          "url": "/api/demo-image/slim-jeans-indigo-works/1",
+          "alt": "Slim Jeans, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/slim-jeans-indigo-works/2",
+          "alt": "Slim Jeans, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/slim-jeans-indigo-works/3",
+          "alt": "Slim Jeans, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 11300,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Indigo",
+          "hex": "#2d3f66"
+        },
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-051",
+      "slug": "relaxed-jeans-indigo-works",
+      "name": "Relaxed Jeans",
+      "brand": "indigo-works",
+      "department": "denim",
+      "category": "jeans",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jeans, denim).",
+      "images": [
+        {
+          "url": "/api/demo-image/relaxed-jeans-indigo-works/1",
+          "alt": "Relaxed Jeans, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/relaxed-jeans-indigo-works/2",
+          "alt": "Relaxed Jeans, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/relaxed-jeans-indigo-works/3",
+          "alt": "Relaxed Jeans, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 10900,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Indigo",
+          "hex": "#2d3f66"
+        },
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-052",
+      "slug": "wide-leg-jeans-indigo-works",
+      "name": "Wide Leg Jeans",
+      "brand": "indigo-works",
+      "department": "denim",
+      "category": "jeans",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jeans, denim).",
+      "images": [
+        {
+          "url": "/api/demo-image/wide-leg-jeans-indigo-works/1",
+          "alt": "Wide Leg Jeans, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/wide-leg-jeans-indigo-works/2",
+          "alt": "Wide Leg Jeans, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/wide-leg-jeans-indigo-works/3",
+          "alt": "Wide Leg Jeans, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 10600,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        },
+        {
+          "name": "Indigo",
+          "hex": "#2d3f66"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "out_of_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-053",
+      "slug": "selvedge-jeans-indigo-works",
+      "name": "Selvedge Jeans",
+      "brand": "indigo-works",
+      "department": "denim",
+      "category": "jeans",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jeans, denim).",
+      "images": [
+        {
+          "url": "/api/demo-image/selvedge-jeans-indigo-works/1",
+          "alt": "Selvedge Jeans, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/selvedge-jeans-indigo-works/2",
+          "alt": "Selvedge Jeans, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/selvedge-jeans-indigo-works/3",
+          "alt": "Selvedge Jeans, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 10200,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Indigo",
+          "hex": "#2d3f66"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-054",
+      "slug": "denim-trucker-jacket-indigo-works",
+      "name": "Denim Trucker Jacket",
+      "brand": "indigo-works",
+      "department": "denim",
+      "category": "jackets",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jackets, denim).",
+      "images": [
+        {
+          "url": "/api/demo-image/denim-trucker-jacket-indigo-works/1",
+          "alt": "Denim Trucker Jacket, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/denim-trucker-jacket-indigo-works/2",
+          "alt": "Denim Trucker Jacket, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/denim-trucker-jacket-indigo-works/3",
+          "alt": "Denim Trucker Jacket, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 18300,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Indigo",
+          "hex": "#2d3f66"
+        },
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-055",
+      "slug": "sherpa-denim-jacket-indigo-works",
+      "name": "Sherpa Denim Jacket",
+      "brand": "indigo-works",
+      "department": "denim",
+      "category": "jackets",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jackets, denim).",
+      "images": [
+        {
+          "url": "/api/demo-image/sherpa-denim-jacket-indigo-works/1",
+          "alt": "Sherpa Denim Jacket, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/sherpa-denim-jacket-indigo-works/2",
+          "alt": "Sherpa Denim Jacket, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/sherpa-denim-jacket-indigo-works/3",
+          "alt": "Sherpa Denim Jacket, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 17900,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Indigo",
+          "hex": "#2d3f66"
+        },
+        {
+          "name": "Camel",
+          "hex": "#b08a58"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-056",
+      "slug": "chambray-shirt-indigo-works",
+      "name": "Chambray Shirt",
+      "brand": "indigo-works",
+      "department": "denim",
+      "category": "shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (shirts, denim).",
+      "images": [
+        {
+          "url": "/api/demo-image/chambray-shirt-indigo-works/1",
+          "alt": "Chambray Shirt, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/chambray-shirt-indigo-works/2",
+          "alt": "Chambray Shirt, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/chambray-shirt-indigo-works/3",
+          "alt": "Chambray Shirt, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 9200,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        },
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-057",
+      "slug": "crossbody-bag-linea-accessori",
+      "name": "Crossbody Bag",
+      "brand": "linea-accessori",
+      "department": "accessories",
+      "category": "bags",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (bags, accessories).",
+      "images": [
+        {
+          "url": "/api/demo-image/crossbody-bag-linea-accessori/1",
+          "alt": "Crossbody Bag, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/crossbody-bag-linea-accessori/2",
+          "alt": "Crossbody Bag, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/crossbody-bag-linea-accessori/3",
+          "alt": "Crossbody Bag, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 22700,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Camel",
+          "hex": "#b08a58"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-058",
+      "slug": "canvas-tote-linea-accessori",
+      "name": "Canvas Tote",
+      "brand": "linea-accessori",
+      "department": "accessories",
+      "category": "bags",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (bags, accessories).",
+      "images": [
+        {
+          "url": "/api/demo-image/canvas-tote-linea-accessori/1",
+          "alt": "Canvas Tote, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/canvas-tote-linea-accessori/2",
+          "alt": "Canvas Tote, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/canvas-tote-linea-accessori/3",
+          "alt": "Canvas Tote, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 22100,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Sand",
+          "hex": "#c9b697"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1f2a44"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-059",
+      "slug": "leather-backpack-linea-accessori",
+      "name": "Leather Backpack",
+      "brand": "linea-accessori",
+      "department": "accessories",
+      "category": "bags",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (bags, accessories).",
+      "images": [
+        {
+          "url": "/api/demo-image/leather-backpack-linea-accessori/1",
+          "alt": "Leather Backpack, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/leather-backpack-linea-accessori/2",
+          "alt": "Leather Backpack, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/leather-backpack-linea-accessori/3",
+          "alt": "Leather Backpack, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 21500,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Burgundy",
+          "hex": "#6b2432"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "out_of_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-060",
+      "slug": "field-watch-linea-accessori",
+      "name": "Field Watch",
+      "brand": "linea-accessori",
+      "department": "accessories",
+      "category": "watches",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (watches, accessories).",
+      "images": [
+        {
+          "url": "/api/demo-image/field-watch-linea-accessori/1",
+          "alt": "Field Watch, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/field-watch-linea-accessori/2",
+          "alt": "Field Watch, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/field-watch-linea-accessori/3",
+          "alt": "Field Watch, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 26100,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Olive",
+          "hex": "#5b6340"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "unknown",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-061",
+      "slug": "minimal-watch-linea-accessori",
+      "name": "Minimal Watch",
+      "brand": "linea-accessori",
+      "department": "accessories",
+      "category": "watches",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (watches, accessories).",
+      "images": [
+        {
+          "url": "/api/demo-image/minimal-watch-linea-accessori/1",
+          "alt": "Minimal Watch, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/minimal-watch-linea-accessori/2",
+          "alt": "Minimal Watch, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/minimal-watch-linea-accessori/3",
+          "alt": "Minimal Watch, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 25400,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-062",
+      "slug": "round-glasses-linea-accessori",
+      "name": "Round Glasses",
+      "brand": "linea-accessori",
+      "department": "accessories",
+      "category": "eyewear",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (eyewear, accessories).",
+      "images": [
+        {
+          "url": "/api/demo-image/round-glasses-linea-accessori/1",
+          "alt": "Round Glasses, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/round-glasses-linea-accessori/2",
+          "alt": "Round Glasses, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/round-glasses-linea-accessori/3",
+          "alt": "Round Glasses, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 12800,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Camel",
+          "hex": "#b08a58"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-063",
+      "slug": "square-sunglasses-linea-accessori",
+      "name": "Square Sunglasses",
+      "brand": "linea-accessori",
+      "department": "accessories",
+      "category": "eyewear",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (eyewear, accessories).",
+      "images": [
+        {
+          "url": "/api/demo-image/square-sunglasses-linea-accessori/1",
+          "alt": "Square Sunglasses, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/square-sunglasses-linea-accessori/2",
+          "alt": "Square Sunglasses, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/square-sunglasses-linea-accessori/3",
+          "alt": "Square Sunglasses, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 12400,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Burgundy",
+          "hex": "#6b2432"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-064",
+      "slug": "aviator-sunglasses-linea-accessori",
+      "name": "Aviator Sunglasses",
+      "brand": "linea-accessori",
+      "department": "accessories",
+      "category": "eyewear",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (eyewear, accessories).",
+      "images": [
+        {
+          "url": "/api/demo-image/aviator-sunglasses-linea-accessori/1",
+          "alt": "Aviator Sunglasses, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/aviator-sunglasses-linea-accessori/2",
+          "alt": "Aviator Sunglasses, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/aviator-sunglasses-linea-accessori/3",
+          "alt": "Aviator Sunglasses, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 12000,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-065",
+      "slug": "season-opener-coat-northfield-studio",
+      "name": "Season Opener Coat",
+      "brand": "northfield-studio",
+      "department": "new-arrivals",
+      "category": "coats",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (coats, new-arrivals).",
+      "images": [
+        {
+          "url": "/api/demo-image/season-opener-coat-northfield-studio/1",
+          "alt": "Season Opener Coat, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/season-opener-coat-northfield-studio/2",
+          "alt": "Season Opener Coat, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/season-opener-coat-northfield-studio/3",
+          "alt": "Season Opener Coat, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 31400,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Camel",
+          "hex": "#b08a58"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-066",
+      "slug": "launch-dress-northfield-studio",
+      "name": "Launch Dress",
+      "brand": "northfield-studio",
+      "department": "new-arrivals",
+      "category": "dresses",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (dresses, new-arrivals).",
+      "images": [
+        {
+          "url": "/api/demo-image/launch-dress-northfield-studio/1",
+          "alt": "Launch Dress, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/launch-dress-northfield-studio/2",
+          "alt": "Launch Dress, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/launch-dress-northfield-studio/3",
+          "alt": "Launch Dress, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 16400,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        },
+        {
+          "name": "Forest",
+          "hex": "#2f4a3a"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "out_of_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-067",
+      "slug": "debut-jacket-northfield-studio",
+      "name": "Debut Jacket",
+      "brand": "northfield-studio",
+      "department": "new-arrivals",
+      "category": "jackets",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jackets, new-arrivals).",
+      "images": [
+        {
+          "url": "/api/demo-image/debut-jacket-northfield-studio/1",
+          "alt": "Debut Jacket, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/debut-jacket-northfield-studio/2",
+          "alt": "Debut Jacket, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/debut-jacket-northfield-studio/3",
+          "alt": "Debut Jacket, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 18500,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Slate blue",
+          "hex": "#5a6f85"
+        },
+        {
+          "name": "Olive",
+          "hex": "#5b6340"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-068",
+      "slug": "fresh-court-sneaker-northfield-studio",
+      "name": "Fresh Court Sneaker",
+      "brand": "northfield-studio",
+      "department": "new-arrivals",
+      "category": "sneakers",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (sneakers, new-arrivals).",
+      "images": [
+        {
+          "url": "/api/demo-image/fresh-court-sneaker-northfield-studio/1",
+          "alt": "Fresh Court Sneaker, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/fresh-court-sneaker-northfield-studio/2",
+          "alt": "Fresh Court Sneaker, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/fresh-court-sneaker-northfield-studio/3",
+          "alt": "Fresh Court Sneaker, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 15600,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "40",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        },
+        {
+          "name": "Sand",
+          "hex": "#c9b697"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-069",
+      "slug": "capsule-hoodie-northfield-studio",
+      "name": "Capsule Hoodie",
+      "brand": "northfield-studio",
+      "department": "new-arrivals",
+      "category": "hoodies",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (hoodies, new-arrivals).",
+      "images": [
+        {
+          "url": "/api/demo-image/capsule-hoodie-northfield-studio/1",
+          "alt": "Capsule Hoodie, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/capsule-hoodie-northfield-studio/2",
+          "alt": "Capsule Hoodie, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/capsule-hoodie-northfield-studio/3",
+          "alt": "Capsule Hoodie, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 10500,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Burgundy",
+          "hex": "#6b2432"
+        },
+        {
+          "name": "Charcoal",
+          "hex": "#3a3a3d"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-070",
+      "slug": "fresh-tote-northfield-studio",
+      "name": "Fresh Tote",
+      "brand": "northfield-studio",
+      "department": "new-arrivals",
+      "category": "bags",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (bags, new-arrivals).",
+      "images": [
+        {
+          "url": "/api/demo-image/fresh-tote-northfield-studio/1",
+          "alt": "Fresh Tote, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/fresh-tote-northfield-studio/2",
+          "alt": "Fresh Tote, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/fresh-tote-northfield-studio/3",
+          "alt": "Fresh Tote, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 22900,
+        "currency": "USD"
+      },
+      "sizes": null,
+      "colors": [
+        {
+          "name": "Sand",
+          "hex": "#c9b697"
+        },
+        {
+          "name": "Black",
+          "hex": "#1c1c1e"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-071",
+      "slug": "capsule-jeans-northfield-studio",
+      "name": "Capsule Jeans",
+      "brand": "northfield-studio",
+      "department": "new-arrivals",
+      "category": "jeans",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (jeans, new-arrivals).",
+      "images": [
+        {
+          "url": "/api/demo-image/capsule-jeans-northfield-studio/1",
+          "alt": "Capsule Jeans, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/capsule-jeans-northfield-studio/2",
+          "alt": "Capsule Jeans, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/capsule-jeans-northfield-studio/3",
+          "alt": "Capsule Jeans, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 13300,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Indigo",
+          "hex": "#2d3f66"
+        },
+        {
+          "name": "Stone",
+          "hex": "#b6b0a4"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "unknown",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    },
+    {
+      "id": "demo-072",
+      "slug": "opening-shirt-northfield-studio",
+      "name": "Opening Shirt",
+      "brand": "northfield-studio",
+      "department": "new-arrivals",
+      "category": "shirts",
+      "description": "DEMO PRODUCT used to test the store. This is not a real item, price or photograph (shirts, new-arrivals).",
+      "images": [
+        {
+          "url": "/api/demo-image/opening-shirt-northfield-studio/1",
+          "alt": "Opening Shirt, demo illustration 1",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/opening-shirt-northfield-studio/2",
+          "alt": "Opening Shirt, demo illustration 2",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        },
+        {
+          "url": "/api/demo-image/opening-shirt-northfield-studio/3",
+          "alt": "Opening Shirt, demo illustration 3",
+          "credit": "Vestora demo illustration",
+          "license": "demo"
+        }
+      ],
+      "price": {
+        "amount": 8600,
+        "currency": "USD"
+      },
+      "sizes": {
+        "values": [
+          "XS",
+          "S",
+          "M",
+          "L",
+          "XL"
+        ],
+        "verified": true
+      },
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#ece6d8"
+        },
+        {
+          "name": "Sand",
+          "hex": "#c9b697"
+        }
+      ],
+      "colorsVerified": true,
+      "availability": "in_stock",
+      "source": {
+        "kind": "demo",
+        "retailer": null,
+        "url": null,
+        "retrievedAt": null
+      }
+    }
+  ]
+}

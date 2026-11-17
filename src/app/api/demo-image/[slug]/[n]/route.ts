@@ -1,0 +1,36 @@
+import { getProductBySlug } from "@/server/catalog/catalog";
+import { isDemo } from "@/modules/catalog/types";
+
+export const dynamic = "force-dynamic";
+
+const SHAPES: Record<string, (c: string, d: string) => string> = {
+  top: (c, d) => `<path d="M150 120 L200 135 L250 120 L330 160 L300 215 L270 200 L270 400 L130 400 L130 200 L100 215 L70 160 Z" fill="${c}" stroke="${d}" stroke-width="3"/>`,
+  dress: (c, d) => `<path d="M165 110 L235 110 L245 220 L320 410 L80 410 L155 220 Z" fill="${c}" stroke="${d}" stroke-width="3"/>`,
+  trousers: (c, d) => `<path d="M135 110 L265 110 L290 410 L215 410 L200 230 L185 410 L110 410 Z" fill="${c}" stroke="${d}" stroke-width="3"/>`,
+  shoe: (c, d) => `<path d="M70 330 L90 250 L150 270 L210 300 L300 320 L330 350 L330 375 L70 375 Z" fill="${c}" stroke="${d}" stroke-width="3"/><rect x="70" y="372" width="262" height="18" rx="9" fill="#ece8e0" stroke="${d}" stroke-width="2"/>`,
+  bag: (c, d) => `<rect x="100" y="210" width="200" height="170" rx="16" fill="${c}" stroke="${d}" stroke-width="3"/><path d="M150 210 C150 130 250 130 250 210" fill="none" stroke="${d}" stroke-width="8"/>`,
+  watch: (c, d) => `<rect x="170" y="90" width="60" height="320" rx="20" fill="#2a2420" stroke="${d}" stroke-width="2"/><circle cx="200" cy="250" r="62" fill="${c}" stroke="${d}" stroke-width="4"/><circle cx="200" cy="250" r="46" fill="#171717"/>`,
+  eyewear: (c, d) => `<circle cx="140" cy="250" r="52" fill="none" stroke="${c}" stroke-width="10"/><circle cx="260" cy="250" r="52" fill="none" stroke="${c}" stroke-width="10"/><path d="M192 245 H208 M88 245 L50 230 M312 245 L350 230" stroke="${c}" stroke-width="8" fill="none"/>`,
+};
+const shapeFor = (cat: string) => (["dresses"].includes(cat) ? "dress" : ["trousers", "jeans"].includes(cat) ? "trousers" : cat === "sneakers" ? "shoe" : cat === "bags" ? "bag" : cat === "watches" ? "watch" : cat === "eyewear" ? "eyewear" : "top");
+const esc = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+
+/**
+ * Placeholder artwork for DEMO records only. It is deliberately a plain labelled illustration, not a photo,
+ * and it refuses to render for any non-demo record (those must use their own licensed images).
+ */
+export async function GET(_req: Request, ctx: { params: Promise<{ slug: string; n: string }> }) {
+  const { slug, n } = await ctx.params;
+  const p = getProductBySlug(slug);
+  if (!p || !isDemo(p)) return new Response("Not found", { status: 404 });
+  const k = Math.max(1, Math.min(3, Number(n) || 1));
+  const colour = p.colors[0]?.hex ?? "#b6b0a4";
+  const bg = ["#ece8e0", "#dcd8cf", "#e4dfd5"][k - 1]!;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" role="img" aria-label="${esc(p.name)} (demo illustration)">
+<rect width="400" height="500" fill="${bg}"/>
+<g transform="${k === 2 ? "translate(400 0) scale(-1 1)" : k === 3 ? "translate(40 40) scale(0.9)" : ""}">${SHAPES[shapeFor(p.category)]!(colour, "#2a2a2c")}</g>
+<rect x="0" y="448" width="400" height="52" fill="#161618"/>
+<text x="200" y="472" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#e9e4d8" letter-spacing="3">DEMO PRODUCT</text>
+<text x="200" y="490" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#a9a499">illustration · no real photography</text></svg>`;
+  return new Response(svg, { headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=3600" } });
+}

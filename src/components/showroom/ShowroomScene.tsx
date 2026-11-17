@@ -28,13 +28,12 @@ function Stats() {
 }
 
 export default function ShowroomScene({ displays }: { displays: readonly ResolvedDisplay[] }) {
-  const placements = useMemo(() => displays.map((d) => d.placement), [displays]);
   const level = useQuality((s) => s.level);
   // Release cached textures, materials and geometry when the scene is torn down.
   useEffect(() => () => { disposeMaterials(); disposeGeometry(); }, []);
   return (
     <Canvas
-      shadows={{ type: THREE.PCFSoftShadowMap }} dpr={level === "high" ? [1, 1.75] : [1, 1.25]}
+      shadows={{ type: THREE.PCFShadowMap }} dpr={level === "high" ? [1, 1.75] : [1, 1.25]}
       camera={{ fov: 30, near: 1, far: 700, position: [60, 60, 80] }}
       gl={{ antialias: true, powerPreference: "high-performance" }}
       aria-label="Interactive 3D fashion mall"
@@ -45,7 +44,7 @@ export default function ShowroomScene({ displays }: { displays: readonly Resolve
       <Suspense fallback={null}>
         <ShowroomEnvironment displays={displays} />
       </Suspense>
-      <CameraDirector placements={placements} />
+      <CameraDirector displays={displays} />
       <Effects />
       <Stats />
     </Canvas>

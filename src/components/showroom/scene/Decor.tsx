@@ -157,7 +157,7 @@ export function ZoneDecor({ id, palette }: { id: ZoneId; palette: ZonePalette })
         <Bench position={[-2, 0, 4.4]} color="#2a2a2c" />
         <mesh position={[0, 0.006, 2.2]} rotation={[-Math.PI / 2, 0, 0]} material={paint("#bdbab2", 0.9)}><planeGeometry args={[12, 0.18]} /></mesh>
       </group>);
-    case "minimal": return (
+    case "sportswear": return (
       <group>
         <mesh position={[0, 4.6, 0]} castShadow material={blackSteel()}><boxGeometry args={[9, 0.05, 0.12]} /></mesh>
         <mesh position={[0, 4.575, 0]} material={lightStrip("#fff2de", 1.1)}><boxGeometry args={[8.9, 0.01, 0.09]} /></mesh>
@@ -208,13 +208,20 @@ export function ZoneDecor({ id, palette }: { id: ZoneId; palette: ZonePalette })
         <Bench position={[-5, 0, 4.4]} color="#2a2a2c" /><Bench position={[5, 0, 4.4]} color="#2a2a2c" />
         <mesh position={[0, 0.006, 0]} rotation={[-Math.PI / 2, 0, 0]} material={brass()}><planeGeometry args={[0.05, 16]} /></mesh>
       </group>);
-    case "lounge": return (
+    case "sneakers": return (
       <group>
-        <Rug position={[0, 0, 0]} size={[6, 4.4]} color="#8c9a86" border="#d9d1be" />
-        <Sofa position={[0, 0, -2.6]} color="#a8754a" /><Sofa position={[-3.2, 0, 0.4]} rotationY={Math.PI / 2} color="#7d8b80" />
-        <mesh position={[0.4, 0.38, 0.6]} castShadow receiveShadow material={wood("oak", "#c7aa86", 1.2, 1.2)}><cylinderGeometry args={[0.6, 0.6, 0.04, 36]} /></mesh>
-        <mesh position={[0.4, 0.18, 0.6]} castShadow material={blackSteel()}><cylinderGeometry args={[0.03, 0.03, 0.36, 10]} /></mesh>
-        <Plant position={[-7, 0, -7]} scale={1.3} seed={10} /><Plant position={[7, 0, -7]} seed={11} />
+        <Bench position={[-4.2, 0, 2.6]} color="#1f1f21" length={2.4} /><Bench position={[4.2, 0, 2.6]} color="#1f1f21" length={2.4} />
+        <mesh position={[0, 4.55, 0.5]} castShadow material={blackSteel()}><boxGeometry args={[9, 0.05, 0.12]} /></mesh>
+        <mesh position={[0, 4.525, 0.5]} material={lightStrip("#fff0d6", 1.1)}><boxGeometry args={[8.9, 0.01, 0.09]} /></mesh>
+        <mesh position={[0, 0.006, 0.6]} rotation={[-Math.PI / 2, 0, 0]} material={brass()}><planeGeometry args={[0.04, 12]} /></mesh>
+        <Plant position={[7, 0, -7]} seed={12} />
+      </group>);
+    case "denim": return (
+      <group>
+        <Rug position={[0, 0, 1.4]} size={[4.2, 2.8]} color="#2f3f5c" border="#8a6a48" />
+        <Bench position={[0.2, 0, 4.4]} color="#6b4a31" length={2.6} />
+        {[-3, 3].map((x) => <Pendant key={x} position={[x, 4, 0.4]} />)}
+        <Plant position={[7, 0, 5.8]} seed={13} /><Plant position={[-7, 0, 5.8]} seed={14} />
       </group>);
   }
 }
