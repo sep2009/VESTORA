@@ -4,7 +4,9 @@ import type { Group } from "three";
 import { useFrame } from "@react-three/fiber";
 import type { ResolvedDisplay } from "@/modules/showroom/types";
 import { getZone } from "@/modules/showroom/layout";
-import { useShowroom } from "@/stores/showroom-store";
+import { Html } from "@react-three/drei";
+import { cameraManager } from "@/modules/showroom/camera/manager";
+import { selectFocusedDisplayId, useCameraStore } from "@/stores/camera-store";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { ClothingRack } from "./ClothingRack";
 import { ModelOrFallback } from "./ModelBoundary";
@@ -98,14 +100,23 @@ function Body({ d }: { d: ResolvedDisplay }) {
 /** One placed display. Shows a GLB when the product has a model, otherwise a procedural placeholder. */
 export function ProductDisplay({ display }: { display: ResolvedDisplay }) {
   const { placement: p, product } = display;
-  const selected = useShowroom((s) => s.focusedDisplayId === p.id);
-  const focus = useShowroom((s) => s.focusDisplay);
+  const selected = useCameraStore((s) => selectFocusedDisplayId(s) === p.id);
   const [hover, setHover] = useState(false);
   const spinRef = useRef<Group>(null);
+  const hoverRef = useRef<Group>(null);
   const reduced = useReducedMotion();
   const zone = getZone(p.departmentId);
 
-  useFrame((_, dt) => { if (p.spin && !reduced && spinRef.current) spinRef.current.rotation.y += dt * 0.35; });
+  useFrame((_, dt) => {
+    if (p.spin && !reduced && spinRef.current) spinRef.current.rotation.y += dt * 0.35;
+    const g = hoverRef.current;
+    if (g) { const target = hover && !selected ? 1.05 : 1; const k = reduced ? 1 : 1 - Math.exp(-dt * 12); g.scale.setScalar(g.scale.x + (target - g.scale.x) * k); }
+  });
+  const setHovered = (on: boolean) => {
+    setHover(on);
+    useCameraStore.setState({ hoverDisplayId: on ? p.id : (useCameraStore.getState().hoverDisplayId === p.id ? null : useCameraStore.getState().hoverDisplayId) });
+    document.body.style.cursor = on ? "pointer" : "";
+  };
 
   const procedural = <Body d={display} />;
   const body = product.modelUrl && p.type !== "niche" ? (
@@ -118,11 +129,16 @@ export function ProductDisplay({ display }: { display: ResolvedDisplay }) {
   return (
     <group
       position={[...p.position]} rotation={[...p.rotation]} scale={p.scale}
-      onPointerOver={(e) => { e.stopPropagation(); setHover(true); document.body.style.cursor = "pointer"; }}
-      onPointerOut={() => { setHover(false); document.body.style.cursor = ""; }}
-      onClick={(e) => { e.stopPropagation(); focus(selected ? null : p.id); }}
+      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
+      onPointerOut={() => setHovered(false)}
+      onClick={(e) => { e.stopPropagation(); cameraManager.focusDisplay(p.id); }}
     >
-      <group ref={spinRef}>{body}</group>
+      <group ref={hoverRef}><group ref={spinRef}>{body}</group></group>
+      {hover && !selected && (
+        <Html position={[0, p.type === "niche" ? 1 : 2.5, 0]} center zIndexRange={[20, 0]} style={{ pointerEvents: "none" }}>
+          <div className="whitespace-nowrap rounded-sm bg-ink px-2.5 py-1 text-[11px] uppercase tracking-[0.14em] text-paper shadow-pop">{product.name}</div>
+        </Html>
+      )}
       {(hover || selected) && p.type !== "niche" && (
         <mesh position={[0, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <ringGeometry args={[1.25, 1.35, 48]} />

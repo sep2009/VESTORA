@@ -1,22 +1,99 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { resolveDisplays } from "@/modules/showroom/resolve";
 import type { ShowroomCatalogProduct } from "@/modules/showroom/types";
+import { cameraManager } from "@/modules/showroom/camera/manager";
+import { useCameraStore } from "@/stores/camera-store";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
+import { Button } from "@/components/ui/Button";
+import { DestinationBanner } from "./DestinationBanner";
 import { DisplayInfo } from "./DisplayInfo";
+import { GuidedProgress } from "./GuidedProgress";
+import { GuidedTrack } from "./GuidedTrack";
 import { Minimap } from "./Minimap";
+import { ModeSwitch } from "./ModeSwitch";
 import { ShowroomLoader } from "./ShowroomLoader";
 
 const ShowroomScene = dynamic(() => import("./ShowroomScene"), { ssr: false, loading: () => <ShowroomLoader /> });
 
+const HINTS = {
+  guided: "Scroll to tour the mall · switch to Explore to take control",
+  explore: "Drag to look · Ctrl + scroll or pinch to zoom · arrow keys · click a display",
+  focus: "Drag to look around · Esc or Return to go back",
+} as const;
+
 export default function Showroom({ catalog }: { catalog: ShowroomCatalogProduct[] }) {
   const displays = useMemo(() => resolveDisplays(catalog), [catalog]);
+  const mode = useCameraStore((s) => s.mode);
+  const stops = useCameraStore((s) => s.guided.count);
+  const depth = useCameraStore((s) => s.backDepth);
+  const reduced = useReducedMotion();
+  const track = useRef<HTMLDivElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
+
+  // Start in guided mode, or explore when the visitor prefers reduced motion. Reset when leaving the page.
+  useEffect(() => {
+    cameraManager.setMode(reduced ? "explore" : "guided");
+    return () => { cameraManager.setMode("explore"); };
+  }, [reduced]);
+
+  // Wheel/trackpad scrolling over the scene must scroll the page; only Ctrl/Cmd+wheel (and pinch) zooms.
+  useEffect(() => {
+    const el = stage.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => { if (!e.ctrlKey && !e.metaKey) e.stopPropagation(); };
+    el.addEventListener("wheel", onWheel, { capture: true, passive: true });
+    return () => el.removeEventListener("wheel", onWheel, { capture: true });
+  }, []);
+
+  // Leaving guided mode collapses the tall scroll track; bring the scene back into view so the page does not jump away.
+  const prev = useRef(mode);
+  useEffect(() => {
+    if (prev.current === "guided" && mode !== "guided") stage.current?.scrollIntoView({ block: "start", behavior: "auto" });
+    prev.current = mode;
+  }, [mode]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape" && useCameraStore.getState().mode === "focus") cameraManager.back(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const keyDown = (e: React.KeyboardEvent) => {
+    if (useCameraStore.getState().mode === "guided") return; // arrows keep scrolling the page
+    if (e.key.startsWith("Arrow") || e.key === "+" || e.key === "-" || e.key === "=" || e.key === "_") { e.preventDefault(); cameraManager.keys.add(e.key); }
+    if (e.key === "Home") { e.preventDefault(); cameraManager.toOverview(); }
+  };
+  const keyUp = (e: React.KeyboardEvent) => { cameraManager.keys.delete(e.key); };
+
   return (
-    <div className="relative h-[68svh] min-h-[28rem] w-full overflow-hidden rounded-lg border border-line md:h-[78svh]">
-      <ShowroomScene displays={displays} />
-      <div className="absolute top-3 left-3"><Minimap /></div>
-      <div className="absolute bottom-3 left-3 max-sm:right-3"><DisplayInfo displays={displays} /></div>
-      <p className="pointer-events-none absolute top-3 right-3 hidden rounded-sm bg-surface/90 px-2 py-1 text-[11px] uppercase tracking-[0.16em] text-mute sm:block">Drag to orbit · scroll to zoom · click a display</p>
+    <div ref={track} style={mode === "guided" ? { height: `calc(100svh - 88px + ${(stops - 1) * 58}svh)` } : undefined}>
+      <GuidedTrack track={track} active={mode === "guided"} />
+      <div
+        ref={stage} tabIndex={0} role="region" aria-label="3D showroom. Use the mode buttons and map, or the arrow keys, to move around."
+        onKeyDown={keyDown} onKeyUp={keyUp} onBlur={() => cameraManager.keys.clear()}
+        className="sticky top-[72px] h-[calc(100svh-88px)] scroll-mt-[72px] min-h-[26rem] overflow-hidden rounded-lg border border-line"
+      >
+        <ShowroomScene displays={displays} />
+        <div className="absolute top-3 left-3"><Minimap /></div>
+        <p className="pointer-events-none absolute top-3 right-3 hidden max-w-sm rounded-sm bg-surface/90 px-2 py-1 text-[11px] uppercase tracking-[0.14em] text-mute lg:block">{HINTS[mode]}</p>
+        <div className="pointer-events-none absolute inset-x-3 bottom-3 flex flex-col items-start gap-2 [&>*]:pointer-events-auto">
+          <DestinationBanner />
+          <DisplayInfo displays={displays} />
+          <div className="flex flex-wrap items-center gap-2">
+            <ModeSwitch />
+            {mode === "guided" && <GuidedProgress />}
+            {mode !== "guided" && depth > 0 && <Button size="sm" variant="secondary" className="min-h-11 bg-surface/95 sm:min-h-9" onClick={() => cameraManager.back()}>← Back</Button>}
+            {mode === "explore" && (
+              <div className="flex gap-1" role="group" aria-label="Zoom">
+                <button type="button" onClick={() => cameraManager.zoom(0.8)} aria-label="Zoom in" className="grid size-11 place-items-center rounded-sm border border-line bg-surface/95 text-lg sm:size-9">+</button>
+                <button type="button" onClick={() => cameraManager.zoom(1.25)} aria-label="Zoom out" className="grid size-11 place-items-center rounded-sm border border-line bg-surface/95 text-lg sm:size-9">−</button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
