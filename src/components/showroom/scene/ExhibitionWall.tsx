@@ -1,82 +1,116 @@
+"use client";
+import { useLayoutEffect, useMemo, useRef } from "react";
+import * as THREE from "three";
+import { RoundedBox } from "@react-three/drei";
 import type { ZonePalette } from "@/modules/showroom/types";
-import { AccessoryObject } from "./Procedural";
+import { sneakerGeometry } from "./pbr/geometry";
+import { blackSteel, brass, fabric, floor, leather, lightStrip, paint, rubber, wall, wood } from "./pbr/materials";
 
 export type WallVariant = "marble" | "slats" | "graphic" | "panels" | "grid" | "accent";
 
 function rng(seed: number) { let s = seed; return () => ((s = (s * 16807) % 2147483647) / 2147483647); }
 
+/** Decorative sneakers on the cubby wall: two instanced draw calls for the whole wall. Not products. */
+function SneakerField({ cells }: { cells: { x: number; y: number; c: THREE.Color }[] }) {
+  const { upper, sole } = sneakerGeometry();
+  const u = useRef<THREE.InstancedMesh>(null), s = useRef<THREE.InstancedMesh>(null);
+  useLayoutEffect(() => {
+    const m = new THREE.Matrix4();
+    cells.forEach((c, i) => {
+      m.compose(new THREE.Vector3(c.x, c.y, 0), new THREE.Quaternion(), new THREE.Vector3(1, 1, 1));
+      u.current!.setMatrixAt(i, m); s.current!.setMatrixAt(i, m); u.current!.setColorAt(i, c.c);
+    });
+    for (const r of [u.current!, s.current!]) r.instanceMatrix.needsUpdate = true;
+    u.current!.instanceColor!.needsUpdate = true;
+  }, [cells]);
+  return (
+    <>
+      <instancedMesh ref={u} args={[upper, leather("#ffffff"), cells.length]} castShadow />
+      <instancedMesh ref={s} args={[sole, rubber("#ece9e2"), cells.length]} castShadow />
+    </>
+  );
+}
+
 /**
  * Feature wall. Local origin = centre of the base, backing at z=0, content faces +z.
- * Pure decoration (the "grid" variant shows decorative sneakers, which are not products).
+ * Pure architecture/decoration; the "grid" variant shows decorative sneakers, which are not products.
  */
 export function ExhibitionWall({ variant, width, height, palette }: { variant: WallVariant; width: number; height: number; palette: ZonePalette }) {
-  const r = rng(width * 13 + height * 7 + variant.length);
-  const mat = (c: string, rough = 0.7, extra?: object) => <meshStandardMaterial color={c} roughness={rough} {...extra} />;
-  const back = (
-    <mesh position={[0, height / 2, 0.06]} receiveShadow castShadow><boxGeometry args={[width, height, 0.12]} />
-      {mat(variant === "graphic" ? "#18181b" : palette.wall, 0.8)}</mesh>
+  const r = useMemo(() => rng(Math.round(width * 13 + height * 7) + variant.length), [width, height, variant]);
+  const backing = (
+    <mesh position={[0, height / 2, 0.05]} receiveShadow castShadow material={variant === "graphic" || variant === "grid" ? paint("#171719", 0.7) : wall(palette.wall, width, height)}>
+      <boxGeometry args={[width, height, 0.1]} />
+    </mesh>
   );
   let content: React.ReactNode = null;
+
   if (variant === "marble") {
-    const n = Math.max(2, Math.floor(width / 3.2)); const w = width / n;
-    content = Array.from({ length: n }, (_, i) => {
-      const x = -width / 2 + w * (i + 0.5);
+    const n = Math.max(2, Math.floor(width / 2.6)), w = width / n;
+    content = Array.from({ length: n }, (_, i) => (
+      <group key={i} position={[-width / 2 + w * (i + 0.5), height / 2, 0.12]}>
+        <mesh castShadow receiveShadow material={floor("marble", "#d5cfc2", w - 0.16, height - 0.2)}><boxGeometry args={[w - 0.16, height - 0.2, 0.05]} /></mesh>
+        <mesh position={[0, 0, 0.03]} material={brass()}><boxGeometry args={[0.012, height - 0.2, 0.012]} /></mesh>
+      </group>
+    ));
+    content = <>{content}<mesh position={[0, 0.1, 0.1]} castShadow material={brass()}><boxGeometry args={[width, 0.05, 0.04]} /></mesh></>;
+  } else if (variant === "slats") {
+    const pitch = 0.18, n = Math.floor(width / pitch);
+    content = (
+      <>
+        <mesh position={[0, height / 2, 0.11]} material={paint("#2a2420", 0.9)}><boxGeometry args={[width - 0.1, height - 0.1, 0.02]} /></mesh>
+        {Array.from({ length: n }, (_, i) => (
+          <mesh key={i} position={[-width / 2 + pitch / 2 + i * pitch, height / 2, 0.17]} castShadow receiveShadow material={wood("slat", "#b8956b", 0.12, height)}>
+            <boxGeometry args={[0.11, height - 0.2, 0.08]} />
+          </mesh>
+        ))}
+      </>
+    );
+  } else if (variant === "graphic") {
+    const cols = ["#2b2b2e", "#e6e1d6", "#9b3b32", "#5f6f7d", "#c8cd72"];
+    content = Array.from({ length: 6 }, (_, i) => {
+      const w = 1.0 + r() * 1.2, h = 1.2 + r() * 1.3;
       return (
-        <group key={i} position={[x, height / 2, 0.14]}>
-          <mesh><boxGeometry args={[w - 0.5, height - 0.5, 0.04]} />{mat("#2f5547", 0.35, { metalness: 0.1 })}</mesh>
-          {[[0, (height - 0.5) / 2, w - 0.5, 0.06], [0, -(height - 0.5) / 2, w - 0.5, 0.06], [-(w - 0.5) / 2, 0, 0.06, height - 0.5], [(w - 0.5) / 2, 0, 0.06, height - 0.5]].map(([px, py, bw, bh], k) => (
-            <mesh key={k} position={[px!, py!, 0.03]}><boxGeometry args={[bw!, bh!, 0.04]} />{mat(palette.trim, 0.25, { metalness: 0.9 })}</mesh>
-          ))}
+        <group key={i} position={[-width / 2 + w / 2 + 0.2 + (i / 6) * (width - w - 0.4), 0.9 + h / 2 + r() * (height - h - 1.4), 0.12]}>
+          <mesh castShadow material={blackSteel()}><boxGeometry args={[w + 0.06, h + 0.06, 0.04]} /></mesh>
+          <mesh position={[0, 0, 0.022]} material={paint(cols[i % cols.length]!, 0.8)}><planeGeometry args={[w, h]} /></mesh>
+          <mesh position={[(r() - 0.5) * w * 0.3, (r() - 0.5) * h * 0.3, 0.024]} material={paint(cols[(i + 2) % cols.length]!, 0.8)}><planeGeometry args={[w * 0.5, h * 0.35]} /></mesh>
         </group>
       );
     });
-  } else if (variant === "slats") {
-    const n = Math.floor(width / 0.22);
-    content = Array.from({ length: n }, (_, i) => (
-      <mesh key={i} position={[-width / 2 + 0.11 + i * 0.22, height / 2, 0.16]} castShadow>
-        <boxGeometry args={[0.14, height - 0.3, 0.1]} />{mat(i % 2 ? "#cdb08a" : "#bf9f76", 0.8)}</mesh>
-    ));
-  } else if (variant === "graphic") {
-    const cols = [palette.accent, palette.accent2, "#f4f4f0", "#3b6cff"];
-    content = Array.from({ length: 9 }, (_, i) => {
-      const w = 1.2 + r() * 2.4, h = 0.8 + r() * 1.8;
-      return (
-        <mesh key={i} position={[-width / 2 + w / 2 + r() * (width - w), 0.6 + h / 2 + r() * (height - h - 1), 0.14]} rotation={[0, 0, (r() - 0.5) * 0.12]}>
-          <boxGeometry args={[w, h, 0.03]} />{mat(cols[i % cols.length]!, 0.6, { emissive: cols[i % cols.length]!, emissiveIntensity: 0.15 })}</mesh>
-      );
-    });
   } else if (variant === "panels") {
-    const n = Math.max(2, Math.floor(width / 2.4)); const w = width / n;
-    content = Array.from({ length: n }, (_, i) => (
-      <group key={i} position={[-width / 2 + w * (i + 0.5), 0, 0.13]}>
-        <mesh position={[0, height * 0.42, 0]}><boxGeometry args={[w - 0.3, height * 0.7, 0.04]} />{mat("#273050", 0.5)}</mesh>
-        <mesh position={[0, height * 0.42, 0.03]}><boxGeometry args={[w - 0.6, height * 0.62, 0.02]} />{mat("#202845", 0.5)}</mesh>
-        <mesh position={[0, 0.5, 0.02]}><boxGeometry args={[w - 0.3, 0.9, 0.05]} />{mat(palette.trim, 0.4, { metalness: 0.6 })}</mesh>
-      </group>
-    ));
+    const n = Math.max(2, Math.floor(width / 1.8)), w = width / n;
+    content = (
+      <>
+        {Array.from({ length: n }, (_, i) => (
+          <RoundedBox key={i} args={[w - 0.1, height * 0.74, 0.07]} radius={0.02} smoothness={2} position={[-width / 2 + w * (i + 0.5), height * 0.45, 0.13]} castShadow receiveShadow material={fabric(palette.wall === "#3b5254" ? "#415f61" : "#2a3350")} />
+        ))}
+        <mesh position={[0, 0.2, 0.1]} castShadow material={brass()}><boxGeometry args={[width, 0.06, 0.05]} /></mesh>
+        <mesh position={[0, height * 0.85, 0.1]} material={brass()}><boxGeometry args={[width, 0.02, 0.03]} /></mesh>
+      </>
+    );
   } else if (variant === "accent") {
     content = (
-      <group position={[0, height / 2, 0.14]}>
-        <mesh><boxGeometry args={[width - 0.6, height - 0.6, 0.03]} />{mat(palette.accent, 0.5, { emissive: palette.accent, emissiveIntensity: 0.25 })}</mesh>
-        {[-0.5, 0.5].map((f) => <mesh key={f} position={[0, f * (height - 1.4), 0.03]}><boxGeometry args={[width - 1.4, 0.08, 0.02]} />{mat("#ffffff", 0.4)}</mesh>)}
+      <group position={[0, height / 2, 0.11]}>
+        <mesh castShadow receiveShadow material={floor("limestone", "#e0d9cb", width, height)}><boxGeometry args={[width - 0.3, height - 0.3, 0.05]} /></mesh>
+        {[-1, 1].map((k) => <mesh key={k} position={[0, k * (height / 2 - 0.35), 0.03]} material={brass()}><boxGeometry args={[width - 0.5, 0.02, 0.012]} /></mesh>)}
+        <mesh position={[0, 0, 0.03]} material={paint(palette.accent, 0.75)}><boxGeometry args={[0.7, height * 0.5, 0.012]} /></mesh>
       </group>
     );
   } else {
-    const cols = Math.floor(width / 1.1), rows = Math.floor((height - 0.4) / 0.8);
-    const sc = ["#ffffff", "#d6ff3d", "#ff3d81", "#3b6cff", "#ff7a1a", "#1e1e1e"];
+    const cols = Math.floor(width / 0.7), rows = Math.floor((height - 0.4) / 0.55), cw = 0.7, rh = 0.55;
+    const sc = ["#ece8df", "#b9b4a8", "#2b2b2e", "#8a3f35", "#5f6f7d", "#c8cd72"].map((c) => new THREE.Color(c));
+    const cells: { x: number; y: number; c: THREE.Color }[] = [];
+    for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+      if (r() > 0.2) cells.push({ x: -(cols * cw) / 2 + cw / 2 + i * cw, y: 0.2 + j * rh + 0.03, c: sc[(i * 3 + j * 5) % sc.length]! });
+    }
     content = (
-      <group position={[0, 0.2, 0.15]}>
-        {Array.from({ length: rows + 1 }, (_, j) => <mesh key={`h${j}`} position={[0, j * 0.8, 0]}><boxGeometry args={[width - 0.4, 0.04, 0.34]} />{mat("#0e0e10", 0.5)}</mesh>)}
-        {Array.from({ length: cols + 1 }, (_, i) => <mesh key={`v${i}`} position={[-((cols * 1.1) / 2) + i * 1.1, (rows * 0.8) / 2, 0]}><boxGeometry args={[0.04, rows * 0.8, 0.34]} />{mat("#0e0e10", 0.5)}</mesh>)}
-        {Array.from({ length: rows }, (_, j) => Array.from({ length: cols }, (_, i) => (
-          r() > 0.25 ? (
-            <group key={`${i}-${j}`} position={[-((cols * 1.1) / 2) + 0.55 + i * 1.1, j * 0.8 + 0.04, 0]} scale={2.1}>
-              <AccessoryObject kind="sneaker" color={sc[(i * 3 + j * 5) % sc.length]!} />
-            </group>
-          ) : null
-        )))}
+      <group position={[0, 0.2, 0.16]}>
+        {Array.from({ length: rows + 1 }, (_, j) => <mesh key={`h${j}`} position={[0, j * rh, 0]} castShadow material={blackSteel()}><boxGeometry args={[cols * cw, 0.025, 0.28]} /></mesh>)}
+        {Array.from({ length: cols + 1 }, (_, i) => <mesh key={`v${i}`} position={[-(cols * cw) / 2 + i * cw, (rows * rh) / 2, 0]} castShadow material={blackSteel()}><boxGeometry args={[0.025, rows * rh, 0.28]} /></mesh>)}
+        <group position={[0, -0.2, 0]}><SneakerField cells={cells} /></group>
+        <mesh position={[0, rows * rh + 0.12, 0.0]} material={lightStrip("#fff0d6", 0.8)}><boxGeometry args={[cols * cw, 0.02, 0.2]} /></mesh>
       </group>
     );
   }
-  return <group>{back}{content}</group>;
+  return <group>{backing}{content}</group>;
 }

@@ -11,58 +11,87 @@ import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { ClothingRack } from "./ClothingRack";
 import { ModelOrFallback } from "./ModelBoundary";
 import { AccessoryObject, FoldedStack, Mannequin, isGarment } from "./Procedural";
+import { blackSteel, brass, floor, glass, lightStrip, paint, wood } from "./pbr/materials";
 
-function Item({ d, scale = 1 }: { d: ResolvedDisplay; scale?: number }) {
+const FINISH: Record<string, string> = { luxury: "#1d1d1f", formal: "#1d1d1f", minimal: "#e8e5de", accessories: "#d9d5cc" };
+const finishFor = (zone: string) => FINISH[zone] ?? "#cfc9be";
+
+function Item({ d, bust = true }: { d: ResolvedDisplay; bust?: boolean }) {
   return isGarment(d.kind)
-    ? <Mannequin kind={d.kind} color={d.color} bust />
-    : <group scale={scale}><AccessoryObject kind={d.kind} color={d.color} /></group>;
+    ? <Mannequin kind={d.kind} color={d.color} bust={bust} finish={finishFor(d.placement.departmentId)} />
+    : <AccessoryObject kind={d.kind} color={d.color} />;
 }
 
-function Plinth({ w = 0.8, h = 0.9, color }: { w?: number; h?: number; color: string }) {
-  return <mesh position={[0, h / 2, 0]} castShadow receiveShadow><boxGeometry args={[w, h, w]} /><meshStandardMaterial color={color} roughness={0.45} /></mesh>;
+/** Plinth: matte plaster-finished block with a slim brass plinth cap. */
+function Plinth({ w = 0.5, h = 1, color = "#e9e6df" }: { w?: number; h?: number; color?: string }) {
+  return (
+    <group>
+      <mesh position={[0, h / 2, 0]} castShadow receiveShadow material={paint(color, 0.8)}><boxGeometry args={[w, h, w]} /></mesh>
+      <mesh position={[0, h + 0.006, 0]} castShadow receiveShadow material={brass()}><boxGeometry args={[w + 0.02, 0.012, w + 0.02]} /></mesh>
+    </group>
+  );
+}
+
+function Vitrine({ w = 0.5, h = 0.5 }: { w?: number; h?: number }) {
+  const f = 0.012;
+  return (
+    <group>
+      <mesh position={[0, h / 2, 0]} material={glass()}><boxGeometry args={[w, h, w]} /></mesh>
+      {[-1, 1].flatMap((x) => [-1, 1].map((z) => (
+        <mesh key={`${x}${z}`} position={[x * (w / 2), h / 2, z * (w / 2)]} castShadow material={brass()}><boxGeometry args={[f, h, f]} /></mesh>
+      )))}
+      <mesh position={[0, h, 0]} material={brass()} castShadow><boxGeometry args={[w + f, f, w + f]} /></mesh>
+    </group>
+  );
 }
 
 function Body({ d }: { d: ResolvedDisplay }) {
   const { placement: p, kind, color } = d;
   const zone = getZone(p.departmentId);
   const garment = isGarment(kind);
+  const trim = zone.palette.trim;
   switch (p.type) {
     case "rack": return <ClothingRack kind={kind} color={color} />;
-    case "mannequin": return <Mannequin kind={kind} color={color} />;
-    case "platform":
+    case "mannequin": return <Mannequin kind={kind} color={color} finish={finishFor(p.departmentId)} />;
+    case "platform": {
+      const small = !garment;
+      const r = small ? 0.5 : 1.0, h = small ? 0.55 : 0.18;
       return (
         <group>
-          <mesh position={[0, 0.15, 0]} castShadow receiveShadow><cylinderGeometry args={[1.05, 1.1, 0.3, 40]} /><meshStandardMaterial color="#f4f2ee" roughness={0.4} /></mesh>
-          <mesh position={[0, 0.305, 0]} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[0.98, 1.04, 48]} /><meshStandardMaterial color={zone.palette.accent} emissive={zone.palette.accent} emissiveIntensity={0.6} /></mesh>
-          <group position={[0, 0.3, 0]}>
-            {garment ? <Mannequin kind={kind} color={color} /> : <group scale={3.2}><AccessoryObject kind={kind} color={color} /></group>}
+          <mesh position={[0, h / 2, 0]} castShadow receiveShadow material={floor(small ? "limestone" : "terrazzo", small ? "#d9d4c8" : "#e9e5dc", 2, 2)}><cylinderGeometry args={[r, r + 0.02, h, 48]} /></mesh>
+          <mesh position={[0, h + 0.004, 0]} rotation={[-Math.PI / 2, 0, 0]} material={brass()}><ringGeometry args={[r - 0.025, r - 0.005, 64]} /></mesh>
+          <group position={[0, h, 0]}>
+            {garment ? <Mannequin kind={kind} color={color} finish={finishFor(p.departmentId)} /> : (
+              <>
+                <group position={[-0.07, 0, 0.06]} rotation={[0, 0.5, 0]}><AccessoryObject kind={kind} color={color} /></group>
+                <group position={[0.08, 0, -0.07]} rotation={[0, -2.6, 0]}><AccessoryObject kind={kind} color={color} /></group>
+              </>
+            )}
           </group>
         </group>
       );
+    }
     case "pedestal":
       return (
         <group>
-          <Plinth color="#f2f0ec" />
-          <group position={[0, 0.9, 0]}><Item d={d} scale={garment ? 1 : 3.4} /></group>
-          {p.glass && (
-            <mesh position={[0, 0.9 + (garment ? 0.55 : 0.28), 0]}>
-              <boxGeometry args={[0.8, garment ? 1.1 : 0.56, 0.8]} />
-              <meshStandardMaterial color="#cfe9ef" transparent opacity={0.18} roughness={0.05} metalness={0.1} depthWrite={false} />
-            </mesh>
-          )}
+          <Plinth w={0.5} h={1} color={zone.id === "accessories" ? "#d9d5cc" : "#e9e6df"} />
+          <group position={[0, 1.012, 0]}>
+            <Item d={d} />
+            {p.glass && <Vitrine w={0.52} h={garment ? 1.05 : 0.42} />}
+          </group>
         </group>
       );
     case "table":
       return (
         <group>
-          <mesh position={[0, 0.78, 0]} castShadow receiveShadow><boxGeometry args={[1.6, 0.07, 1.05]} /><meshStandardMaterial color={zone.palette.trim} roughness={0.5} /></mesh>
+          <mesh position={[0, 0.77, 0]} castShadow receiveShadow material={wood("walnut", "#6b4a31", 1.6, 0.9)}><boxGeometry args={[1.6, 0.04, 0.9]} /></mesh>
           {[-1, 1].flatMap((sx) => [-1, 1].map((sz) => (
-            <mesh key={`${sx}${sz}`} position={[sx * 0.72, 0.38, sz * 0.45]} castShadow><boxGeometry args={[0.06, 0.76, 0.06]} /><meshStandardMaterial color="#2a2a2a" /></mesh>
+            <mesh key={`${sx}${sz}`} position={[sx * 0.74, 0.375, sz * 0.4]} castShadow material={blackSteel()}><boxGeometry args={[0.035, 0.75, 0.035]} /></mesh>
           )))}
-          <group position={[0, 0.815, 0]}>
+          <group position={[0, 0.79, 0]}>
             {[-0.5, 0, 0.5].map((x, i) => (
-              <group key={x} position={[x, 0, i === 1 ? -0.05 : 0.05]}>
-                {garment ? <FoldedStack color={color} count={3 + (i % 2)} /> : <group scale={2.6}><AccessoryObject kind={kind} color={color} /></group>}
+              <group key={x} position={[x, 0, i === 1 ? -0.04 : 0.05]} rotation={[0, (i - 1) * 0.18, 0]}>
+                {garment ? <FoldedStack color={color} count={3 + (i % 2)} /> : <AccessoryObject kind={kind} color={color} />}
               </group>
             ))}
           </group>
@@ -71,14 +100,14 @@ function Body({ d }: { d: ResolvedDisplay }) {
     case "shelf":
       return (
         <group>
-          <mesh position={[0, 1.05, -0.18]} castShadow receiveShadow><boxGeometry args={[1.9, 2.1, 0.05]} /><meshStandardMaterial color={zone.palette.trim} roughness={0.55} /></mesh>
-          {[-0.95, 0.95].map((x) => <mesh key={x} position={[x, 1.05, 0]} castShadow><boxGeometry args={[0.05, 2.1, 0.45]} /><meshStandardMaterial color={zone.palette.trim} roughness={0.55} /></mesh>)}
+          <mesh position={[0, 1.05, -0.19]} castShadow receiveShadow material={wood("oak", "#b99a73", 1.9, 2.1)}><boxGeometry args={[1.9, 2.1, 0.03]} /></mesh>
+          {[-0.95, 0.95].map((x) => <mesh key={x} position={[x, 1.05, 0]} castShadow material={blackSteel()}><boxGeometry args={[0.03, 2.1, 0.4]} /></mesh>)}
           {[0.35, 1.0, 1.65].map((y) => (
             <group key={y}>
-              <mesh position={[0, y, 0]} castShadow receiveShadow><boxGeometry args={[1.9, 0.04, 0.45]} /><meshStandardMaterial color="#efeae0" roughness={0.5} /></mesh>
-              {[-0.55, 0, 0.55].map((x) => (
-                <group key={x} position={[x, y + 0.02, 0.02]}>
-                  {garment ? <FoldedStack color={color} count={2} /> : <group scale={2.1}><AccessoryObject kind={kind} color={color} /></group>}
+              <mesh position={[0, y, 0]} castShadow receiveShadow material={wood("oak", "#c6a982", 1.9, 0.4)}><boxGeometry args={[1.88, 0.03, 0.38]} /></mesh>
+              {[-0.55, 0, 0.55].map((x, i) => (
+                <group key={x} position={[x, y + 0.015, 0.02]} rotation={[0, (i - 1) * 0.12, 0]}>
+                  {garment ? <FoldedStack color={color} count={2} /> : <AccessoryObject kind={kind} color={color} />}
                 </group>
               ))}
             </group>
@@ -88,10 +117,10 @@ function Body({ d }: { d: ResolvedDisplay }) {
     case "niche":
       return (
         <group>
-          <mesh position={[0, 0, -0.05]}><boxGeometry args={[1.3, 1.3, 0.12]} /><meshStandardMaterial color="#17171a" /></mesh>
-          <mesh position={[0, 0, 0.02]}><planeGeometry args={[1.1, 1.1]} /><meshStandardMaterial color="#fffaf0" emissive="#fff1d0" emissiveIntensity={0.55} /></mesh>
-          <mesh position={[0, -0.42, 0.12]} castShadow><boxGeometry args={[0.9, 0.04, 0.3]} /><meshStandardMaterial color="#e8e2d6" /></mesh>
-          <group position={[0, -0.4, 0.12]}><group scale={2.4}><AccessoryObject kind={kind} color={color} /></group></group>
+          <mesh position={[0, 0, -0.05]} material={paint("#161617", 0.6)} castShadow><boxGeometry args={[1.3, 1.3, 0.1]} /></mesh>
+          <mesh position={[0, 0, 0.002]} material={lightStrip("#ffe4bd", 0.55)}><planeGeometry args={[1.14, 1.14]} /></mesh>
+          <mesh position={[0, -0.42, 0.08]} castShadow receiveShadow material={floor("limestone", "#d9d4c8", 1, 1)}><boxGeometry args={[0.9, 0.03, 0.22]} /></mesh>
+          <group position={[0, -0.405, 0.08]}><AccessoryObject kind={kind} color={color} /></group>
         </group>
       );
   }
@@ -121,7 +150,7 @@ export function ProductDisplay({ display }: { display: ResolvedDisplay }) {
   const procedural = <Body d={display} />;
   const body = product.modelUrl && p.type !== "niche" ? (
     <group>
-      <mesh position={[0, 0.15, 0]} castShadow receiveShadow><cylinderGeometry args={[0.9, 0.95, 0.3, 32]} /><meshStandardMaterial color="#f4f2ee" roughness={0.4} /></mesh>
+      <mesh position={[0, 0.15, 0]} castShadow receiveShadow material={floor("limestone", "#e2ddd1", 2, 2)}><cylinderGeometry args={[0.9, 0.95, 0.3, 40]} /></mesh>
       <group position={[0, 0.3, 0]}><ModelOrFallback url={product.modelUrl} height={1.5} fallback={<Item d={display} />} /></group>
     </group>
   ) : procedural;
@@ -141,8 +170,8 @@ export function ProductDisplay({ display }: { display: ResolvedDisplay }) {
       )}
       {(hover || selected) && p.type !== "niche" && (
         <mesh position={[0, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[1.25, 1.35, 48]} />
-          <meshBasicMaterial color={selected ? zone.palette.accent : "#ffffff"} transparent opacity={0.9} />
+          <ringGeometry args={[1.25, 1.29, 64]} />
+          <meshBasicMaterial color={selected ? "#f3e9d2" : "#ffffff"} transparent opacity={selected ? 0.95 : 0.6} />
         </mesh>
       )}
     </group>

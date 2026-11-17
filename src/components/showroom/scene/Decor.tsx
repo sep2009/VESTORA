@@ -1,170 +1,220 @@
+"use client";
+import { useLayoutEffect, useMemo, useRef } from "react";
+import * as THREE from "three";
+import { RoundedBox } from "@react-three/drei";
 import type { ZoneId, ZonePalette } from "@/modules/showroom/types";
+import { leafGeometry } from "./pbr/geometry";
+import { blackSteel, brass, brushedMetal, fabric, floor, leather, lightStrip, paint, surface, wood, wool } from "./pbr/materials";
 
 type V3 = readonly [number, number, number];
-const M = ({ c, r = 0.7, m = 0, e, ei = 0 }: { c: string; r?: number; m?: number; e?: string; ei?: number }) =>
-  <meshStandardMaterial color={c} roughness={r} metalness={m} emissive={e ?? "#000000"} emissiveIntensity={ei} />;
 
-export function Plant({ position, scale = 1 }: { position: V3; scale?: number }) {
+/** Potted fiddle-leaf plant: concrete pot, woody stem, instanced leaves in natural greens. */
+export function Plant({ position, scale = 1, seed = 1 }: { position: V3; scale?: number; seed?: number }) {
+  const ref = useRef<THREE.InstancedMesh>(null);
+  const leaves = useMemo(() => {
+    let s = seed * 9301 + 49297; const r = () => ((s = (s * 9301 + 49297) % 233280) / 233280);
+    return Array.from({ length: 26 }, (_, i) => {
+      const h = 0.7 + (i / 26) * 0.95, a = r() * Math.PI * 2, tilt = 0.5 + r() * 0.7, sc = 0.7 + r() * 0.5;
+      const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(tilt, a, 0, "YXZ"));
+      const c = new THREE.Color().setHSL(0.3 + r() * 0.04, 0.38, 0.17 + r() * 0.08);
+      return { m: new THREE.Matrix4().compose(new THREE.Vector3(0, h, 0), q, new THREE.Vector3(sc, sc, sc)), c };
+    });
+  }, [seed]);
+  useLayoutEffect(() => {
+    leaves.forEach((l, i) => { ref.current!.setMatrixAt(i, l.m); ref.current!.setColorAt(i, l.c); });
+    ref.current!.instanceMatrix.needsUpdate = true; ref.current!.instanceColor!.needsUpdate = true;
+  }, [leaves]);
   return (
     <group position={[...position]} scale={scale}>
-      <mesh position={[0, 0.3, 0]} castShadow><cylinderGeometry args={[0.32, 0.25, 0.6, 14]} /><M c="#d8d2c6" r={0.6} /></mesh>
-      {[[0, 1.0, 0, 0.5], [0.22, 0.85, 0.1, 0.34], [-0.2, 1.2, -0.1, 0.38], [0.05, 1.45, 0.05, 0.3]].map(([x, y, z, s], i) => (
-        <mesh key={i} position={[x!, y!, z!]} castShadow><sphereGeometry args={[s!, 14, 10]} /><M c={i % 2 ? "#3f7a4f" : "#2f6a43"} r={0.9} /></mesh>
-      ))}
+      <mesh position={[0, 0.28, 0]} castShadow receiveShadow material={surface("concrete", "#b9b5ac", 0.8, 0.8)}><cylinderGeometry args={[0.3, 0.24, 0.56, 28]} /></mesh>
+      <mesh position={[0, 0.54, 0]} material={paint("#2a2118", 1)}><cylinderGeometry args={[0.27, 0.27, 0.03, 24]} /></mesh>
+      <mesh position={[0, 1.1, 0]} castShadow material={paint("#5b4630", 0.9)}><cylinderGeometry args={[0.018, 0.03, 1.1, 8]} /></mesh>
+      <instancedMesh ref={ref} args={[leafGeometry(), paint("#ffffff", 0.55), leaves.length]} castShadow receiveShadow />
     </group>
   );
 }
 
-export function Bench({ position, rotationY = 0, color = "#6b4a30", length = 2.2 }: { position: V3; rotationY?: number; color?: string; length?: number }) {
+export function Bench({ position, rotationY = 0, color = "#3a2a20", length = 2.2 }: { position: V3; rotationY?: number; color?: string; length?: number }) {
   return (
     <group position={[...position]} rotation={[0, rotationY, 0]}>
-      <mesh position={[0, 0.4, 0]} castShadow receiveShadow><boxGeometry args={[length, 0.14, 0.6]} /><M c={color} r={0.6} /></mesh>
-      {[-1, 1].map((s) => <mesh key={s} position={[s * (length / 2 - 0.2), 0.2, 0]} castShadow><boxGeometry args={[0.1, 0.4, 0.5]} /><M c="#222" /></mesh>)}
+      <RoundedBox args={[length, 0.1, 0.55]} radius={0.04} smoothness={3} position={[0, 0.43, 0]} castShadow receiveShadow material={leather(color)} />
+      <mesh position={[0, 0.375, 0]} castShadow material={blackSteel()}><boxGeometry args={[length - 0.1, 0.03, 0.45]} /></mesh>
+      {[-1, 1].map((s) => <mesh key={s} position={[s * (length / 2 - 0.12), 0.18, 0]} castShadow material={blackSteel()}><boxGeometry args={[0.035, 0.36, 0.45]} /></mesh>)}
     </group>
   );
 }
 
-export function Sofa({ position, rotationY = 0, color = "#8a9a8c" }: { position: V3; rotationY?: number; color?: string }) {
+export function Sofa({ position, rotationY = 0, color = "#8a8f86" }: { position: V3; rotationY?: number; color?: string }) {
+  const m = fabric(color);
   return (
     <group position={[...position]} rotation={[0, rotationY, 0]}>
-      <mesh position={[0, 0.3, 0]} castShadow receiveShadow><boxGeometry args={[2.6, 0.5, 1]} /><M c={color} r={0.95} /></mesh>
-      <mesh position={[0, 0.75, -0.4]} castShadow><boxGeometry args={[2.6, 0.55, 0.22]} /><M c={color} r={0.95} /></mesh>
-      {[-1, 1].map((s) => <mesh key={s} position={[s * 1.2, 0.55, 0]} castShadow><boxGeometry args={[0.22, 0.5, 1]} /><M c={color} r={0.95} /></mesh>)}
+      <RoundedBox args={[2.4, 0.34, 0.95]} radius={0.06} smoothness={4} position={[0, 0.3, 0]} castShadow receiveShadow material={m} />
+      <RoundedBox args={[2.4, 0.5, 0.22]} radius={0.08} smoothness={4} position={[0, 0.62, -0.36]} castShadow receiveShadow material={m} />
+      {[-1, 1].map((s) => <RoundedBox key={s} args={[0.2, 0.28, 0.95]} radius={0.07} smoothness={4} position={[s * 1.1, 0.58, 0]} castShadow material={m} />)}
+      {[-1, 1].map((s) => <mesh key={`l${s}`} position={[s * 1.05, 0.06, 0.38]} castShadow material={blackSteel()}><cylinderGeometry args={[0.02, 0.016, 0.12, 8]} /></mesh>)}
+    </group>
+  );
+}
+
+export function Armchair({ position, rotationY = 0, color = "#3a2a20" }: { position: V3; rotationY?: number; color?: string }) {
+  const m = leather(color);
+  return (
+    <group position={[...position]} rotation={[0, rotationY, 0]}>
+      <RoundedBox args={[0.8, 0.3, 0.78]} radius={0.07} smoothness={4} position={[0, 0.28, 0]} castShadow receiveShadow material={m} />
+      <RoundedBox args={[0.8, 0.5, 0.18]} radius={0.07} smoothness={4} position={[0, 0.62, -0.3]} castShadow material={m} />
+      {[-1, 1].map((s) => <RoundedBox key={s} args={[0.14, 0.26, 0.78]} radius={0.05} smoothness={3} position={[s * 0.34, 0.5, 0]} castShadow material={m} />)}
     </group>
   );
 }
 
 export function Rug({ position, size, round = false, color, border }: { position: V3; size: readonly [number, number]; round?: boolean; color: string; border?: string }) {
+  const m = wool(color, size[0], size[1]);
   return (
-    <group position={[...position]} rotation={[-Math.PI / 2, 0, 0]}>
-      {round
-        ? <>{border && <mesh><circleGeometry args={[size[0] / 2 + 0.12, 48]} /><M c={border} r={0.4} m={0.6} /></mesh>}<mesh position={[0, 0, 0.002]}><circleGeometry args={[size[0] / 2, 48]} /><M c={color} r={0.95} /></mesh></>
-        : <>{border && <mesh><planeGeometry args={[size[0] + 0.24, size[1] + 0.24]} /><M c={border} r={0.4} m={0.6} /></mesh>}<mesh position={[0, 0, 0.002]}><planeGeometry args={size} /><M c={color} r={0.95} /></mesh></>}
+    <group position={[...position]}>
+      {round ? (
+        <>
+          {border && <mesh position={[0, 0.006, 0]} receiveShadow material={wool(border, size[0], size[0])}><cylinderGeometry args={[size[0] / 2 + 0.1, size[0] / 2 + 0.1, 0.012, 56]} /></mesh>}
+          <mesh position={[0, 0.011, 0]} receiveShadow material={m}><cylinderGeometry args={[size[0] / 2, size[0] / 2, 0.012, 56]} /></mesh>
+        </>
+      ) : (
+        <>
+          {border && <mesh position={[0, 0.006, 0]} receiveShadow material={wool(border, size[0] + 0.2, size[1] + 0.2)}><boxGeometry args={[size[0] + 0.2, 0.012, size[1] + 0.2]} /></mesh>}
+          <mesh position={[0, 0.011, 0]} receiveShadow material={m}><boxGeometry args={[size[0], 0.012, size[1]]} /></mesh>
+        </>
+      )}
     </group>
   );
 }
 
-function Chandelier({ position, color }: { position: V3; color: string }) {
+/** Slim brass ring pendant with small warm lamps: a considered fixture, not a glowing chandelier. */
+function RingPendant({ position, radius = 0.9, count = 10 }: { position: V3; radius?: number; count?: number }) {
   return (
     <group position={[...position]}>
-      <mesh position={[0, 0.7, 0]}><cylinderGeometry args={[0.015, 0.015, 1.4, 6]} /><M c="#222" /></mesh>
-      <mesh rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[1.1, 0.04, 8, 40]} /><M c="#d4af37" m={0.9} r={0.25} /></mesh>
-      {Array.from({ length: 12 }, (_, i) => {
-        const a = (i / 12) * Math.PI * 2;
-        return <mesh key={i} position={[Math.cos(a) * 1.1, -0.08, Math.sin(a) * 1.1]}><sphereGeometry args={[0.09, 10, 8]} /><M c={color} e={color} ei={2.5} /></mesh>;
+      {[-1, 1].map((s) => <mesh key={s} position={[s * radius * 0.7, 0.9, 0]} material={blackSteel()}><cylinderGeometry args={[0.004, 0.004, 1.8, 4]} /></mesh>)}
+      <mesh rotation={[Math.PI / 2, 0, 0]} castShadow material={brass()}><torusGeometry args={[radius, 0.014, 10, 64]} /></mesh>
+      {Array.from({ length: count }, (_, i) => {
+        const a = (i / count) * Math.PI * 2;
+        return (
+          <group key={i} position={[Math.cos(a) * radius, 0, Math.sin(a) * radius]}>
+            <mesh position={[0, -0.025, 0]} castShadow material={brass()}><cylinderGeometry args={[0.012, 0.018, 0.04, 8]} /></mesh>
+            <mesh position={[0, -0.06, 0]} material={lightStrip("#ffd9a0", 1.0)}><sphereGeometry args={[0.026, 12, 10]} /></mesh>
+          </group>
+        );
       })}
     </group>
   );
 }
 
-function Column({ position, color, cap }: { position: V3; color: string; cap: string }) {
+function Column({ position, cap }: { position: V3; cap: string }) {
+  void cap;
   return (
     <group position={[...position]}>
-      <mesh position={[0, 2.75, 0]} castShadow receiveShadow><cylinderGeometry args={[0.36, 0.4, 5.5, 20]} /><M c={color} r={0.4} /></mesh>
-      <mesh position={[0, 0.12, 0]}><cylinderGeometry args={[0.5, 0.5, 0.24, 20]} /><M c={cap} m={0.8} r={0.3} /></mesh>
-      <mesh position={[0, 5.3, 0]}><cylinderGeometry args={[0.5, 0.5, 0.3, 20]} /><M c={cap} m={0.8} r={0.3} /></mesh>
+      <mesh position={[0, 2.75, 0]} castShadow receiveShadow material={floor("marble", "#ddd7ca", 1, 5.5)}><cylinderGeometry args={[0.34, 0.36, 5.5, 32]} /></mesh>
+      <mesh position={[0, 0.1, 0]} castShadow material={brass()}><cylinderGeometry args={[0.4, 0.4, 0.2, 32]} /></mesh>
+      <mesh position={[0, 5.35, 0]} castShadow material={brass()}><cylinderGeometry args={[0.4, 0.4, 0.2, 32]} /></mesh>
     </group>
   );
 }
 
-function Neon({ position, size, color }: { position: V3; size: V3; color: string }) {
-  return <mesh position={[...position]}><boxGeometry args={[...size]} /><M c={color} e={color} ei={3} /></mesh>;
-}
-
-const Crate = ({ position, c = "#59595f" }: { position: V3; c?: string }) =>
-  <mesh position={[...position]} castShadow receiveShadow><boxGeometry args={[0.9, 0.8, 0.9]} /><M c={c} r={0.8} /></mesh>;
-
-function Pendant({ position, color }: { position: V3; color: string }) {
+function Pendant({ position }: { position: V3 }) {
   return (
     <group position={[...position]}>
-      <mesh position={[0, 0.9, 0]}><cylinderGeometry args={[0.01, 0.01, 1.8, 6]} /><M c="#222" /></mesh>
-      <mesh><sphereGeometry args={[0.22, 16, 12]} /><M c={color} e={color} ei={2.2} /></mesh>
+      <mesh position={[0, 0.9, 0]} material={blackSteel()}><cylinderGeometry args={[0.004, 0.004, 1.8, 4]} /></mesh>
+      <mesh castShadow material={brass()}><coneGeometry args={[0.2, 0.2, 28, 1, true]} /></mesh>
+      <mesh position={[0, -0.04, 0]} rotation={[Math.PI, 0, 0]} material={lightStrip("#ffe2b5", 0.9)}><circleGeometry args={[0.17, 24]} /></mesh>
     </group>
   );
 }
+
+const Crate = ({ position, rot = 0 }: { position: V3; rot?: number }) => (
+  <group position={[...position]} rotation={[0, rot, 0]}>
+    <mesh position={[0, 0.35, 0]} castShadow receiveShadow material={paint("#1c1c1e", 0.55)}><boxGeometry args={[1, 0.7, 0.6]} /></mesh>
+    {[-1, 1].flatMap((x) => [-1, 1].map((z) => <mesh key={`${x}${z}`} position={[x * 0.49, 0.35, z * 0.29]} castShadow material={brushedMetal("#b9bcc0")}><boxGeometry args={[0.03, 0.72, 0.03]} /></mesh>))}
+  </group>
+);
 
 /** Zone-specific architecture and furniture that is not a product display. Local coordinates, zone centre = origin. */
 export function ZoneDecor({ id, palette }: { id: ZoneId; palette: ZonePalette }) {
   switch (id) {
     case "luxury": return (
       <group>
-        <Column position={[-7.1, 0, -7.1]} color="#e9e2d2" cap={palette.trim} />
-        <Column position={[7.1, 0, -7.1]} color="#e9e2d2" cap={palette.trim} />
-        <Chandelier position={[0, 4.5, 0.5]} color={palette.light} />
-        <Rug position={[0.2, 0.02, 1]} size={[5, 5]} round color={palette.accent2} border={palette.trim} />
-        <Bench position={[0.3, 0, 4.4]} color={palette.accent2} length={2.6} />
-        <mesh position={[0, 0.025, 1]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[0.12, 15]} /><M c={palette.trim} m={0.9} r={0.3} /></mesh>
+        <Column position={[-7.1, 0, -7.1]} cap={palette.trim} /><Column position={[7.1, 0, -7.1]} cap={palette.trim} />
+        <RingPendant position={[0, 4.5, 0.5]} />
+        <Rug position={[0.2, 0, 1.2]} size={[4.6, 4.6]} round color="#4f2a2f" border="#b08d57" />
+        <Bench position={[0.3, 0, 4.4]} color="#5a2a30" length={2.6} />
+        <mesh position={[0, 0.006, 1]} rotation={[-Math.PI / 2, 0, 0]} material={brass()}><planeGeometry args={[0.04, 15]} /></mesh>
+        <Plant position={[6.9, 0, 6.2]} seed={3} />
       </group>);
     case "streetwear": return (
       <group>
-        <Neon position={[-5.2, 4.55, -7.5]} size={[2.6, 0.1, 0.1]} color={palette.accent2} />
-        <Neon position={[5.2, 4.55, -7.5]} size={[2.6, 0.1, 0.1]} color={palette.accent} />
-        <Neon position={[0, 3.5, -7.5]} size={[0.1, 0.9, 0.1]} color={palette.accent2} />
-        <Crate position={[6.5, 0.4, 5.6]} /><Crate position={[6.5, 0.4, 4.6]} c="#6b6b72" /><Crate position={[6.5, 1.2, 5.1]} c="#4a4a50" />
-        <Bench position={[-2, 0, 4.4]} color="#8a8a90" />
-        <mesh position={[0, 0.025, 2]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[12, 0.35]} /><M c={palette.accent} e={palette.accent} ei={0.4} /></mesh>
-        <mesh position={[0, 0.025, 2.7]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[8, 0.12]} /><M c={palette.accent2} e={palette.accent2} ei={0.4} /></mesh>
+        {[-5.2, 5.2].map((x) => (
+          <group key={x} position={[x, 4.1, -7.45]}>
+            <mesh castShadow material={blackSteel()}><boxGeometry args={[2.6, 0.18, 0.08]} /></mesh>
+            <mesh position={[0, 0, 0.045]} material={lightStrip("#fff0d6", 0.9)}><boxGeometry args={[2.5, 0.12, 0.01]} /></mesh>
+          </group>
+        ))}
+        <Crate position={[6.4, 0, 5.4]} /><Crate position={[6.4, 0.7, 5.4]} rot={0.2} /><Crate position={[5.2, 0, 6.4]} rot={-0.15} />
+        <Bench position={[-2, 0, 4.4]} color="#2a2a2c" />
+        <mesh position={[0, 0.006, 2.2]} rotation={[-Math.PI / 2, 0, 0]} material={paint("#bdbab2", 0.9)}><planeGeometry args={[12, 0.18]} /></mesh>
       </group>);
     case "minimal": return (
       <group>
-        <mesh position={[0, 4.6, 0]}><boxGeometry args={[9, 0.07, 0.2]} /><M c="#ffffff" e="#ffffff" ei={2} /></mesh>
-        {[-3.2, 3.2].map((x) => <mesh key={x} position={[x, 4.9, 0]}><cylinderGeometry args={[0.008, 0.008, 1.2, 4]} /><M c="#444" /></mesh>)}
-        <mesh position={[-2.2, 0.25, 4.4]} castShadow receiveShadow><boxGeometry args={[0.9, 0.5, 0.9]} /><M c="#eceae4" r={0.5} /></mesh>
-        <mesh position={[-2.2, 0.85, 4.4]} castShadow><sphereGeometry args={[0.35, 24, 18]} /><M c="#2b2b2b" r={0.3} m={0.3} /></mesh>
-        <Bench position={[3.2, 0, -2.6]} color="#d8d5cd" length={2.8} />
-        <mesh position={[5.5, 0.1, 0.5]} receiveShadow><boxGeometry args={[2.2, 0.2, 2.2]} /><M c="#e6e3dc" r={0.5} /></mesh>
+        <mesh position={[0, 4.6, 0]} castShadow material={blackSteel()}><boxGeometry args={[9, 0.05, 0.12]} /></mesh>
+        <mesh position={[0, 4.575, 0]} material={lightStrip("#fff2de", 1.1)}><boxGeometry args={[8.9, 0.01, 0.09]} /></mesh>
+        {[-3.2, 3.2].map((x) => <mesh key={x} position={[x, 4.95, 0]} material={blackSteel()}><cylinderGeometry args={[0.004, 0.004, 0.7, 4]} /></mesh>)}
+        <mesh position={[-2.2, 0.25, 4.4]} castShadow receiveShadow material={floor("limestone", "#e0ddd5", 0.9, 0.9)}><boxGeometry args={[0.9, 0.5, 0.9]} /></mesh>
+        <mesh position={[-2.2, 0.85, 4.4]} castShadow material={brushedMetal("#8e8a82")}><sphereGeometry args={[0.32, 40, 28]} /></mesh>
+        <Bench position={[3.2, 0, -2.6]} color="#cfcac0" length={2.8} />
+        <Plant position={[7, 0, 6.4]} seed={5} />
       </group>);
     case "casual": return (
       <group>
-        <Plant position={[-7, 0, -7.1]} scale={1.3} /><Plant position={[7, 0, -7.1]} scale={1.3} /><Plant position={[7, 0, 5.8]} />
-        <Sofa position={[-4.6, 0, 5.4]} />
-        <Rug position={[-1.5, 0.02, 4.4]} size={[4.4, 2.8]} color={palette.accent} border="#f0e6d0" />
+        <Plant position={[-7, 0, -7.1]} scale={1.25} seed={2} /><Plant position={[7, 0, -7.1]} scale={1.25} seed={4} /><Plant position={[7, 0, 5.8]} seed={6} />
+        <Sofa position={[-4.6, 0, 5.4]} color="#86907f" />
+        <Rug position={[-1.5, 0, 4.4]} size={[4.4, 2.8]} color="#d2c7b3" border="#a98c66" />
         {Array.from({ length: 15 }, (_, i) => {
           const x = -6 + i * (12 / 14);
-          return <mesh key={i} position={[x, 3.75 - Math.sin((i / 14) * Math.PI) * 0.35, -7.4]}><sphereGeometry args={[0.07, 8, 6]} /><M c="#fff2c8" e="#ffe3a0" ei={2.5} /></mesh>;
+          return <mesh key={i} position={[x, 3.7 - Math.sin((i / 14) * Math.PI) * 0.3, -7.4]} material={lightStrip("#ffd9a0", 1.0)}><sphereGeometry args={[0.05, 10, 8]} /></mesh>;
         })}
-        <mesh position={[0, 0.27, 2.6]} castShadow><cylinderGeometry args={[0.7, 0.7, 0.04, 24]} /><M c="#d9c3a0" r={0.5} /></mesh>
-        <mesh position={[0, 0.14, 2.6]}><cylinderGeometry args={[0.05, 0.05, 0.26, 8]} /><M c="#333" /></mesh>
+        <mesh position={[0, 0.4, 2.6]} castShadow receiveShadow material={wood("oak", "#bf9d72", 1.2, 1.2)}><cylinderGeometry args={[0.55, 0.55, 0.04, 36]} /></mesh>
+        <mesh position={[0, 0.19, 2.6]} castShadow material={blackSteel()}><cylinderGeometry args={[0.03, 0.03, 0.38, 10]} /></mesh>
       </group>);
     case "formal": return (
       <group>
-        {[-5.6, -2.8, 2.8, 5.6].map((x) => <mesh key={x} position={[x, 2.2, -7.5]} castShadow><boxGeometry args={[0.45, 4.4, 0.25]} /><M c="#2a3350" r={0.5} /></mesh>)}
-        <Rug position={[0, 0.02, 0]} size={[2.4, 14]} color={palette.accent} border={palette.trim} />
-        <Chandelier position={[0, 4.5, 0.5]} color={palette.light} />
-        {[-5.6, 5.6].map((x) => (
-          <group key={x} position={[x, 0, 4.8]} rotation={[0, x < 0 ? 0.5 : -0.5, 0]}>
-            <mesh position={[0, 0.3, 0]} castShadow><boxGeometry args={[1, 0.5, 0.9]} /><M c="#3a2418" r={0.6} /></mesh>
-            <mesh position={[0, 0.7, -0.38]} castShadow><boxGeometry args={[1, 0.6, 0.18]} /><M c="#3a2418" r={0.6} /></mesh>
-          </group>))}
+        {[-5.6, -2.8, 2.8, 5.6].map((x) => <mesh key={x} position={[x, 2.2, -7.5]} castShadow receiveShadow material={paint("#2e374c", 0.55)}><boxGeometry args={[0.4, 4.4, 0.2]} /></mesh>)}
+        <Rug position={[0, 0, 0]} size={[2.4, 14]} color="#5a1f2a" border="#b08d57" />
+        <RingPendant position={[0, 4.5, 0.5]} radius={1.0} count={12} />
+        <Armchair position={[-5.6, 0, 4.8]} rotationY={0.5} /><Armchair position={[5.6, 0, 4.8]} rotationY={-0.5} />
       </group>);
     case "accessories": return (
       <group>
-        {[[-3.5, 0], [0, 0.8], [3.5, 0]].map(([x, z]) => <Pendant key={`${x}`} position={[x!, 4, z!]} color={palette.light} />)}
-        <Pendant position={[5.6, 4, 3.6]} color={palette.light} />
-        <mesh position={[0, 4.6, -7.5]}><boxGeometry args={[12, 0.06, 0.1]} /><M c={palette.accent} e={palette.accent} ei={1.5} /></mesh>
-        <Plant position={[7, 0, -7]} scale={0.9} />
+        {[[-3.5, 0], [0, 0.8], [3.5, 0], [5.6, 3.6]].map(([x, z]) => <Pendant key={`${x}${z}`} position={[x!, 4, z!]} />)}
+        <mesh position={[0, 4.6, -7.5]} material={lightStrip("#ffe2b5", 1.0)}><boxGeometry args={[12, 0.03, 0.08]} /></mesh>
+        <Plant position={[7, 0, -7]} scale={0.9} seed={7} />
       </group>);
     case "new-arrivals": return (
       <group>
-        <mesh position={[0, 4.9, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[3.4, 0.07, 10, 64]} /><M c="#ffffff" e="#ffffff" ei={2.4} /></mesh>
-        <mesh position={[0, 0.03, -0.4]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[2.6, 48]} /><M c={palette.accent} e={palette.accent} ei={0.15} r={0.5} /></mesh>
-        {[-1, 1].map((s) => <mesh key={s} position={[s * 3.4, 4.9 + 0.5, 0]}><cylinderGeometry args={[0.008, 0.008, 1, 4]} /><M c="#444" /></mesh>)}
+        <mesh position={[0, 4.9, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow material={blackSteel()}><torusGeometry args={[3.4, 0.05, 12, 72]} /></mesh>
+        <mesh position={[0, 4.865, 0]} rotation={[Math.PI / 2, 0, 0]} material={lightStrip("#fff4e2", 1.1)}><torusGeometry args={[3.4, 0.028, 8, 72]} /></mesh>
+        {[-1, 1].map((s) => <mesh key={s} position={[s * 3.4, 5.4, 0]} material={blackSteel()}><cylinderGeometry args={[0.004, 0.004, 1, 4]} /></mesh>)}
+        <mesh position={[0, 0.006, -0.4]} rotation={[-Math.PI / 2, 0, 0]} material={brass()}><ringGeometry args={[2.55, 2.6, 72]} /></mesh>
+        <mesh position={[0, 0.006, -0.4]} rotation={[-Math.PI / 2, 0, 0]} material={brass()}><ringGeometry args={[1.95, 1.98, 72]} /></mesh>
       </group>);
     case "entrance": return (
       <group>
-        <mesh position={[-4.4, 0.55, -3]} castShadow receiveShadow><boxGeometry args={[3.2, 1.1, 0.9]} /><M c="#f4f2ee" r={0.4} /></mesh>
-        <mesh position={[-4.4, 1.13, -3]} castShadow><boxGeometry args={[3.3, 0.06, 1]} /><M c={palette.accent} r={0.4} /></mesh>
-        <Plant position={[-7, 0, -7]} /><Plant position={[7, 0, -7]} />
-        <Bench position={[-5, 0, 4.4]} color="#2a2a2a" /><Bench position={[5, 0, 4.4]} color="#2a2a2a" />
-        <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[2.4, 16]} /><M c={palette.accent} e={palette.accent} ei={0.15} /></mesh>
+        <mesh position={[-4.4, 0.5, -3]} castShadow receiveShadow material={wood("walnut", "#5d412c", 3.2, 1.0)}><boxGeometry args={[3.2, 1.0, 0.9]} /></mesh>
+        <mesh position={[-4.4, 1.03, -3]} castShadow receiveShadow material={floor("marble", "#ddd7ca", 3.3, 1)}><boxGeometry args={[3.3, 0.06, 1.0]} /></mesh>
+        <Plant position={[-7, 0, -7]} seed={8} /><Plant position={[7, 0, -7]} seed={9} />
+        <Bench position={[-5, 0, 4.4]} color="#2a2a2c" /><Bench position={[5, 0, 4.4]} color="#2a2a2c" />
+        <mesh position={[0, 0.006, 0]} rotation={[-Math.PI / 2, 0, 0]} material={brass()}><planeGeometry args={[0.05, 16]} /></mesh>
       </group>);
     case "lounge": return (
       <group>
-        <Rug position={[0, 0.02, 0]} size={[6, 4.4]} color="#8aa08f" border="#e8e1d2" />
-        <Sofa position={[0, 0, -2.6]} color="#c98f5a" /><Sofa position={[-3.2, 0, 0.4]} rotationY={Math.PI / 2} color="#7d8f80" />
-        <mesh position={[0.4, 0.3, 0.6]} castShadow><cylinderGeometry args={[0.7, 0.7, 0.05, 24]} /><M c="#e8dcc6" r={0.5} /></mesh>
-        <mesh position={[0.4, 0.15, 0.6]}><cylinderGeometry args={[0.06, 0.06, 0.3, 8]} /><M c="#333" /></mesh>
-        <Plant position={[-7, 0, -7]} scale={1.3} /><Plant position={[7, 0, -7]} />
+        <Rug position={[0, 0, 0]} size={[6, 4.4]} color="#8c9a86" border="#d9d1be" />
+        <Sofa position={[0, 0, -2.6]} color="#a8754a" /><Sofa position={[-3.2, 0, 0.4]} rotationY={Math.PI / 2} color="#7d8b80" />
+        <mesh position={[0.4, 0.38, 0.6]} castShadow receiveShadow material={wood("oak", "#c7aa86", 1.2, 1.2)}><cylinderGeometry args={[0.6, 0.6, 0.04, 36]} /></mesh>
+        <mesh position={[0.4, 0.18, 0.6]} castShadow material={blackSteel()}><cylinderGeometry args={[0.03, 0.03, 0.36, 10]} /></mesh>
+        <Plant position={[-7, 0, -7]} scale={1.3} seed={10} /><Plant position={[7, 0, -7]} seed={11} />
       </group>);
   }
 }

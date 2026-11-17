@@ -6,8 +6,11 @@ import { DepartmentZone } from "./DepartmentZone";
 import { LightingSystem } from "./LightingSystem";
 import { MainEntrance } from "./MainEntrance";
 import { ProductDisplay } from "./ProductDisplay";
+import { floor, paint } from "./pbr/materials";
 import { cameraManager } from "@/modules/showroom/camera/manager";
 import { ZoneHighlight } from "./ZoneHighlight";
+import { StaticMerge } from "./StaticMerge";
+import { ShadowThrottle } from "./ShadowThrottle";
 import type { ThreeEvent } from "@react-three/fiber";
 
 const stop = (e: ThreeEvent<PointerEvent | MouseEvent>) => e.stopPropagation();
@@ -18,14 +21,17 @@ export function ShowroomEnvironment({ displays }: { displays: readonly ResolvedD
   return (
     <group>
       <LightingSystem />
-      <mesh position={[0, -0.35, 4]} receiveShadow><boxGeometry args={[68, 0.6, 80]} /><meshStandardMaterial color="#c9c5bb" roughness={0.9} /></mesh>
-      <mesh position={[0, -0.75, 4]}><boxGeometry args={[69, 0.3, 81]} /><meshStandardMaterial color="#2a2a2e" roughness={0.7} /></mesh>
+      {/* site plinth: pale stone apron around the building, dark plinth edge, then the studio ground */}
+      <mesh position={[0, -0.37, 4]} receiveShadow material={floor("concrete", "#aaa69e", 68, 80)}><boxGeometry args={[68, 0.5, 80]} /></mesh>
+      <mesh position={[0, -0.72, 4]} material={paint("#232325", 0.6)}><boxGeometry args={[69, 0.2, 81]} /></mesh>
+      <mesh position={[0, -0.9, 4]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow material={paint("#c8c5be", 1)}><planeGeometry args={[600, 600]} /></mesh>
       {/* Architecture absorbs pointer events so displays hidden behind a wall cannot be hovered or clicked through it. */}
-      <group onPointerOver={stop} onPointerMove={stop} onClick={stop}>
+      <StaticMerge onPointerOver={stop} onPointerMove={stop} onClick={stop}>
         {ZONES.map((z) => <DepartmentZone key={z.id} zone={z} />)}
         {CORRIDORS.map((c) => <Corridor key={c.id} def={c} />)}
         <MainEntrance position={[entrance.center[0], 0, entrance.center[1]]} />
-      </group>
+      </StaticMerge>
+      <ShadowThrottle />
       <ZoneHighlight />
       {displays.map((d) => <ProductDisplay key={d.placement.id} display={d} />)}
     </group>

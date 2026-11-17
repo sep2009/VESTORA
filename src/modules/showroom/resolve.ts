@@ -1,4 +1,5 @@
 import { DISPLAYS } from "./displays";
+import { kindModel } from "./assets/manifest";
 import { getSample } from "./sample-products";
 import type { ResolvedDisplay, ShowroomCatalogProduct } from "./types";
 
@@ -22,14 +23,14 @@ export function resolveDisplays(catalog: readonly ShowroomCatalogProduct[] = [])
         placement: { ...placement, productRef: { kind: "catalog", productId: real.id } },
         kind: placement.itemKind,
         color: real.colorHex ?? placement.itemColor,
-        product: { name: real.name, isSample: false, slug: real.slug, modelUrl: real.modelUrl, imageUrl: real.imageUrl },
+        product: { name: real.name, isSample: false, slug: real.slug, modelUrl: real.modelUrl ?? kindModel(placement.itemKind), imageUrl: real.imageUrl },
       };
     }
     const ref = placement.productRef;
     const sample = ref.kind === "sample" ? getSample(ref.sampleId) : undefined;
     return {
       placement, kind: placement.itemKind, color: placement.itemColor,
-      product: { name: sample?.name ?? "Sample product", isSample: true, slug: null, modelUrl: null, imageUrl: null },
+      product: { name: sample?.name ?? "Sample product", isSample: true, slug: null, modelUrl: kindModel(placement.itemKind), imageUrl: null },
     };
   });
 }

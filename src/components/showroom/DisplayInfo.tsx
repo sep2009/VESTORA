@@ -21,7 +21,7 @@ export function DisplayInfo({ displays }: { displays: readonly ResolvedDisplay[]
         <div className="space-y-2">
           <p className="text-[11px] uppercase tracking-[0.2em] text-mute">{zone.name}</p>
           <h2 className="font-display text-xl leading-tight">{d.product.name}</h2>
-          {d.product.isSample && <Label>Sample product</Label>}
+          <div className="flex flex-wrap gap-1.5">{d.product.isSample && <Label>Sample product</Label>}{!d.product.modelUrl && <Label>Placeholder model</Label>}</div>
         </div>
         <button type="button" onClick={() => cameraManager.back()} aria-label="Close product details" className="grid size-9 place-items-center rounded-sm hover:bg-ink/8"><Icon name="close" size={16} /></button>
       </div>

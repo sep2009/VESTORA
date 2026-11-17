@@ -7,6 +7,9 @@ import type { DisplayPlacement, ZoneId } from "../types";
 import { useCameraStore, type CameraMode, type Focus } from "@/stores/camera-store";
 import { buildStops, displayPose, guidedPoseAt, lerpPose, overviewPose, poseDistance, zonePose, type Pose, type Stop, type V3 } from "./poses";
 
+// Camera moves are timed by the wall clock, not by frames: a slow device arrives at the same moment (with fewer intermediate frames).
+gsap.ticker.lagSmoothing(0);
+
 type Snapshot = { mode: CameraMode; focus: Focus | null; pose: Pose };
 type LocationListener = (x: number, z: number, azimuth: number) => void;
 
@@ -121,7 +124,7 @@ class CameraManager {
     if (!this.tween) {
       const mode = store().mode;
       if (mode === "guided") {
-        const k = this.reduced ? 1 : 1 - Math.exp(-dt * 7);
+        const k = this.reduced ? 1 : 1 - Math.exp(-dt * 4.2);
         this.smooth += (this.scroll - this.smooth) * k;
         if (Math.abs(this.scroll - this.smooth) < 1e-4) this.smooth = this.scroll;
         const g = guidedPoseAt(this.stops, this.smooth, this.reduced);
@@ -160,13 +163,13 @@ class CameraManager {
     if (!this.camera || !this.controls) return;
     this.killTween();
     const from = this.poseNow();
-    const dur = this.reduced ? 0 : clamp(0.9 + poseDistance(from, goal()) / 70, 1.2, 2.6);
+    const dur = this.reduced ? 0 : clamp(1.2 + poseDistance(from, goal()) / 60, 1.6, 3.4);
     if (dur === 0) { this.unlock(this.controls); this.apply(goal()); set({ transitioning: false }); this.settle(); return; }
     this.unlock(this.controls);
     set({ transitioning: true });
     const p = { k: 0 };
     this.tween = gsap.to(p, {
-      k: 1, duration: dur, ease: "power3.inOut",
+      k: 1, duration: dur, ease: "sine.inOut",
       onUpdate: () => this.apply(lerpPose(from, goal(), p.k)),
       onComplete: () => { this.tween = null; this.apply(goal()); set({ transitioning: false }); this.settle(); },
     });

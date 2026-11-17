@@ -3,7 +3,7 @@ export type Vec3 = readonly [number, number, number];
 export type ZoneSlug = "luxury" | "streetwear" | "minimal" | "casual" | "formal" | "accessories" | "new-arrivals";
 export type ZoneId = ZoneSlug | "entrance" | "lounge";
 
-export type FloorKind = "tiles" | "planks" | "parquet" | "concrete" | "plain" | "rings";
+export type FloorKind = "marble" | "limestone" | "travertine" | "concrete" | "terrazzo" | "oak" | "parquet" | "plaster";
 
 export type ZonePalette = {
   floor: string; floorLine: string; floorKind: FloorKind;

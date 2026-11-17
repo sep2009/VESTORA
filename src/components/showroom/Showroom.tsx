@@ -6,6 +6,7 @@ import type { ShowroomCatalogProduct } from "@/modules/showroom/types";
 import { cameraManager } from "@/modules/showroom/camera/manager";
 import { useCameraStore } from "@/stores/camera-store";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
+import { detectQuality, useQuality } from "@/stores/quality-store";
 import { Button } from "@/components/ui/Button";
 import { DestinationBanner } from "./DestinationBanner";
 import { DisplayInfo } from "./DisplayInfo";
@@ -29,8 +30,12 @@ export default function Showroom({ catalog }: { catalog: ShowroomCatalogProduct[
   const stops = useCameraStore((s) => s.guided.count);
   const depth = useCameraStore((s) => s.backDepth);
   const reduced = useReducedMotion();
+  const quality = useQuality((s) => s.level);
   const track = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
+
+  // Weak and touch-first devices start in Lite; the visitor can switch, and a slow frame rate also drops to Lite.
+  useEffect(() => { useQuality.getState().set(detectQuality()); }, []);
 
   // Start in guided mode, or explore when the visitor prefers reduced motion. Reset when leaving the page.
   useEffect(() => {
@@ -85,6 +90,11 @@ export default function Showroom({ catalog }: { catalog: ShowroomCatalogProduct[
             <ModeSwitch />
             {mode === "guided" && <GuidedProgress />}
             {mode !== "guided" && depth > 0 && <Button size="sm" variant="secondary" className="min-h-11 bg-surface/95 sm:min-h-9" onClick={() => cameraManager.back()}>← Back</Button>}
+            <button type="button" aria-pressed={quality === "lite"} onClick={() => useQuality.getState().set(quality === "high" ? "lite" : "high", true)}
+              title="Lite mode turns off post-processing and softens shadows for smoother performance"
+              className="min-h-11 rounded-sm border border-line bg-surface/95 px-3 text-[11px] uppercase tracking-[0.14em] text-mute hover:text-ink sm:min-h-9">
+              {quality === "high" ? "Quality: High" : "Quality: Lite"}
+            </button>
             {mode === "explore" && (
               <div className="flex gap-1" role="group" aria-label="Zoom">
                 <button type="button" onClick={() => cameraManager.zoom(0.8)} aria-label="Zoom in" className="grid size-11 place-items-center rounded-sm border border-line bg-surface/95 text-lg sm:size-9">+</button>
