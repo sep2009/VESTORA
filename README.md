@@ -1,5 +1,11 @@
 # Vestora
 
-Static landing page with a compound growth calculator.
+Immersive 3D fashion e-commerce platform. See `docs/FOUNDATION.md`.
 
-Open `index.html` in a browser, or run `python3 -m http.server` in this folder.
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+The earlier static page lives in `legacy/`.
