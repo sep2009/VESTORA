@@ -2,7 +2,8 @@ import Link from "next/link";
 import Showroom from "@/components/showroom/Showroom";
 import { Container } from "@/components/layout/PageShell";
 import { Icon } from "@/components/ui/Icon";
-import { listDepartments } from "@/server/catalog/repository";
+import { listDepartments, listProducts } from "@/server/catalog/repository";
+import type { ShowroomCatalogProduct } from "@/modules/showroom/types";
 
 const entries = [
   { href: "/virtual-try-on", n: "01", title: "Try on", text: "See pieces on an avatar built to your proportions." },
@@ -11,15 +12,22 @@ const entries = [
 ];
 
 export default async function HomePage() {
-  const result = await listDepartments();
-  const departments = result.status === "ok" ? result.data : [];
+  const [deptResult, productResult] = await Promise.all([listDepartments(), listProducts()]);
+  const departments = deptResult.status === "ok" ? deptResult.data : [];
+  const slugById = new Map(departments.map((d) => [d.id, d.slug]));
+  const catalog: ShowroomCatalogProduct[] = productResult.status === "ok"
+    ? productResult.data.flatMap((p) => {
+        const departmentSlug = slugById.get(p.departmentId);
+        return departmentSlug ? [{ id: p.id, slug: p.slug, name: p.name, departmentSlug, modelUrl: p.assets.modelUrl, imageUrl: p.assets.images[0] ?? null, colorHex: p.variants[0]?.color.hex ?? null }] : [];
+      })
+    : [];
   return (
     <>
       <Container className="pt-10 pb-8 sm:pt-16">
         <p className="mb-4 text-xs font-medium uppercase tracking-[0.24em] text-accent-ink">The showroom</p>
         <h1 className="max-w-4xl font-display text-display">Fashion, <em className="not-italic text-accent-ink">exhibited</em> in three dimensions.</h1>
       </Container>
-      <Container><Showroom departments={departments} /></Container>
+      <Container><Showroom catalog={catalog} /></Container>
       <Container className="pt-16">
         <ul className="grid border-t border-line md:grid-cols-3 md:divide-x md:divide-line">
           {entries.map((e) => (

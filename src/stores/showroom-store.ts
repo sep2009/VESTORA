@@ -1,18 +1,18 @@
 "use client";
 import { create } from "zustand";
-import type { ProductId } from "@/domain";
 
 type ShowroomState = {
+  /** Zone slug the camera is flying to, or null for the overview. */
   activeDepartmentSlug: string | null;
-  /** The product the camera is focused on; the same ProductId drives product page, cart and outfits. */
-  focusedProductId: ProductId | null;
+  /** Placement id of the selected display. Placement ids are unique per display, whether it shows a sample or a catalog product. */
+  focusedDisplayId: string | null;
   setDepartment: (slug: string | null) => void;
-  focusProduct: (id: ProductId | null) => void;
+  focusDisplay: (id: string | null) => void;
 };
 
 export const useShowroom = create<ShowroomState>((set) => ({
   activeDepartmentSlug: null,
-  focusedProductId: null,
-  setDepartment: (activeDepartmentSlug) => set({ activeDepartmentSlug, focusedProductId: null }),
-  focusProduct: (focusedProductId) => set({ focusedProductId }),
+  focusedDisplayId: null,
+  setDepartment: (activeDepartmentSlug) => set({ activeDepartmentSlug, focusedDisplayId: null }),
+  focusDisplay: (focusedDisplayId) => set({ focusedDisplayId }),
 }));
