@@ -3,6 +3,7 @@ export const primaryLinks = [
   { href: "/brands", label: "Brands" },
   { href: "/categories", label: "Categories" },
   { href: "/style-creator", label: "Outfit Studio" },
+  { href: "/virtual-try-on", label: "Try it on" },
   { href: "/assistant", label: "AI Stylist" },
 ] as const;
 

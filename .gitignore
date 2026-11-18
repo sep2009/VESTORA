@@ -11,3 +11,6 @@ next-env.d.ts
 # Local database and uploads (admin-managed)
 data/db/
 data/uploads/
+
+# Private try-on photos and results (never public, never committed)
+data/private/

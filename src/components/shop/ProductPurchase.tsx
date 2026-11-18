@@ -100,6 +100,7 @@ export function ProductPurchase({ product, brandName, inMall, collectionNames, o
         <Button size="lg" onClick={addToCart} disabled={soldOut}>{soldOut ? "Sold out" : demo ? "Add demo item to cart" : "Add to cart"}</Button>
         <FavoriteButton productId={product.id} name={product.name} className="border border-line" />
         <Button size="lg" variant="secondary" onClick={() => void share()}>Share</Button>
+        <Button href={`/virtual-try-on?product=${product.slug}`} size="lg" variant="secondary">Try it on</Button>
         {inMall && (onShowInMall ? <Button size="lg" variant="secondary" onClick={onShowInMall}>Back to the 3D mall</Button> : <Button href={`/?p=${product.slug}`} variant="secondary" size="lg">Show in 3D mall</Button>)}
       </div>
 
