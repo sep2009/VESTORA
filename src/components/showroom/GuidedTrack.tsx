@@ -19,19 +19,19 @@ export function seekGuidedStop(index: number, reduced = false) {
  * The single ScrollTrigger of the page. It only reports progress through the tall track; the camera
  * manager smooths it and decides what to do with it. Created when guided mode is on, reverted when off.
  */
-export function GuidedTrack({ track, active }: { track: RefObject<HTMLElement | null>; active: boolean }) {
+export function GuidedTrack({ track, active, top = 72 }: { track: RefObject<HTMLElement | null>; active: boolean; top?: number }) {
   useEffect(() => {
     const el = track.current;
     if (!active || !el) return;
     const ctx = gsap.context(() => {
       trigger = ScrollTrigger.create({
-        trigger: el, start: "top 72px", end: "bottom bottom", invalidateOnRefresh: true,
+        trigger: el, start: `top ${top + 4}px`, end: "bottom bottom", invalidateOnRefresh: true,
         onUpdate: (self) => cameraManager.setScrollProgress(self.progress),
         onRefresh: (self) => cameraManager.setScrollProgress(self.progress),
       });
     }, el);
     ScrollTrigger.refresh();
     return () => { ctx.revert(); trigger = null; };
-  }, [active, track]);
+  }, [active, track, top]);
   return null;
 }

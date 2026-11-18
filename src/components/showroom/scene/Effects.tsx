@@ -20,7 +20,7 @@ export function Effects() {
   }, [gl, high]);
   if (!high) return null;
   return (
-    <EffectComposer multisampling={4} enableNormalPass={false}>
+    <EffectComposer multisampling={2} enableNormalPass={false}>
       <N8AO aoRadius={1.1} distanceFalloff={1.4} intensity={2.2} quality="medium" halfRes color="#1a1612" />
       <ToneMapping mode={ToneMappingMode.NEUTRAL} />
       <Vignette offset={0.32} darkness={0.28} />

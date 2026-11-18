@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { applyDepartmentMeta, zoneByDepartment } from "@/modules/showroom/layout";
 import type { ResolvedDisplay } from "@/modules/showroom/types";
 import { cameraManager } from "@/modules/showroom/camera/manager";
@@ -36,6 +36,15 @@ export default function Showroom({ displays, departments }: { displays: Resolved
   const quality = useQuality((s) => s.level);
   const track = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
+  // The sticky site header is taller than a fixed number (it has a department strip), so the stage measures it. A wrong offset hid the top of the scene under the header.
+  const [hh, setHh] = useState(118);
+  useEffect(() => {
+    const el = document.querySelector("header");
+    if (!el) return;
+    const read = () => setHh(Math.round(el.getBoundingClientRect().height));
+    read(); const ro = new ResizeObserver(read); ro.observe(el); window.addEventListener("resize", read);
+    return () => { ro.disconnect(); window.removeEventListener("resize", read); };
+  }, []);
 
   // Weak and touch-first devices start in Lite; the visitor can switch, and a slow frame rate also drops to Lite.
   useEffect(() => { useQuality.getState().set(detectQuality()); }, []);
@@ -93,12 +102,12 @@ export default function Showroom({ displays, departments }: { displays: Resolved
   const keyUp = (e: React.KeyboardEvent) => { cameraManager.keys.delete(e.key); };
 
   return (
-    <div ref={track} style={mode === "guided" ? { height: `calc(100svh - 88px + ${(stops - 1) * 58}svh)` } : undefined}>
-      <GuidedTrack track={track} active={mode === "guided"} />
+    <div ref={track} style={mode === "guided" ? { height: `calc(100svh - ${hh + 16}px + ${(stops - 1) * 58}svh)` } : undefined}>
+      <GuidedTrack track={track} active={mode === "guided"} top={hh} />
       <div
-        ref={stage} tabIndex={0} role="region" aria-label="3D showroom. Use the mode buttons and map, or the arrow keys, to move around."
+        ref={stage} style={{ top: hh + 4, height: `calc(100svh - ${hh + 16}px)`, scrollMarginTop: hh + 4 }} tabIndex={0} role="region" aria-label="3D showroom. Use the mode buttons and map, or the arrow keys, to move around."
         onKeyDown={keyDown} onKeyUp={keyUp} onBlur={() => cameraManager.keys.clear()}
-        className="sticky top-[72px] h-[calc(100svh-88px)] scroll-mt-[72px] min-h-[26rem] overflow-hidden rounded-lg border border-line"
+        className="sticky min-h-[26rem] overflow-hidden rounded-lg border border-line"
       >
         <ShowroomScene displays={displays} />
         <div className="absolute top-3 left-3"><Minimap /></div>
