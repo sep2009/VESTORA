@@ -135,6 +135,8 @@ function classify(hex: string): { cls: ColorClass; h: number } {
   if (h >= 20 && h <= 65 && s < 0.6) return { cls: "earth", h };
   return { cls: "color", h };
 }
+/** True for blacks, whites, greys and other low-saturation colors. */
+export const isNeutralHex = (hex: string): boolean => classify(hex).cls === "neutral";
 /** 0..1: how well two colors wear together. Neutrals go with everything; earth tones go with neutrals and blues; otherwise by hue distance. */
 export function colorScore(a: string, b: string): { score: number; why: string } {
   const A = classify(a), B = classify(b);

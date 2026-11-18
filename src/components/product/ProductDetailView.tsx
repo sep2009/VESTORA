@@ -5,6 +5,7 @@ import { isDemo } from "@/modules/catalog/types";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductMedia } from "@/components/product/ProductMedia";
 import { ProductPurchase } from "@/components/shop/ProductPurchase";
+import { ViewTracker } from "@/components/style/ViewTracker";
 import { useDetailSheet } from "@/stores/detail-sheet";
 
 const GROUPS = [
@@ -33,6 +34,7 @@ export function ProductDetailView({ data, variant, onShowInMall }: { data: Produ
     <div>
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:gap-12">
         <div className="lg:sticky lg:top-24 lg:self-start"><ProductMedia key={p.id} product={p} color={color} /></div>
+        <ViewTracker productId={p.id} />
         <ProductPurchase key={p.id} product={p} brandName={brandName} inMall={inMall} collectionNames={collectionNames} onColorChange={setColor} heading={variant === "sheet" ? "h2" : "h1"} onShowInMall={onShowInMall} />
       </div>
       <div onClickCapture={intercept}>

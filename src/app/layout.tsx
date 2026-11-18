@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { CartDrawer } from "@/components/commerce/CartDrawer";
 import { FavoritesSync } from "@/components/commerce/FavoritesSync";
+import { StyleSync } from "@/components/style/StyleSync";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ToastViewport } from "@/components/feedback/ToastViewport";
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ToastViewport />
         <CartDrawer />
         <FavoritesSync />
+        <StyleSync />
       </body>
     </html>
   );
