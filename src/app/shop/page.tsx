@@ -6,7 +6,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { FilterDrawer } from "@/components/shop/FilterDrawer";
 import { ShopFilters } from "@/components/shop/ShopFilters";
 import { Button } from "@/components/ui/Button";
-import { CATEGORY_LABEL, DEPARTMENT_LABEL } from "@/modules/catalog/kinds";
+import { departmentLabel } from "@/modules/catalog/kinds";
 import { facets, parseQuery, queryProducts } from "@/modules/catalog/query";
 import { getCatalog } from "@/server/catalog/catalog";
 import { getIndex } from "@/server/catalog/index-data";
@@ -21,20 +21,20 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
   const sp = await searchParams;
   const query = parseQuery(sp);
   const page = Math.max(1, Number(Array.isArray(sp.page) ? sp.page[0] : sp.page) || 1);
-  const { products, brands } = getCatalog();
+  const { products, brands, categories, collections } = getCatalog();
   if (products.length === 0) {
     return <PageShell eyebrow="Shop mode" title="Shop"><EmptyState title="No products connected">The catalog is empty. Add verified product records to <code>data/catalog</code> or connect a product feed (see <code>data/catalog/README.md</code>).</EmptyState></PageShell>;
   }
-  const f = facets(products, brands);
+  const f = facets(products, brands, categories);
   const found = queryProducts(products, brands, query);
   const index = new Map(getIndex().items.map((i) => [i.id, i]));
   const shown = found.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map((p) => index.get(p.id)!);
   const pages = Math.max(1, Math.ceil(found.length / PAGE_SIZE));
-  const active = (query.brand?.length ?? 0) + (query.category?.length ?? 0) + (query.department?.length ?? 0) + (query.size?.length ?? 0) + (query.color?.length ?? 0) + (query.min !== undefined ? 1 : 0) + (query.max !== undefined ? 1 : 0) + (query.available ? 1 : 0);
+  const active = (query.audience?.length ?? 0) + (query.collection?.length ?? 0) + (query.brand?.length ?? 0) + (query.category?.length ?? 0) + (query.department?.length ?? 0) + (query.size?.length ?? 0) + (query.color?.length ?? 0) + (query.min !== undefined ? 1 : 0) + (query.max !== undefined ? 1 : 0) + (query.available ? 1 : 0);
   const brandName = new Map(brands.map((b) => [b.slug, b.name]));
   const chips = [
-    ...(query.department ?? []).map((v) => DEPARTMENT_LABEL[v] ?? v), ...(query.brand ?? []).map((v) => brandName.get(v) ?? v),
-    ...(query.category ?? []).map((v) => CATEGORY_LABEL[v as keyof typeof CATEGORY_LABEL] ?? v), ...(query.size ?? []).map((v) => `Size ${v}`), ...(query.color ?? []),
+    ...(query.audience ?? []), ...(query.collection ?? []), ...(query.department ?? []).map((v) => departmentLabel(v)), ...(query.brand ?? []).map((v) => brandName.get(v) ?? v),
+    ...(query.category ?? []).map((v) => categories.find((c) => c.slug === v)?.name ?? v), ...(query.size ?? []).map((v) => `Size ${v}`), ...(query.color ?? []),
   ];
   const hasDemo = products.some((p) => p.source.kind === "demo");
   const pageHref = (n: number) => { const u = new URLSearchParams(); Object.entries(sp).forEach(([k, v]) => { if (k !== "page") (Array.isArray(v) ? v : [v]).forEach((x) => x && u.append(k, x)); }); if (n > 1) u.set("page", String(n)); return `/shop${u.size ? `?${u}` : ""}`; };
@@ -42,7 +42,7 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
     <PageShell eyebrow="Shop mode" title={query.q ? `Results for “${query.q}”` : "The catalog"} intro={`${found.length} of ${products.length} products${chips.length ? ` · ${chips.join(" · ")}` : ""}`}>
       {hasDemo && <p role="note" className="mb-8 rounded-md border border-line bg-surface p-3 text-sm text-mute"><strong className="text-ink">Demo catalog.</strong> These records are test data with fictional brands, so the whole store can be tried out. They are not real products and cannot be purchased.</p>}
       <div className="grid gap-10 lg:grid-cols-[15rem_1fr]">
-        <aside aria-label="Filters"><FilterDrawer activeCount={active}><ShopFilters facets={f} query={query} /></FilterDrawer></aside>
+        <aside aria-label="Filters"><FilterDrawer activeCount={active}><ShopFilters facets={f} query={query} collectionNames={Object.fromEntries(collections.map((c) => [c.slug, c.name]))} /></FilterDrawer></aside>
         <section aria-label="Products">
           {shown.length === 0 ? (
             <EmptyState title="No products match" action={<Button href="/shop" variant="secondary">Clear search and filters</Button>}>Try fewer filters or a different search term.</EmptyState>

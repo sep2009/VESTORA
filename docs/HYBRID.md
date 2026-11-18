@@ -22,11 +22,11 @@ One persistent cart (`stores/cart-store.ts`): product id, size, color, quantity,
 Shop-first home (search, departments, products); the 3D mall loads only on request (or via a deep link), in Lite quality.
 
 ## Not built / needs external setup
-- **Real data**: an affiliate-feed (Awin, Rakuten, Impact, CJ) or retailer importer that writes verified records into `data/catalog`. Needs your publisher account, brand approvals and credentials in `.env.local`. None is connected.
+- **Real data**: an affiliate-feed (Awin, Rakuten, Impact, CJ) or retailer importer that writes verified records into the store (see docs/ADMIN.md). Needs your publisher account, brand approvals and credentials in `.env.local`. None is connected.
 - **Product photography and 3D models** that you have the rights to (record `images[].license`, `assets/manifest.ts`).
 - **Outfit Studio** (needs avatar assets) and **AI Stylist** (needs a server-side AI key): placeholders only.
 - **Payments** (e.g. Stripe) and a products-we-sell model: not configured.
-- Orders, accounts, admin: shells from earlier stages.
+- Orders and accounts: not built. Admin: see docs/ADMIN.md.
 
 ## Acceptance results (demo catalog, production build)
 | Flow | Result |

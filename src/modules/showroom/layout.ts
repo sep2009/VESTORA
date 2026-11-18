@@ -42,6 +42,17 @@ export const ZONES: readonly ZoneDef[] = [
 
 export const DEPARTMENT_ZONES = ZONES.filter((z) => z.department !== null);
 
+/**
+ * Department names/taglines are editable in the admin. Rooms are fixed, so only their labels change.
+ * Called with the database values on the server and again on the client before anything renders.
+ */
+export function applyDepartmentMeta(meta: readonly { slug: string; name: string; tagline: string }[]) {
+  for (const m of meta) {
+    const z = ZONES.find((x) => x.department === m.slug) as { name: string; tagline: string } | undefined;
+    if (z) { z.name = m.name; z.tagline = m.tagline || z.tagline; }
+  }
+}
+
 export function getZone(id: ZoneId): ZoneDef {
   const z = ZONES.find((x) => x.id === id);
   if (!z) throw new Error(`Unknown zone ${id}`);

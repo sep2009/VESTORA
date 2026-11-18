@@ -1,9 +1,8 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef } from "react";
-import { assignProducts } from "@/modules/showroom/assign";
-import { zoneByDepartment } from "@/modules/showroom/layout";
-import type { MallProduct } from "@/modules/showroom/types";
+import { applyDepartmentMeta, zoneByDepartment } from "@/modules/showroom/layout";
+import type { ResolvedDisplay } from "@/modules/showroom/types";
 import { cameraManager } from "@/modules/showroom/camera/manager";
 import { useCameraStore } from "@/stores/camera-store";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
@@ -25,8 +24,10 @@ const HINTS = {
   focus: "Drag to look around · Esc or Return to go back",
 } as const;
 
-export default function Showroom({ products }: { products: MallProduct[] }) {
-  const displays = useMemo(() => assignProducts(products), [products]);
+export default function Showroom({ displays, departments }: { displays: ResolvedDisplay[]; departments: { slug: string; name: string; tagline: string }[] }) {
+  // Editable department names are applied before anything renders (idempotent).
+  applyDepartmentMeta(departments);
+  const products = useMemo(() => displays.flatMap((d) => d.products), [displays]);
   const mode = useCameraStore((s) => s.mode);
   const stops = useCameraStore((s) => s.guided.count);
   const depth = useCameraStore((s) => s.backDepth);

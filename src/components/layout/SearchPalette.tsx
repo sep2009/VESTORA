@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Icon } from "@/components/ui/Icon";
 import { Modal } from "@/components/ui/Dialog";
 import { Label } from "@/components/product/ProductLabel";
-import { DEPARTMENT_LABEL } from "@/modules/catalog/kinds";
+import { departmentLabel } from "@/modules/catalog/kinds";
 import { matchScore } from "@/modules/catalog/query";
 import { formatMoney } from "@/lib/money";
 import { cameraManager } from "@/modules/showroom/camera/manager";
@@ -70,7 +70,7 @@ export function SearchPalette() {
                     <span>{b.name} <span className="text-xs text-mute">· {b.count}</span> {b.demo && <Label>Demo</Label>}</span>
                     <span className="flex gap-3 text-xs uppercase tracking-[0.12em]">
                       <Link href={`/shop?brand=${b.slug}`} onClick={close} className="underline">Browse</Link>
-                      {b.department && <button type="button" onClick={() => gotoDept(b.department!)} className="underline">In mall: {DEPARTMENT_LABEL[b.department]}</button>}
+                      {b.department && <button type="button" onClick={() => gotoDept(b.department!)} className="underline">In mall: {departmentLabel(b.department)}</button>}
                     </span>
                   </li>))}</ul></section>
             )}

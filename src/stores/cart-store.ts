@@ -14,6 +14,8 @@ export type CartLine = {
   name: string;
   brandName: string;
   image: string | null;
+  /** Variant SKU when the product has variants. */
+  sku: string | null;
   size: string | null;
   color: string | null;
   quantity: number;

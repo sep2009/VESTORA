@@ -1,6 +1,6 @@
-import { CATEGORY_KIND } from "@/modules/catalog/kinds";
-import type { Product } from "@/modules/catalog/types";
-import { isDemo } from "@/modules/catalog/types";
+import { kindForCategory } from "@/modules/catalog/kinds";
+import type { Category, Product } from "@/modules/catalog/types";
+import { effectivePrice, isDemo, resolveStock } from "@/modules/catalog/types";
 import { kindModel } from "./assets/manifest";
 import { SLOTS } from "./displays";
 import type { DisplaySlot, ItemKind, MallProduct, ResolvedDisplay, SlotAccepts } from "./types";
@@ -10,10 +10,11 @@ const ACCESSORY: ItemKind[] = ["bag", "watch", "glasses"];
 export const productClass = (k: ItemKind): Exclude<SlotAccepts, "any"> => (FOOTWEAR.includes(k) ? "footwear" : ACCESSORY.includes(k) ? "accessory" : "garment");
 const single = (s: DisplaySlot) => s.capacity === 1;
 
-/** Catalog record → what the mall draws. The id stays the catalog id. Colour comes from the record's first listed colour. */
-export function toMallProduct(p: Product, brandName: string): MallProduct {
-  const kind = CATEGORY_KIND[p.category];
-  return { id: p.id, slug: p.slug, name: p.name, brandName, kind, color: p.colors[0]?.hex ?? "#b6b0a4", demo: isDemo(p), modelUrl: kindModel(kind), department: p.department, price: p.price, availability: p.availability, image: p.images[0]?.url ?? null };
+/** Catalog record → what the mall draws. The id stays the catalog id. The shape comes from the product's category; the model only if the record has one. */
+export function toMallProduct(p: Product, brandName: string, categories: readonly Pick<Category, "slug" | "kind">[]): MallProduct {
+  const kind = kindForCategory(categories, p.category);
+  const colors = resolveStock(p).colors;
+  return { id: p.id, slug: p.slug, name: p.name, brandName, kind, color: colors[0]?.hex ?? p.colors[0]?.hex ?? "#b6b0a4", demo: isDemo(p), modelUrl: p.model3d?.url ?? kindModel(kind), department: p.department, price: effectivePrice(p), availability: resolveStock(p).availability, image: p.images[0]?.url ?? null };
 }
 
 /**
@@ -22,13 +23,25 @@ export function toMallProduct(p: Product, brandName: string): MallProduct {
  * Fixtures that receive nothing are NOT drawn, so there are never empty displays, and a product that fits
  * no fixture simply is not shown in the mall (it stays in the shop).
  */
-export function assignProducts(products: readonly MallProduct[], slots: readonly DisplaySlot[] = SLOTS): ResolvedDisplay[] {
+export function assignProducts(products: readonly MallProduct[], slots: readonly DisplaySlot[] = SLOTS, pins: Readonly<Record<string, string>> = {}): ResolvedDisplay[] {
   const out = new Map<string, MallProduct[]>();
   const cls = new Map<string, SlotAccepts>();
+  // Manual pins (set in the admin showroom editor) are placed first; invalid or full pins fall back to automatic placement.
+  const pinned = new Set<string>();
+  for (const p of products) {
+    const slot = slots.find((s) => s.id === pins[p.id]);
+    if (!slot || slot.departmentId !== p.department) continue;
+    const c = productClass(p.kind);
+    if (slot.accepts !== "any" && slot.accepts !== c) continue;
+    if (cls.has(slot.id) && cls.get(slot.id) !== c) continue;
+    const held = out.get(slot.id) ?? [];
+    if (held.length >= slot.capacity) continue;
+    out.set(slot.id, [...held, p]); cls.set(slot.id, c); pinned.add(p.id);
+  }
   const depts = [...new Set(slots.map((s) => s.departmentId))];
   for (const dept of depts) {
     const deptSlots = slots.filter((s) => s.departmentId === dept);
-    const queue = products.filter((p) => p.department === dept);
+    const queue = products.filter((p) => p.department === dept && !pinned.has(p.id));
     for (const c of ["garment", "footwear", "accessory"] as const) {
       const list = queue.filter((p) => productClass(p.kind) === c);
       const fits = (s: DisplaySlot) => (s.accepts === c || s.accepts === "any") && (!cls.has(s.id) || cls.get(s.id) === c);

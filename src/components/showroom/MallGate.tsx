@@ -2,13 +2,13 @@
 import { useEffect, useState } from "react";
 import Showroom from "./Showroom";
 import { Button } from "@/components/ui/Button";
-import type { MallProduct } from "@/modules/showroom/types";
+import type { ResolvedDisplay } from "@/modules/showroom/types";
 
 /**
  * Phones are shop-first: the 3D mall (the heaviest part) only loads when asked for, or when a deep link points at it
  * (/?p=… or /?dept=…). Larger screens load it straight away.
  */
-export function MallGate({ products }: { products: MallProduct[] }) {
+export function MallGate({ displays, departments }: { displays: ResolvedDisplay[]; departments: { slug: string; name: string; tagline: string }[] }) {
   const [open, setOpen] = useState<boolean | null>(null);
   useEffect(() => {
     const sp = new URLSearchParams(window.location.search);
@@ -24,5 +24,5 @@ export function MallGate({ products }: { products: MallProduct[] }) {
       </section>
     );
   }
-  return <Showroom products={products} />;
+  return <Showroom displays={displays} departments={departments} />;
 }

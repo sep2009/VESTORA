@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { CATEGORY_LABEL, DEPARTMENT_LABEL } from "@/modules/catalog/kinds";
+import { departmentLabel } from "@/modules/catalog/kinds";
 import type { Facets, Query } from "@/modules/catalog/query";
 
 function Group({ legend, children }: { legend: string; children: React.ReactNode }) {
@@ -13,26 +13,27 @@ function Check({ name, value, label, checked, count }: { name: string; value: st
     </label>
   );
 }
+const AUDIENCE_LABEL: Record<string, string> = { men: "Men's", women: "Women's", unisex: "Unisex" };
 
 /**
  * A plain GET form (works without JavaScript; the URL holds every filter so it survives switching modes).
  * It only renders filters that the catalog data actually supports: no verified sizes, no size filter.
  */
-export function ShopFilters({ facets, query }: { facets: Facets; query: Query }) {
+export function ShopFilters({ facets, query, collectionNames }: { facets: Facets; query: Query; collectionNames: Record<string, string> }) {
   const has = (arr: string[] | undefined, v: string) => !!arr?.includes(v);
   return (
     <form method="get" action="/shop" aria-label="Filter products" className="space-y-4">
       {query.q && <input type="hidden" name="q" value={query.q} />}
       <label className="block text-xs uppercase tracking-[0.2em] text-mute">Sort
         <select name="sort" defaultValue={query.sort ?? ""} className="mt-2 h-10 w-full rounded-sm border border-line bg-surface px-2 text-sm normal-case tracking-normal text-ink">
-          <option value="">{query.q ? "Relevance" : "Name"}</option><option value="price-asc">Price, low to high</option><option value="price-desc">Price, high to low</option><option value="name">Name</option>
+          <option value="">{query.q ? "Relevance" : "Name"}</option><option value="featured">Featured first</option><option value="price-asc">Price, low to high</option><option value="price-desc">Price, high to low</option><option value="name">Name</option>
         </select>
       </label>
-      {facets.departments.length > 1 && (
-        <Group legend="Department">{facets.departments.map((d) => <Check key={d.value} name="dept" value={d.value} label={DEPARTMENT_LABEL[d.value] ?? d.value} count={d.count} checked={has(query.department, d.value)} />)}</Group>
-      )}
+      {facets.audiences.length > 1 && <Group legend="For">{facets.audiences.map((a) => <Check key={a.value} name="audience" value={a.value} label={AUDIENCE_LABEL[a.value] ?? a.value} count={a.count} checked={has(query.audience, a.value)} />)}</Group>}
+      {facets.departments.length > 1 && <Group legend="Department">{facets.departments.map((d) => <Check key={d.value} name="dept" value={d.value} label={departmentLabel(d.value)} count={d.count} checked={has(query.department, d.value)} />)}</Group>}
+      {facets.collections.length > 0 && <Group legend="Collection">{facets.collections.map((c) => <Check key={c.value} name="collection" value={c.value} label={collectionNames[c.value] ?? c.value} count={c.count} checked={has(query.collection, c.value)} />)}</Group>}
       {facets.brands.length > 1 && <Group legend="Brand">{facets.brands.map((b) => <Check key={b.slug} name="brand" value={b.slug} label={b.name} count={b.count} checked={has(query.brand, b.slug)} />)}</Group>}
-      {facets.categories.length > 1 && <Group legend="Category">{facets.categories.map((c) => <Check key={c.value} name="category" value={c.value} label={CATEGORY_LABEL[c.value as keyof typeof CATEGORY_LABEL] ?? c.value} count={c.count} checked={has(query.category, c.value)} />)}</Group>}
+      {facets.categories.length > 1 && <Group legend="Category">{facets.categories.map((c) => <Check key={c.value} name="category" value={c.value} label={c.label} count={c.count} checked={has(query.category, c.value)} />)}</Group>}
       {facets.price && (
         <Group legend={`Price (${facets.price.currency})`}>
           <div className="flex items-center gap-2">

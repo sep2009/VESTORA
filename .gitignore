@@ -7,3 +7,7 @@ out
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
+
+# Local database and uploads (admin-managed)
+data/db/
+data/uploads/

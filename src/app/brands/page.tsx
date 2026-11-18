@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { Label } from "@/components/product/ProductLabel";
-import { DEPARTMENT_LABEL } from "@/modules/catalog/kinds";
+import { departmentLabel } from "@/modules/catalog/kinds";
 import { getIndex } from "@/server/catalog/index-data";
 
 export const metadata: Metadata = { title: "Brands" };
@@ -19,7 +19,7 @@ export default function BrandsPage() {
             <p className="mt-1 text-sm text-mute">{b.count} product{b.count === 1 ? "" : "s"}</p>
             <div className="mt-4 flex flex-wrap gap-4 text-xs uppercase tracking-[0.14em]">
               <Link href={`/shop?brand=${b.slug}`} className="text-accent-ink underline">Browse products</Link>
-              {b.department && <Link href={`/?dept=${b.department}`} className="underline">Find in 3D mall ({DEPARTMENT_LABEL[b.department]})</Link>}
+              {b.department && <Link href={`/?dept=${b.department}`} className="underline">Find in 3D mall ({departmentLabel(b.department)})</Link>}
             </div>
           </li>
         ))}

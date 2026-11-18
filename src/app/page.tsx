@@ -1,17 +1,15 @@
 import { MallGate } from "@/components/showroom/MallGate";
 import { MobileShopRail } from "@/components/shop/MobileShopRail";
 import { Container } from "@/components/layout/PageShell";
-import { toMallProduct } from "@/modules/showroom/assign";
 import { getCatalog } from "@/server/catalog/catalog";
-import { getIndex } from "@/server/catalog/index-data";
+import { getIndex, mallDisplays } from "@/server/catalog/index-data";
 
 export const dynamic = "force-dynamic";
 
 export default function ExplorePage() {
-  const { products, brands } = getCatalog();
-  const names = new Map(brands.map((b) => [b.slug, b.name]));
-  const mall = products.map((p) => toMallProduct(p, names.get(p.brand) ?? p.brand));
-  const featured = getIndex().items.filter((i) => i.availability === "in_stock").slice(0, 6);
+  const catalog = getCatalog();
+  const { displays } = mallDisplays(catalog);
+  const featured = getIndex().items.filter((i) => i.availability === "in_stock").sort((a, b) => Number(b.featured) - Number(a.featured)).slice(0, 6);
   return (
     <>
       <Container className="pt-8 pb-6 sm:pt-16 sm:pb-8">
@@ -20,7 +18,7 @@ export default function ExplorePage() {
       </Container>
       <Container>
         <MobileShopRail items={featured} />
-        <MallGate products={mall} />
+        <MallGate displays={displays} departments={catalog.departments.map((d) => ({ slug: d.slug, name: d.name, tagline: d.tagline }))} />
       </Container>
     </>
   );
