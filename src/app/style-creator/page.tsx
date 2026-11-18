@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-import { PageShell } from "@/components/layout/PageShell";
-import { ComingSoon } from "@/components/layout/ComingSoon";
+import { OutfitStudio } from "@/components/outfit/OutfitStudio";
+import { getStudioItems } from "@/server/catalog/studio";
 
-export const metadata: Metadata = { title: "Outfit Studio" };
+export const metadata: Metadata = { title: "Outfit Studio", description: "Combine real catalog products into outfits on a 3D avatar preview." };
+export const dynamic = "force-dynamic";
 
 export default function Page() {
-  return (
-    <PageShell eyebrow="Outfit Studio" title="Outfit Studio" intro="Combine catalog products into outfits on a 3D avatar.">
-      <ComingSoon stage="not built yet">Needs a 3D avatar and fitting assets that do not exist yet. Outfits will reference catalog product ids, like the cart and favorites.</ComingSoon>
-    </PageShell>
-  );
+  return <OutfitStudio items={getStudioItems()} />;
 }
