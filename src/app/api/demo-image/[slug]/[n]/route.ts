@@ -38,5 +38,5 @@ export async function GET(_req: Request, ctx: { params: Promise<{ slug: string; 
 <rect x="0" y="448" width="400" height="52" fill="#161618"/>
 <text x="200" y="472" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#e9e4d8" letter-spacing="3">DEMO PRODUCT</text>
 <text x="200" y="490" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#a9a499">illustration · no real photography</text></svg>`;
-  return new Response(svg, { headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=3600" } });
+  return new Response(svg, { headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=0, must-revalidate" } });
 }
