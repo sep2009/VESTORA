@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 import { COOKIE, verifySession, type Role } from "./session";
 
 /** What each role may do. Editors manage products, stock and uploads; only admins change taxonomy, the showroom and deletions. */
-export type Permission = "product.write" | "product.delete" | "inventory" | "upload" | "taxonomy.write" | "showroom.write" | "department.write";
+export type Permission = "product.write" | "product.delete" | "inventory" | "upload" | "taxonomy.write" | "showroom.write" | "department.write" | "orders.read" | "orders.write" | "orders.delete";
 const PERMISSIONS: Record<Role, readonly Permission[]> = {
-  admin: ["product.write", "product.delete", "inventory", "upload", "taxonomy.write", "showroom.write", "department.write"],
-  editor: ["product.write", "inventory", "upload"],
+  admin: ["product.write", "product.delete", "inventory", "upload", "taxonomy.write", "showroom.write", "department.write", "orders.read", "orders.write", "orders.delete"],
+  editor: ["product.write", "inventory", "upload", "orders.read", "orders.write"],
 };
 export const can = (role: Role, p: Permission) => PERMISSIONS[role].includes(p);
 

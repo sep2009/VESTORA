@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { useCart } from "@/stores/cart-store";
+import { useCartDrawer } from "@/stores/cart-drawer";
 import { useFavorites } from "@/stores/favorites-store";
 import { useMounted } from "@/lib/use-mounted";
 
@@ -14,11 +15,14 @@ const linkClass = "relative grid size-11 place-items-center rounded-sm hover:bg-
 
 export function CartIndicator() {
   const count = useCart((s) => s.lines.reduce((n, l) => n + l.quantity, 0));
+  const open = useCartDrawer((s) => s.open);
+  const set = useCartDrawer((s) => s.set);
   const shown = useMounted() ? count : 0;
+  // Opens the cart drawer; the "View cart" link inside it goes to the full page.
   return (
-    <Link href="/cart" className={linkClass} aria-label={`Cart, ${shown} ${shown === 1 ? "item" : "items"}`}>
+    <button type="button" className={linkClass} aria-haspopup="dialog" aria-expanded={open} onClick={() => set(true)} aria-label={`Cart, ${shown} ${shown === 1 ? "item" : "items"}`}>
       <Icon name="bag" /><Badge count={shown} />
-    </Link>
+    </button>
   );
 }
 

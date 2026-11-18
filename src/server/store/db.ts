@@ -4,6 +4,7 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync, renameSync, statSy
 import path from "node:path";
 import { z } from "zod";
 import { brand, category, collection, departmentMeta, DEPARTMENTS, product, type Brand, type Category, type Collection, type DepartmentMeta, type Product } from "@/modules/catalog/types";
+import { order, paymentEvent, resetToken, user, type Order, type PaymentEvent, type ResetToken, type User } from "@/modules/commerce/types";
 import { defaultSlotRecords, slotRecord, type SlotRecord } from "@/modules/showroom/slots";
 
 /**
@@ -19,6 +20,11 @@ export type StoreData = {
   departments: DepartmentMeta[];
   products: Product[];
   showroom: { slots: SlotRecord[]; assignments: Record<string, string> };
+  /** Customer accounts, orders and payment bookkeeping. Written only through src/server/commerce. */
+  users: User[];
+  orders: Order[];
+  resetTokens: ResetToken[];
+  paymentEvents: PaymentEvent[];
 };
 export type Rejected = { id: string; reasons: string[] };
 
@@ -27,6 +33,7 @@ const storeSchema = z.object({
   brands: z.array(brand), categories: z.array(category), collections: z.array(collection), departments: z.array(departmentMeta),
   products: z.array(z.unknown()),
   showroom: z.object({ slots: z.array(z.unknown()), assignments: z.record(z.string(), z.string()) }),
+  users: z.array(user).default([]), orders: z.array(order).default([]), resetTokens: z.array(resetToken).default([]), paymentEvents: z.array(paymentEvent).default([]),
 });
 
 export const dataDir = () => process.env.VESTORA_DATA_DIR ?? path.join(process.cwd(), "data", "db");
@@ -48,7 +55,7 @@ const DEFAULT_DEPARTMENTS: DepartmentMeta[] = DEPARTMENTS.map((slug) => ({
 }));
 
 export function emptyStore(): StoreData {
-  return { version: 2, brands: [], categories: DEFAULT_CATEGORIES, collections: [], departments: DEFAULT_DEPARTMENTS, products: [], showroom: { slots: defaultSlotRecords(), assignments: {} } };
+  return { version: 2, brands: [], categories: DEFAULT_CATEGORIES, collections: [], departments: DEFAULT_DEPARTMENTS, products: [], showroom: { slots: defaultSlotRecords(), assignments: {} }, users: [], orders: [], resetTokens: [], paymentEvents: [] };
 }
 
 /** First run: build the store from the labelled demo seed (if present) on top of the default taxonomy and fixture layout. */

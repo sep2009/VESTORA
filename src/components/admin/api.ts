@@ -3,7 +3,7 @@
 export type ApiResult<T = unknown> = { ok: true; data: T } | { ok: false; status: number; errors: string[] };
 
 /** Same-origin admin API call. The custom header is the CSRF defence the server requires on every state-changing request. */
-export async function api<T = unknown>(method: "GET" | "POST" | "PUT" | "DELETE", url: string, body?: unknown): Promise<ApiResult<T>> {
+export async function api<T = unknown>(method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE", url: string, body?: unknown): Promise<ApiResult<T>> {
   try {
     const res = await fetch(url, { method, headers: { "Content-Type": "application/json", "X-Vestora-CSRF": "1" }, body: body === undefined ? undefined : JSON.stringify(body), credentials: "same-origin" });
     const json = await res.json().catch(() => ({}));

@@ -13,7 +13,7 @@ const variants: Record<Variant, string> = {
 const sizes: Record<Size, string> = { sm: "h-9 px-4 text-sm", md: "h-11 px-6 text-sm", lg: "h-14 px-8 text-base" };
 
 type Common = { variant?: Variant; size?: Size; children: ReactNode; className?: string };
-type AsLink = Common & { href: string } & { onClick?: undefined; disabled?: undefined };
+type AsLink = Common & { href: string } & { onClick?: () => void; disabled?: boolean };
 type AsButton = Common & { href?: undefined } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 /** Links render <a>, everything else renders <button>. Tracking is wide for an editorial feel. */
@@ -24,7 +24,10 @@ export function Button(props: AsLink | AsButton) {
     "disabled:pointer-events-none disabled:opacity-40",
     variants[variant], sizes[size], className,
   );
-  if (props.href !== undefined) return <Link href={props.href} className={classes}>{children}</Link>;
+  if (props.href !== undefined) {
+    if (props.disabled) return <span role="link" aria-disabled="true" className={cn(classes, "pointer-events-none opacity-40")}>{children}</span>;
+    return <Link href={props.href} onClick={props.onClick} className={classes}>{children}</Link>;
+  }
   const { variant: _v, size: _s, className: _c, children: _ch, href: _h, ...rest } = props;
   return <button type="button" className={classes} {...rest}>{children}</button>;
 }

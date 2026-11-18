@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { CartDrawer } from "@/components/commerce/CartDrawer";
+import { FavoritesSync } from "@/components/commerce/FavoritesSync";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ToastViewport } from "@/components/feedback/ToastViewport";
@@ -25,6 +27,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteFooter />
         <Suspense fallback={null}><NavMemory productSlugs={slugs} /></Suspense>
         <ToastViewport />
+        <CartDrawer />
+        <FavoritesSync />
       </body>
     </html>
   );

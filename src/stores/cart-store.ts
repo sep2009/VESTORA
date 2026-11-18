@@ -29,6 +29,10 @@ type CartState = {
   lines: CartLine[];
   add: (line: Omit<CartLine, "key" | "quantity">, quantity?: number) => void;
   setQuantity: (key: string, quantity: number) => void;
+  /** Switch a line to another size/color (variant). Merges with an existing line for that variant. */
+  changeVariant: (key: string, to: { sku: string; size: string | null; color: string | null }) => void;
+  /** Remove lines by key (used after a confirmed order). */
+  removeMany: (keys: string[]) => void;
   remove: (key: string) => void;
   clear: () => void;
 };
@@ -45,6 +49,16 @@ export const useCart = create<CartState>()(
           : { lines: [...s.lines, { ...line, key, quantity: Math.min(20, quantity) }] };
       }),
       setQuantity: (key, quantity) => set((s) => ({ lines: quantity < 1 ? s.lines.filter((l) => l.key !== key) : s.lines.map((l) => (l.key === key ? { ...l, quantity: Math.min(20, quantity) } : l)) })),
+      changeVariant: (key, to) => set((s) => {
+        const line = s.lines.find((l) => l.key === key);
+        if (!line) return s;
+        const nk = lineKey(line.productId, to.size, to.color);
+        const moved = { ...line, key: nk, sku: to.sku, size: to.size, color: to.color };
+        const others = s.lines.filter((l) => l.key !== key);
+        const hit = others.find((l) => l.key === nk);
+        return { lines: hit ? others.map((l) => (l.key === nk ? { ...l, quantity: Math.min(20, l.quantity + line.quantity) } : l)) : s.lines.map((l) => (l.key === key ? moved : l)) };
+      }),
+      removeMany: (keys) => set((s) => ({ lines: s.lines.filter((l) => !keys.includes(l.key)) })),
       remove: (key) => set((s) => ({ lines: s.lines.filter((l) => l.key !== key) })),
       clear: () => set({ lines: [] }),
     }),

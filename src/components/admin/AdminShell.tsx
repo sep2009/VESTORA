@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
 import { LogoutButton } from "./LogoutButton";
 
-const links = [{ href: "/admin", label: "Dashboard" }, { href: "/admin/products", label: "Products" }, { href: "/admin/taxonomy", label: "Taxonomy" }, { href: "/admin/showroom", label: "Showroom" }];
+const links = [{ href: "/admin", label: "Dashboard" }, { href: "/admin/products", label: "Products" }, { href: "/admin/orders", label: "Orders" }, { href: "/admin/taxonomy", label: "Taxonomy" }, { href: "/admin/showroom", label: "Showroom" }];
 
 /** Frame for every signed-in admin page. Role is shown so it is clear what the session may do. */
 export function AdminShell({ role, title, intro, children }: { role: string; title: string; intro?: string; children: React.ReactNode }) {
