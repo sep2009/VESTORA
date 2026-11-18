@@ -2,11 +2,13 @@ import "server-only";
 import { assignProducts, toMallProduct } from "@/modules/showroom/assign";
 import { recordsToSlots } from "@/modules/showroom/slots";
 import { effectivePrice, resolveStock } from "@/modules/catalog/types";
+import { kindForCategory } from "@/modules/catalog/kinds";
+import type { ItemKind } from "@/modules/showroom/types";
 import { getCatalog, type Catalog } from "./catalog";
 
 export type IndexItem = {
   id: string; slug: string; name: string; brand: string; brandName: string; category: string; categoryName: string; department: string;
-  audience: string; featured: boolean; tags: string[];
+  audience: string; featured: boolean; tags: string[]; collections: string[]; kind: ItemKind;
   /** Price a shopper pays (the sale price when there is one). */
   price: { amount: number; currency: string } | null;
   /** Regular price, only when the item is on sale. */
@@ -33,7 +35,7 @@ export function getIndex(): { items: IndexItem[]; brands: { slug: string; name: 
   const inMall = new Set(mallDisplays(c).displays.flatMap((d) => d.products.map((p) => p.id)));
   const items = c.products.map((p): IndexItem => ({
     id: p.id, slug: p.slug, name: p.name, brand: p.brand, brandName: names.get(p.brand) ?? p.brand, category: p.category, categoryName: catNames.get(p.category) ?? p.category,
-    department: p.department, audience: p.audience, featured: p.featured, tags: p.tags,
+    department: p.department, audience: p.audience, featured: p.featured, tags: p.tags, collections: p.collections, kind: kindForCategory(c.categories, p.category),
     price: effectivePrice(p), compareAt: p.salePrice ? p.price : null, image: p.images[0]?.url ?? null, demo: p.source.kind === "demo",
     availability: resolveStock(p).availability, inMall: inMall.has(p.id),
   }));

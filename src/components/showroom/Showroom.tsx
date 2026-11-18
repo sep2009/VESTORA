@@ -14,6 +14,7 @@ import { GuidedProgress } from "./GuidedProgress";
 import { GuidedTrack } from "./GuidedTrack";
 import { Minimap } from "./Minimap";
 import { ModeSwitch } from "./ModeSwitch";
+import { ProductSheet } from "./ProductSheet";
 import { ShowroomLoader } from "./ShowroomLoader";
 
 const ShowroomScene = dynamic(() => import("./ShowroomScene"), { ssr: false, loading: () => <ShowroomLoader /> });
@@ -123,6 +124,7 @@ export default function Showroom({ displays, departments }: { displays: Resolved
           </div>
         </div>
       </div>
+      <ProductSheet />
     </div>
   );
 }

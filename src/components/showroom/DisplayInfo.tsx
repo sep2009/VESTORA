@@ -8,6 +8,7 @@ import { Label } from "@/components/product/ProductLabel";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
 import { formatMoney } from "@/lib/money";
+import { useDetailSheet } from "@/stores/detail-sheet";
 
 /** Product panel for the product focused in the mall. It is the SAME catalog record the shop shows; "Open in shop" opens that exact product. */
 export function DisplayInfo({ displays }: { displays: readonly ResolvedDisplay[] }) {
@@ -34,7 +35,8 @@ export function DisplayInfo({ displays }: { displays: readonly ResolvedDisplay[]
       </div>
       {p.demo && <p className="mt-3 text-xs text-mute">Demo data for testing the store. Not a real item, price or photograph.</p>}
       <div className="mt-4 flex flex-wrap gap-2">
-        <Button href={`/product/${p.slug}`} size="sm">Open in shop</Button>
+        <Button size="sm" onClick={() => useDetailSheet.getState().open(p.slug)}>View details</Button>
+        <Button href={`/product/${p.slug}`} size="sm" variant="secondary">Open in shop</Button>
         <Button size="sm" variant="secondary" onClick={() => cameraManager.back()}>← Back to {depth > 1 ? "the room" : "where you were"}</Button>
       </div>
       <Link href={`/shop?dept=${p.department}`} className="mt-3 inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] hover:text-accent-ink">All {zone.name} in shop <Icon name="arrow" size={14} /></Link>

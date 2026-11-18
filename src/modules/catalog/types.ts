@@ -32,6 +32,8 @@ export const image = z.object({
   alt: z.string().min(1).max(200),
   credit: z.string().max(200).nullable(),
   license: z.string().max(200).nullable(),
+  /** Variant colour this photo shows (matches a variant colour name). Null = shows the product in general. */
+  color: z.string().max(40).nullable().default(null),
 });
 
 /** A GLB/GLTF model for the product. Only shown as "this product" when it really is that product's model. */
@@ -101,6 +103,8 @@ export const product = z.object({
   availability: z.enum(["in_stock", "out_of_stock", "unknown"]),
   /** Whether the product is shown in the 3D mall at all. */
   showInMall: z.boolean().default(true),
+  /** Shipping and returns text, shown only when an admin configured it. */
+  shipping: z.object({ summary: z.string().min(1).max(300), returns: z.string().max(300).nullable().default(null) }).nullable().default(null),
   source,
 }).superRefine((p, ctx) => {
   const bad = (msg: string, path?: string[]) => ctx.addIssue({ code: "custom", message: msg, path });

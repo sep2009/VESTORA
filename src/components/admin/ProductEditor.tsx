@@ -25,6 +25,7 @@ export function ProductEditor({ initial, brands, categories, collections, depart
     price: money(initial?.price ?? null), currency: initial?.price?.currency ?? "USD", sale: money(initial?.salePrice ?? null),
     tags: (initial?.tags ?? []).join(", "), materials: (initial?.materials ?? []).join(", "), collections: initial?.collections ?? [], featured: initial?.featured ?? false,
     showInMall: initial?.showInMall ?? true, availability: initial?.availability ?? "unknown",
+    shipSummary: initial?.shipping?.summary ?? "", shipReturns: initial?.shipping?.returns ?? "",
     sourceKind: initial?.source.kind ?? "demo", retailer: initial?.source.retailer ?? "", url: initial?.source.url ?? "", retrievedAt: initial?.source.retrievedAt ?? "",
   }));
   const [images, setImages] = useState<Img[]>(initial?.images ?? []);
@@ -48,6 +49,7 @@ export function ProductEditor({ initial, brands, categories, collections, depart
     salePrice: f.sale && cents(f.sale) !== null ? { amount: cents(f.sale)!, currency: f.currency.toUpperCase() } : null,
     variants, sizes: null, colors: colorNames.map((n) => ({ name: n, hex: /^#[0-9a-fA-F]{6}$/.test(hex[n] ?? "") ? hex[n]! : null })), colorsVerified: variants.length > 0,
     availability: variants.length ? (variants.some((v) => v.stock > 0) ? "in_stock" : "out_of_stock") : f.availability,
+    shipping: f.shipSummary.trim() ? { summary: f.shipSummary.trim(), returns: f.shipReturns.trim() || null } : null,
     source: { kind: f.sourceKind, retailer: demo ? null : f.retailer || null, url: demo ? null : f.url || null, retrievedAt: demo ? null : f.retrievedAt || null },
   });
 
@@ -67,7 +69,7 @@ export function ProductEditor({ initial, brands, categories, collections, depart
   const onImage = async (file: File | undefined) => {
     if (!file) return;
     setErrors([]); const r = await upload("image", file);
-    if (r.ok) setImages((o) => [...o, { url: r.data.url, alt: f.name ? `${f.name} photo` : file.name, credit: null, license: demo ? "demo" : "" }]); else setErrors(r.errors);
+    if (r.ok) setImages((o) => [...o, { url: r.data.url, alt: f.name ? `${f.name} photo` : file.name, credit: null, license: demo ? "demo" : "", color: null }]); else setErrors(r.errors);
   };
   const onModel = async (file: File | undefined) => {
     if (!file) return;
@@ -126,6 +128,13 @@ export function ProductEditor({ initial, brands, categories, collections, depart
         {cents(f.price) && cents(f.sale) ? <p className="mt-3 text-sm text-mute">Discount: {Math.round((1 - cents(f.sale)! / cents(f.price)!) * 100)}% off</p> : null}
       </Card>
 
+      <Card title="Shipping information (optional)">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Shipping" hint="Shown on the product page only when filled in."><Input value={f.shipSummary} maxLength={300} onChange={(e) => set("shipSummary", e.target.value)} placeholder="Ships in 2 to 4 working days" /></Field>
+          <Field label="Returns"><Input value={f.shipReturns} maxLength={300} onChange={(e) => set("shipReturns", e.target.value)} placeholder="Free returns within 30 days" /></Field>
+        </div>
+      </Card>
+
       <Card title="Source">
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Where this record comes from"><Select value={f.sourceKind} onChange={(e) => set("sourceKind", e.target.value as typeof f.sourceKind)}><option value="demo">Demo data (test only)</option><option value="manual-verified">Manually verified</option><option value="official">Official brand page</option><option value="affiliate-feed">Authorised retailer / affiliate feed</option></Select></Field>
@@ -136,12 +145,13 @@ export function ProductEditor({ initial, brands, categories, collections, depart
 
       <Card title="Images">
         <ul className="space-y-3">{images.map((im, i) => (
-          <li key={im.url + i} className="grid gap-2 rounded-sm border border-line p-3 sm:grid-cols-[4rem_1fr_1fr_1fr_auto]">
+          <li key={im.url + i} className="grid gap-2 rounded-sm border border-line p-3 sm:grid-cols-[4rem_1fr_1fr_1fr_9rem_auto]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={im.url} alt="" className="size-16 rounded-sm bg-ink/6 object-cover" />
             <Input aria-label="Alt text" value={im.alt} placeholder="Alt text" onChange={(e) => setImages((o) => o.map((x, k) => (k === i ? { ...x, alt: e.target.value } : x)))} />
             <Input aria-label="Credit" value={im.credit ?? ""} placeholder="Credit" onChange={(e) => setImages((o) => o.map((x, k) => (k === i ? { ...x, credit: e.target.value || null } : x)))} />
             <Input aria-label="Licence" value={im.license ?? ""} placeholder="Licence / permission" onChange={(e) => setImages((o) => o.map((x, k) => (k === i ? { ...x, license: e.target.value || null } : x)))} />
+            <Select aria-label="Shows color" value={im.color ?? ""} onChange={(e) => setImages((o) => o.map((x, k) => (k === i ? { ...x, color: e.target.value || null } : x)))}><option value="">Any color</option>{colorNames.map((c) => <option key={c} value={c}>{c}</option>)}</Select>
             <span className="flex gap-1"><button type="button" className={smallBtn} onClick={() => move(i, -1)} aria-label="Move up">↑</button><button type="button" className={smallBtn} onClick={() => move(i, 1)} aria-label="Move down">↓</button><button type="button" className={dangerBtn} onClick={() => setImages((o) => o.filter((_, k) => k !== i))}>Remove</button></span>
           </li>))}</ul>
         <div className="mt-3 flex flex-wrap items-center gap-3">

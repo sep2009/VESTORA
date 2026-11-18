@@ -1,11 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Product } from "@/modules/catalog/types";
 import { cn } from "@/lib/cn";
 
 /** Image gallery: thumbnails, previous/next, arrow keys. Shows exactly the images in the record; none are invented. */
-export function ProductGallery({ images, name, demo }: { images: Product["images"]; name: string; demo: boolean }) {
+export function ProductGallery({ images, name, demo, color = null }: { images: Product["images"]; name: string; demo: boolean; color?: string | null }) {
   const [i, setI] = useState(0);
+  // Choosing a color jumps to the first photo tagged with that color (if any).
+  useEffect(() => { if (!color) return; const k = images.findIndex((im) => im.color === color); if (k >= 0) setI(k); }, [color, images]);
   if (images.length === 0) {
     return <div className="grid aspect-[4/5] place-items-center rounded-sm bg-ink/6 text-xs uppercase tracking-[0.2em] text-mute">No image available</div>;
   }
