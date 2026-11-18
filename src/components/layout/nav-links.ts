@@ -5,7 +5,7 @@ export const primaryLinks = [
   { href: "/style-creator", label: "Outfit Studio" },
   { href: "/virtual-try-on", label: "Try it on" },
   { href: "/for-you", label: "For you" },
-  { href: "/assistant", label: "AI Stylist" },
+  { href: "/assistant", label: "Stylist" },
 ] as const;
 
 export const accountLinks = [

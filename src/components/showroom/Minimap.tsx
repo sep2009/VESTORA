@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { CORRIDORS, CORRIDOR_WIDTH, DEPARTMENT_ZONES, WORLD, ZONES, ZONE_SIZE } from "@/modules/showroom/layout";
 import { cameraManager } from "@/modules/showroom/camera/manager";
 import { selectFocusedZoneId, useCameraStore } from "@/stores/camera-store";
+import { useMallGuide } from "@/stores/mall-guide";
 import type { ZoneDef } from "@/modules/showroom/types";
 import { cn } from "@/lib/cn";
 
@@ -13,16 +14,17 @@ const sz = (z: number) => (z - WORLD.zMin) * K + PAD;
 const W = (WORLD.xMax - WORLD.xMin) * K + PAD * 2;
 const H = (WORLD.zMax - WORLD.zMin) * K + PAD * 2; // includes the street portal in front of the entrance
 
-function Room({ zone, selected, here, onPick }: { zone: ZoneDef; selected: boolean; here: boolean; onPick: () => void }) {
+function Room({ zone, selected, here, guided, onPick }: { zone: ZoneDef; selected: boolean; here: boolean; guided: boolean; onPick: () => void }) {
   const size = ZONE_SIZE * K;
   const x = sx(zone.center[0]) - size / 2, y = sz(zone.center[1]) - size / 2;
   const first = zone.name.split(" ")[0]!;
   return (
-    <g role="button" tabIndex={0} aria-label={`Go to ${zone.name}`} aria-pressed={selected} onClick={onPick}
+    <g role="button" tabIndex={0} aria-label={`Go to ${zone.name}${guided ? " (suggested by the stylist)" : ""}`} aria-pressed={selected} onClick={onPick}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(); } }} className="cursor-pointer outline-none [&:focus-visible>rect]:stroke-[2.2]">
       <rect x={x} y={y} width={size} height={size} rx={1.5} fill={zone.palette.accent} fillOpacity={here ? 0.55 : 0.28}
         stroke={selected ? "var(--color-ink)" : zone.palette.accent} strokeWidth={selected ? 2.2 : 0.8} />
       <text x={x + size / 2} y={y + size / 2 + 1.4} textAnchor="middle" fontSize={4} fill="var(--color-ink)" style={{ fontWeight: selected ? 700 : 500 }}>{first}</text>
+      {guided && <rect x={x - 1.2} y={y - 1.2} width={size + 2.4} height={size + 2.4} rx={2.2} fill="none" stroke="var(--color-accent)" strokeWidth={2} strokeDasharray="3 2" data-testid="guided-room"><animate attributeName="stroke-opacity" values="1;0.35;1" dur="1.6s" repeatCount="indefinite" /></rect>}
       {selected && <path d={`M${x + 2.5} ${y + 7.5} V${y + 2} l5 2 l-5 2`} fill="var(--color-ink)" stroke="var(--color-ink)" strokeWidth={0.8} />}
     </g>
   );
@@ -35,6 +37,7 @@ function Room({ zone, selected, here, onPick }: { zone: ZoneDef; selected: boole
 export function Minimap() {
   const focusedZone = useCameraStore(selectFocusedZoneId);
   const current = useCameraStore((s) => s.currentZoneId);
+  const guide = useMallGuide((s) => s.highlight);
   const [open, setOpen] = useState(false);
   const you = useRef<SVGGElement>(null);
   const wedge = useRef<SVGPathElement>(null);
@@ -63,7 +66,7 @@ export function Minimap() {
               x={sx(c.center[0]) - (c.axis === "x" ? 3 * K : (CORRIDOR_WIDTH * K) / 2)} y={sz(c.center[1]) - (c.axis === "x" ? (CORRIDOR_WIDTH * K) / 2 : 3 * K)}
               width={c.axis === "x" ? 6 * K : CORRIDOR_WIDTH * K} height={c.axis === "x" ? CORRIDOR_WIDTH * K : 6 * K} />
           ))}
-          {ZONES.map((z) => <Room key={z.id} zone={z} selected={focusedZone === z.id} here={current === z.id} onPick={() => go(z)} />)}
+          {ZONES.map((z) => <Room key={z.id} zone={z} selected={focusedZone === z.id} here={current === z.id} guided={guide === z.id} onPick={() => { useMallGuide.getState().set(null); go(z); }} />)}
           <g aria-hidden="true">
             <rect x={ex - 5} y={ey - 0.6} width={10} height={1.6} fill="var(--color-accent)" />
             <path d={`M${ex - 3} ${ey + 8} L${ex} ${ey + 3.5} L${ex + 3} ${ey + 8}`} fill="none" stroke="var(--color-ink)" strokeWidth={1} />

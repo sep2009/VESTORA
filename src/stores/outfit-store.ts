@@ -22,6 +22,8 @@ type State = {
   /** Save the working outfit: updates the active saved outfit or creates one. Returns its id, or null when the outfit is empty or the limit is reached. */
   save: (name?: string) => string | null;
   saveAsNew: (name?: string) => string | null;
+  /** Save an outfit that was built elsewhere (the stylist) without touching the outfit being edited. */
+  saveFrom: (avatar: AvatarConfig, picks: Picks, name: string) => string | null;
   load: (id: string, over?: { avatar?: AvatarConfig; picks?: Picks }) => boolean;
   rename: (id: string, name: string) => void;
   duplicate: (id: string) => string | null;
@@ -51,6 +53,11 @@ export const useOutfits = create<State>()(
         const id = uid(), nm = clean(name ?? s.name) || `Outfit ${s.saved.length + 1}`, now = Date.now();
         set({ activeId: id, name: nm, saved: [{ id, name: nm, avatar: s.avatar, picks: s.picks, favorite: false, createdAt: now, updatedAt: now }, ...s.saved] });
         return id;
+      },
+      saveFrom: (avatar, picks, name) => {
+        const s = get(); if (Object.keys(picks).length === 0 || s.saved.length >= MAX_SAVED) return null;
+        const id = uid(), now = Date.now(), nm = clean(name) || `Outfit ${s.saved.length + 1}`;
+        set({ saved: [{ id, name: nm, avatar, picks, favorite: false, createdAt: now, updatedAt: now }, ...s.saved] }); return id;
       },
       load: (id, over) => {
         const o = get().saved.find((x) => x.id === id); if (!o) return false;
