@@ -128,7 +128,7 @@ function PhotoFlow({ config, item, pick, byId, push }: { config: TryOnConfig; it
             <input ref={input} type="file" accept="image/jpeg,image/png,image/webp" disabled={!consent} onChange={(e) => void choose(e.target.files?.[0] ?? null)} aria-describedby="photo-help" aria-label="Photo to upload" className="block w-full text-sm disabled:opacity-50" data-testid="photo-input" />
             <p id="photo-help" className="mt-1 text-xs text-mute">{consent ? "" : "Accept the terms above to choose a photo. "}JPEG, PNG or WebP, up to {config.limits.maxMb} MB, at least {config.limits.minSide} px on each side. A clear photo of one person facing the camera works best. Your photo is not sent until you press Create.</p>
             {fileError && <p className="mt-2 text-sm text-danger" role="alert" data-testid="file-error">{fileError}</p>}
-            {preview && <div className="mt-3 flex items-start gap-3">{/* eslint-disable-next-line @next/next/no-img-element */}<img src={preview} alt="Preview of the selected photo (only on your device so far)" className="h-40 w-auto rounded-sm border border-line" /><button type="button" className={btn} onClick={removePhoto}>Remove photo</button></div>}
+            {preview && <div className="mt-3 flex items-start gap-3">{ }<img src={preview} alt="Preview of the selected photo (only on your device so far)" className="h-40 w-auto rounded-sm border border-line" /><button type="button" className={btn} onClick={removePhoto}>Remove photo</button></div>}
           </div>
           {provider.test && <label className="flex items-center gap-2 text-xs text-mute">Test provider behavior
             <select className="min-h-9 rounded-sm border border-line bg-paper px-2" value={testMode} onChange={(e) => setTestMode(e.target.value)} data-testid="test-mode">
@@ -153,7 +153,7 @@ function PhotoFlow({ config, item, pick, byId, push }: { config: TryOnConfig; it
         {done.length > 1 && <p className="mt-2 text-xs text-mute">Tick two ready results to compare them.</p>}
         {compared.length === 2 && (
           <div className="mt-3 grid gap-3 sm:grid-cols-2" data-testid="photo-compare">{compared.map((j) => (
-            <figure key={j.id} className="overflow-hidden rounded-md border border-line"><div className="relative">{/* eslint-disable-next-line @next/next/no-img-element */}<img src={`/api/tryon/jobs/${j.id}/result`} alt={`${j.test ? "Test output" : "AI-generated image"} for ${byId.get(j.productId)?.name ?? "product"}`} className="w-full bg-paper" />
+            <figure key={j.id} className="overflow-hidden rounded-md border border-line"><div className="relative">{ }<img src={`/api/tryon/jobs/${j.id}/result`} alt={`${j.test ? "Test output" : "AI-generated image"} for ${byId.get(j.productId)?.name ?? "product"}`} className="w-full bg-paper" />
               <span className="absolute left-2 top-2 rounded-sm bg-accent px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-ink">{j.test ? "Test output · no AI" : "AI-generated"}</span></div>
               <figcaption className="p-2 text-xs text-mute">{byId.get(j.productId)?.name}</figcaption></figure>))}</div>)}
       </section>

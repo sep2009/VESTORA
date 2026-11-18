@@ -24,7 +24,7 @@ export function CartLinesView({ lines, check, editable, compact = false }: { lin
         return (
           <li key={l.key} className={compact ? "flex gap-3 py-4" : "flex gap-4 py-5"}>
             <Link href={`/product/${l.slug}`} className={`block shrink-0 overflow-hidden rounded-sm bg-ink/6 ${compact ? "h-20 w-16" : "h-28 w-24"}`}>
-              {image && /* eslint-disable-next-line @next/next/no-img-element */ <img src={image} alt={`${l.name}`} className="size-full object-cover" />}
+              {image &&   <img src={image} alt={`${l.name}`} className="size-full object-cover" />}
             </Link>
             <div className="min-w-0 flex-1 space-y-1">
               <p className="text-[11px] uppercase tracking-[0.16em] text-mute">{l.brandName}</p>

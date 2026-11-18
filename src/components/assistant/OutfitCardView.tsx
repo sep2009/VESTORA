@@ -55,7 +55,7 @@ export function OutfitCardView({ o, state, allowed, profileAnswers, shownIds }: 
         {rows.map((r, i) => (
           <li key={r.item.id} className="py-3" data-slot={r.item.slot}>
             <div className="flex gap-3">
-              <Link href={`/product/${r.item.slug}`} className="shrink-0" aria-label={`Open ${r.item.name}`}>{/* eslint-disable-next-line @next/next/no-img-element */}{r.item.image ? <img src={r.item.image} alt="" loading="lazy" className="size-20 rounded-sm bg-paper object-cover" /> : <span className="block size-20 rounded-sm bg-paper" />}</Link>
+              <Link href={`/product/${r.item.slug}`} className="shrink-0" aria-label={`Open ${r.item.name}`}>{ }{r.item.image ? <img src={r.item.image} alt="" loading="lazy" className="size-20 rounded-sm bg-paper object-cover" /> : <span className="block size-20 rounded-sm bg-paper" />}</Link>
               <div className="min-w-0 flex-1">
                 <p className="text-[11px] uppercase tracking-wider text-accent-ink">{SLOT_LABEL[r.item.slot]}</p>
                 <Link href={`/product/${r.item.slug}`} className="line-clamp-2 text-sm font-medium leading-snug hover:underline">{r.item.name}</Link>
@@ -71,7 +71,7 @@ export function OutfitCardView({ o, state, allowed, profileAnswers, shownIds }: 
               <div className="mt-3 rounded-md bg-paper p-3" data-testid="alternatives">
                 {alts.loading ? <p className="text-sm text-mute" role="status">Finding alternatives…</p> : alts.items.length === 0 ? <p className="text-sm text-mute">No other in-stock {SLOT_LABEL[r.item.slot].toLowerCase()} fits this outfit{limit ? " and budget" : ""}.</p> : (
                   <ul className="space-y-2">{alts.items.map((a) => (
-                    <li key={a.id} className="flex items-center gap-3">{/* eslint-disable-next-line @next/next/no-img-element */}{a.image && <img src={a.image} alt="" loading="lazy" className="size-12 rounded-sm object-cover" />}
+                    <li key={a.id} className="flex items-center gap-3">{ }{a.image && <img src={a.image} alt="" loading="lazy" className="size-12 rounded-sm object-cover" />}
                       <span className="min-w-0 flex-1"><span className="line-clamp-1 block text-sm">{a.name}</span><span className="block text-xs text-mute">{a.price ? formatMoney(a.price) : ""}{a.why ? ` · ${a.why}` : ""}</span></span>
                       <button className={btn} onClick={() => replace(r.item.slot, a)} aria-label={`Use ${a.name}`}>Use</button></li>))}</ul>)}
                 <button className="mt-2 min-h-9 text-xs underline underline-offset-4" onClick={() => setAlts(null)}>Close</button>

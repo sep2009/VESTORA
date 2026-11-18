@@ -37,7 +37,7 @@ export function DeptCardView({ d, onProduct }: { d: DeptData; onProduct?: () => 
         </div>
       </div>
       {d.products.length > 0 && <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">{d.products.map((p) => (
-        <li key={p.id}><Link href={`/product/${p.slug}`} className="block overflow-hidden rounded-sm border border-line hover:border-ink">{/* eslint-disable-next-line @next/next/no-img-element */}{p.image && <img src={p.image} alt="" loading="lazy" className="aspect-[4/5] w-full bg-paper object-cover" />}<span className="block p-2"><span className="line-clamp-2 block text-xs">{p.name}</span><span className="text-xs text-mute">{p.price ? formatMoney(p.price) : ""}</span></span></Link></li>))}</ul>}
+        <li key={p.id}><Link href={`/product/${p.slug}`} className="block overflow-hidden rounded-sm border border-line hover:border-ink">{ }{p.image && <img src={p.image} alt="" loading="lazy" className="aspect-[4/5] w-full bg-paper object-cover" />}<span className="block p-2"><span className="line-clamp-2 block text-xs">{p.name}</span><span className="text-xs text-mute">{p.price ? formatMoney(p.price) : ""}</span></span></Link></li>))}</ul>}
     </article>
   );
 }

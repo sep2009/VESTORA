@@ -16,6 +16,7 @@ import { Minimap } from "./Minimap";
 import { ModeSwitch } from "./ModeSwitch";
 import { ProductSheet } from "./ProductSheet";
 import { ShowroomLoader } from "./ShowroomLoader";
+import { useSceneReady } from "@/stores/scene-ready";
 
 const ShowroomScene = dynamic(() => import("./ShowroomScene"), { ssr: false, loading: () => <ShowroomLoader /> });
 
@@ -36,6 +37,7 @@ export default function Showroom({ displays, departments }: { displays: Resolved
   const quality = useQuality((s) => s.level);
   const track = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
+  const ready = useSceneReady((s) => s.ready);
   // The sticky site header is taller than a fixed number (it has a department strip), so the stage measures it. A wrong offset hid the top of the scene under the header.
   const [hh, setHh] = useState(118);
   useEffect(() => {
@@ -110,6 +112,7 @@ export default function Showroom({ displays, departments }: { displays: Resolved
         className="sticky min-h-[26rem] overflow-hidden rounded-lg border border-line"
       >
         <ShowroomScene displays={displays} />
+        {!ready && <div className="absolute inset-0 z-[1]"><ShowroomLoader /></div>}
         <div className="absolute top-3 left-3"><Minimap /></div>
         <p className="pointer-events-none absolute top-3 right-3 hidden max-w-sm rounded-sm bg-surface/90 px-2 py-1 text-[11px] uppercase tracking-[0.14em] text-mute lg:block">{HINTS[mode]}</p>
         <div className="pointer-events-none absolute inset-x-3 bottom-3 flex flex-col items-start gap-2 [&>*]:pointer-events-auto">

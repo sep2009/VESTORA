@@ -23,7 +23,7 @@ export function OrderSummary({ order, admin = false }: { order: Order; admin?: b
       <ul className="divide-y divide-line border-y border-line">
         {order.lines.map((l) => (
           <li key={l.sku} className="flex gap-4 py-4">
-            <div className="h-20 w-16 shrink-0 overflow-hidden rounded-sm bg-ink/6">{l.image && /* eslint-disable-next-line @next/next/no-img-element */ <img src={l.image} alt={l.name} className="size-full object-cover" />}</div>
+            <div className="h-20 w-16 shrink-0 overflow-hidden rounded-sm bg-ink/6">{l.image &&   <img src={l.image} alt={l.name} className="size-full object-cover" />}</div>
             <div className="min-w-0 flex-1 text-sm"><p className="text-[11px] uppercase tracking-[0.16em] text-mute">{l.brandName}</p><p className="font-medium">{l.name}</p>
               <p className="text-mute">{[l.size && `Size ${l.size}`, l.color, `SKU ${l.sku}`, `Qty ${l.quantity}`].filter(Boolean).join(" · ")}{l.demo ? " · demo product" : ""}</p></div>
             <p className="text-right text-sm">{m(l.unitPrice * l.quantity, t.currency)}{l.unitRegular > l.unitPrice && <s className="block text-xs text-mute">{m(l.unitRegular * l.quantity, t.currency)}</s>}<span className="block text-xs text-mute">{m(l.unitPrice, t.currency)} each</span></p>

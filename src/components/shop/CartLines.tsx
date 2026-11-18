@@ -25,7 +25,7 @@ export function CartLines({ editable = true }: { editable?: boolean }) {
       {lines.map((l) => (
         <li key={l.key} className="flex gap-4 py-5">
           <Link href={`/product/${l.slug}`} className="block h-28 w-24 shrink-0 overflow-hidden rounded-sm bg-ink/6">
-            {l.image && /* eslint-disable-next-line @next/next/no-img-element */ <img src={l.image} alt="" className="size-full object-cover" />}
+            {l.image &&   <img src={l.image} alt="" className="size-full object-cover" />}
           </Link>
           <div className="min-w-0 flex-1 space-y-1">
             <p className="text-[11px] uppercase tracking-[0.16em] text-mute">{l.brandName}</p>

@@ -10,6 +10,7 @@ import { Effects } from "./scene/Effects";
 import { disposeMaterials } from "./scene/pbr/materials";
 import { disposeGeometry } from "./scene/pbr/geometry";
 import { useQuality } from "@/stores/quality-store";
+import { useSceneReady } from "@/stores/scene-ready";
 import { CameraDirector } from "./scene/CameraDirector";
 import { ShowroomEnvironment } from "./scene/ShowroomEnvironment";
 
@@ -55,6 +56,12 @@ function PauseWhenHidden() {
   return null;
 }
 
+/** Mounts only after the environment (textures, fixtures, products) has resolved out of Suspense; lifts the loading overlay. */
+function SceneReady() {
+  useEffect(() => { const t = setTimeout(() => useSceneReady.getState().set(true), 250); return () => { clearTimeout(t); useSceneReady.getState().set(false); }; }, []);
+  return null;
+}
+
 export default function ShowroomScene({ displays }: { displays: readonly ResolvedDisplay[] }) {
   const level = useQuality((s) => s.level);
   // Release cached textures, materials and geometry when the scene is torn down.
@@ -72,6 +79,7 @@ export default function ShowroomScene({ displays }: { displays: readonly Resolve
       <PauseWhenHidden />
       <Suspense fallback={null}>
         <ShowroomEnvironment displays={displays} />
+        <SceneReady />
       </Suspense>
       <CameraDirector displays={displays} />
       <Effects />

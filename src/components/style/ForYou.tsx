@@ -112,7 +112,7 @@ function Outfit({ o }: { o: Resp["outfits"][number] }) {
     <li className="rounded-md border border-line bg-surface p-4" data-testid="outfit">
       <p className="font-medium leading-snug">{o.name}</p><p className="mt-1 text-xs text-mute">Compatibility {o.match}% · {[...total].map(([currency, amount]) => formatMoney({ amount, currency })).join(" + ")}</p>
       <ul className="my-3 space-y-2">{o.items.map((i) => (
-        <li key={i.id} className="flex items-center gap-3">{/* eslint-disable-next-line @next/next/no-img-element */}{i.image ? <img src={i.image} alt="" loading="lazy" className="size-12 shrink-0 rounded-sm bg-paper object-cover" /> : <span className="size-12 shrink-0 rounded-sm bg-paper" />}
+        <li key={i.id} className="flex items-center gap-3">{ }{i.image ? <img src={i.image} alt="" loading="lazy" className="size-12 shrink-0 rounded-sm bg-paper object-cover" /> : <span className="size-12 shrink-0 rounded-sm bg-paper" />}
           <span className="min-w-0 flex-1"><Link href={`/product/${i.slug}`} className="line-clamp-1 text-sm hover:underline">{i.name}</Link><span className="block text-xs text-mute">{SLOT_LABEL[i.slot as Slot]}{i.color ? ` · ${i.color}` : ""}</span></span></li>))}</ul>
       <p className="text-xs leading-relaxed text-mute">{o.why}</p>
       <Link href={`/style-creator?o=${encodeShare(DEFAULT_AVATAR, o.picks as Picks, o.name.slice(0, 60))}`} className="mt-3 inline-flex min-h-10 items-center rounded-sm border border-ink px-4 text-sm hover:bg-ink hover:text-paper">Open in Outfit Studio</Link>
