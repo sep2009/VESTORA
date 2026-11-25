@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 export default async function AdminOrders({ searchParams }: { searchParams: Promise<{ q?: string; status?: string; payment?: string; page?: string }> }) {
   const { role } = await requireAdminPage();
   const sp = await searchParams;
-  const r = searchOrders({ q: sp.q, status: sp.status || undefined, payment: sp.payment || undefined, page: Number(sp.page) || 1 });
+  const r = (await searchOrders({ q: sp.q, status: sp.status || undefined, payment: sp.payment || undefined, page: Number(sp.page) || 1 }));
   const pages = Math.max(1, Math.ceil(r.total / r.pageSize));
   const href = (n: number) => `/admin/orders?${new URLSearchParams({ ...(sp.q ? { q: sp.q } : {}), ...(sp.status ? { status: sp.status } : {}), ...(sp.payment ? { payment: sp.payment } : {}), page: String(n) })}`;
   const sel = "h-10 rounded-sm border border-line bg-surface px-2 text-sm";

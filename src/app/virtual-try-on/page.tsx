@@ -15,7 +15,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
     available: st.available, code: st.available ? "ok" : st.code, message: st.available ? null : st.message,
     provider: st.available ? { id: st.provider.id, label: st.provider.label, test: st.provider.test, retentionNote: st.provider.retentionNote } : null,
     limits: { maxMb: PHOTO_LIMITS.maxBytes / 1024 / 1024, minSide: PHOTO_LIMITS.minSide, maxSide: PHOTO_LIMITS.maxSide, retention: RETENTION },
-    consentVersion: CONSENT_VERSION, signedIn: !!user, usage: user ? usageFor(user) : null,
+    consentVersion: CONSENT_VERSION, signedIn: !!user, usage: user ? (await usageFor(user)) : null,
   };
-  return <TryOnApp items={getTryOnItems()} config={config} initialSlug={sp.product ?? null} initialMode={sp.mode ?? null} />;
+  return <TryOnApp items={(await getTryOnItems())} config={config} initialSlug={sp.product ?? null} initialMode={sp.mode ?? null} />;
 }

@@ -8,12 +8,12 @@ import { getProductDetail } from "@/server/catalog/detail";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const d = getProductDetail((await params).slug);
+  const d = (await getProductDetail((await params).slug));
   return { title: d ? d.product.name : "Product not found" };
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  const d = getProductDetail((await params).slug);
+  const d = (await getProductDetail((await params).slug));
   if (!d) notFound();
   const p = d.product;
   return (

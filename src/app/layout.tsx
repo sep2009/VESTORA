@@ -18,8 +18,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
 export const dynamic = "force-dynamic";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const slugs = Object.fromEntries(getCatalog().products.map((p) => [p.id, p.slug]));
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // The shell must render even if the database is down; pages that need it report their own error.
+  let slugs: Record<string, string> = {};
+  try { slugs = Object.fromEntries((await getCatalog()).products.map((p) => [p.id, p.slug])); } catch (e) { console.error("[layout] catalog unavailable:", e instanceof Error ? e.message : e); }
   return (
     <html lang="en">
       <body className="flex min-h-dvh flex-col">

@@ -12,11 +12,11 @@ export type ProductDetail = {
 };
 
 /** Everything the detail view needs, read from the one database: the product and recommendations that are real catalog records. */
-export function getProductDetail(slug: string): ProductDetail | null {
-  const c = getCatalog();
+export async function getProductDetail(slug: string): Promise<ProductDetail | null> {
+  const c = await getCatalog();
   const product = c.products.find((p) => p.slug === slug);
   if (!product) return null;
-  const { items } = getIndex();
+  const { items } = await getIndex();
   const me = items.find((i) => i.id === product.id)!;
   return {
     product,

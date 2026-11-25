@@ -139,7 +139,7 @@ export async function createOrder(raw: unknown, user: User | null, provider: Pay
 
 /** Opens (or reopens) the provider's payment page for a pending order. */
 export async function startPayment(orderId: string, provider: PaymentProvider, origin: string): Promise<Result<{ redirectUrl: string }>> {
-  const o = readStore().data.orders.find((x) => x.id === orderId);
+  const o = (await readStore()).data.orders.find((x) => x.id === orderId);
   if (!o) return fail(404, "Order not found");
   if (o.payment.status !== "pending") return fail(409, `This order is ${o.payment.status}; payment cannot be started.`);
   if (o.payment.provider !== provider.id) return fail(409, "The payment provider for this order is no longer available.");
@@ -153,7 +153,7 @@ export async function startPayment(orderId: string, provider: PaymentProvider, o
     });
     if (!r.ok) return r;
   }
-  const fresh = readStore().data.orders.find((x) => x.id === orderId)!;
+  const fresh = (await readStore()).data.orders.find((x) => x.id === orderId)!;
   const base = `${origin}/checkout/confirmation/${orderId}?t=${orderToken(orderId)}`;
   let session;
   try { session = await provider.createSession(fresh, { success: base, cancel: `${base}&cancelled=1` }); }
@@ -218,13 +218,13 @@ export function applyPaymentEvent(provider: PaymentProvider, ev: PaymentEventIn)
 }
 
 // ---------- reading ----------
-export const getOrder = (id: string) => readStore().data.orders.find((o) => o.id === id) ?? null;
-export const ordersForUser = (userId: string) => readStore().data.orders.filter((o) => o.userId === userId).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+export const getOrder = async (id: string) => (await readStore()).data.orders.find((o) => o.id === id) ?? null;
+export const ordersForUser = async (userId: string) => (await readStore()).data.orders.filter((o) => o.userId === userId).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
 export type OrderQuery = { q?: string; status?: string; payment?: string; page?: number; pageSize?: number };
-export function searchOrders(query: OrderQuery) {
+export async function searchOrders(query: OrderQuery) {
   const q = (query.q ?? "").trim().toLowerCase();
-  let list = readStore().data.orders.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  let list = (await readStore()).data.orders.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   if (query.status) list = list.filter((o) => o.status === query.status);
   if (query.payment) list = list.filter((o) => o.payment.status === query.payment);
   if (q) list = list.filter((o) => [o.id, o.customer.email, o.customer.name, o.payment.providerRef ?? "", ...o.lines.map((l) => `${l.name} ${l.sku}`)].join(" ").toLowerCase().includes(q));

@@ -8,7 +8,6 @@ import { TryOnProviderError, type TryOnProvider } from "./provider";
  * deletion) WITHOUT any AI. Its "result" is a hatched placeholder image that says "TEST OUTPUT, NO AI USED". It never looks at the photo.
  * Enabled only outside production, or with ALLOW_TEST_TRYON=1.
  */
-const runs = new Map<string, { at: number; mode: string }>();
 const DURATION_MS = Number(process.env.TRYON_TEST_DURATION_MS ?? 2500);
 
 const GLYPHS: Record<string, string[]> = {
@@ -49,17 +48,17 @@ export function testProvider(): TryOnProvider {
       if (mode === "unreachable") throw new TryOnProviderError("The try-on service could not be reached.", "provider_unreachable", true);
       if (mode === "reject") throw new TryOnProviderError("The service could not use this photo (for example, no person was found).", "photo_rejected", false);
       if (mode === "quota") throw new TryOnProviderError("The service has reached its usage limit. Please try again later.", "provider_quota", true);
-      const id = `test_${input.jobId}`;
-      runs.set(id, { at: Date.now(), mode });
-      return { providerJobId: id };
+      // state lives in the id itself, so any server instance can answer for it (serverless: no shared memory)
+      return { providerJobId: `test_${input.jobId}_${Date.now()}_${mode}` };
     },
     async poll(id) {
-      const r = runs.get(id); if (!r) return { state: "failed", code: "unknown_job", message: "The service lost this job.", retryable: true };
+      const m = /^test_.+_(\d+)_([a-z]+)$/.exec(id); if (!m) return { state: "failed", code: "unknown_job", message: "The service lost this job.", retryable: true };
+      const r = { at: Number(m[1]), mode: m[2]! };
       const elapsed = Date.now() - r.at, dur = r.mode === "slow" ? 60_000 : DURATION_MS;
       if (r.mode === "fail" && elapsed > DURATION_MS / 2) return { state: "failed", code: "generation_failed", message: "The service could not create an image from this photo.", retryable: true };
       if (elapsed < dur) return { state: "processing", progress: Math.min(95, Math.round((elapsed / dur) * 100)) };
       return { state: "succeeded", image: { bytes: placeholderPng(id), mime: "image/png" } };
     },
-    async delete(id) { runs.delete(id); },
+    async delete() { /* nothing is kept */ },
   };
 }

@@ -13,12 +13,12 @@ export type Catalog = {
   products: Product[]; slots: SlotRecord[]; pins: Record<string, string>; rejected: Rejected[];
 };
 
-export function getCatalog(): Catalog {
-  const { data, rejected } = readStore();
+export async function getCatalog(): Promise<Catalog> {
+  const { data, rejected } = await readStore();
   applyDepartmentMeta(data.departments);
   return { brands: data.brands, categories: data.categories, collections: data.collections, departments: data.departments, products: data.products, slots: data.showroom.slots, pins: data.showroom.assignments, rejected };
 }
 
-export const getProductBySlug = (slug: string) => getCatalog().products.find((p) => p.slug === slug);
-export const getProductById = (id: string) => getCatalog().products.find((p) => p.id === id);
+export const getProductBySlug = async (slug: string) => (await getCatalog()).products.find((p) => p.slug === slug);
+export const getProductById = async (id: string) => (await getCatalog()).products.find((p) => p.id === id);
 export { effectivePrice };

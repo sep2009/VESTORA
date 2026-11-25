@@ -12,8 +12,8 @@ export const slugify = (s: string) => s.toLowerCase().normalize("NFKD").replace(
 const issues = (e: z.ZodError) => e.issues.map((i) => `${i.path.join(".") || "record"}: ${i.message}`);
 
 /* ───────── reads ───────── */
-export const listProducts = () => readStore().data.products;
-export const getProduct = (id: string) => readStore().data.products.find((p) => p.id === id);
+export const listProducts = async () => (await readStore()).data.products;
+export const getProduct = async (id: string) => (await readStore()).data.products.find((p) => p.id === id);
 
 /* ───────── products ───────── */
 export type ProductInput = Omit<Partial<Product>, "id" | "slug"> & { id?: string; slug?: string };

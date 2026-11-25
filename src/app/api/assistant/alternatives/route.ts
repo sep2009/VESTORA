@@ -11,8 +11,8 @@ const body = z.object({
 });
 /** Compatible, in-stock replacements for one piece of an outfit, from the catalog. */
 export function POST(req: Request) {
-  return apiRoute(req, { auth: "optional", rate: { name: "assistant-alt", max: 60, windowMs: 60_000 } }, ({ body: raw }) => {
+  return apiRoute(req, { auth: "optional", rate: { name: "assistant-alt", max: 60, windowMs: 60_000 } }, async ({ body: raw }) => {
     const b = body.safeParse(raw); if (!b.success) return fail(422, "Invalid request.");
-    return ok({ items: alternatives({ state: b.data.state, context: b.data.context, outfitIds: b.data.outfitIds, slot: b.data.slot, exclude: b.data.exclude, limit: b.data.limit }) });
+    return ok({ items: await alternatives({ state: b.data.state, context: b.data.context, outfitIds: b.data.outfitIds, slot: b.data.slot, exclude: b.data.exclude, limit: b.data.limit }) });
   });
 }

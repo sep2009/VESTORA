@@ -5,8 +5,8 @@ import { bagStyleFor, occasionsFor, slotForKind, styleFor, tabFor, type StudioIt
 import { getCatalog } from "./catalog";
 
 /** Products the Outfit Studio can put on an avatar. Read from the one product database; only categories with a studio garment shape are included. */
-export function getStudioItems(): StudioItem[] {
-  const c = getCatalog();
+export async function getStudioItems(): Promise<StudioItem[]> {
+  const c = await getCatalog();
   const brands = new Map(c.brands.map((b) => [b.slug, b.name]));
   const cats = new Map(c.categories.map((x) => [x.slug, x.name]));
   const out: StudioItem[] = [];

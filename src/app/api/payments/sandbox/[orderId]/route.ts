@@ -17,7 +17,7 @@ export const POST = (req: Request, c: { params: Promise<{ orderId: string }> }) 
   const p = activeProvider();
   if (!p || p.id !== "sandbox") return errors(404, "The test payment provider is not active.");
   const b = (body ?? {}) as { outcome?: keyof typeof TYPES; eventId?: string; t?: string; amount?: number };
-  const order = getOrder((await c.params).orderId);
+  const order = (await getOrder((await c.params).orderId));
   if (!order || b.t !== orderToken(order.id)) return errors(404, "Order not found");
   const type = b.outcome ? TYPES[b.outcome] : undefined;
   if (!type) return errors(400, "Unknown outcome");

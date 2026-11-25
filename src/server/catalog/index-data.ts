@@ -20,7 +20,7 @@ export type IndexItem = {
 };
 
 /** Which products the mall displays, using the live fixtures, pins and visibility from the database. */
-export function mallDisplays(c: Catalog = getCatalog()) {
+export function mallDisplays(c: Catalog) {
   const names = new Map(c.brands.map((b) => [b.slug, b.name]));
   const hidden = new Set(c.departments.filter((d) => !d.showInMall).map((d) => d.slug as string));
   const mall = c.products.filter((p) => p.showInMall && !hidden.has(p.department)).map((p) => toMallProduct(p, names.get(p.brand) ?? p.brand, c.categories));
@@ -28,8 +28,8 @@ export function mallDisplays(c: Catalog = getCatalog()) {
 }
 
 /** Light record list for search, favorites and the mobile shop rail. Built from the one database. */
-export function getIndex(): { items: IndexItem[]; brands: { slug: string; name: string; demo: boolean; department: string | null; count: number }[] } {
-  const c = getCatalog();
+export async function getIndex(): Promise<{ items: IndexItem[]; brands: { slug: string; name: string; demo: boolean; department: string | null; count: number }[] }> {
+  const c = await getCatalog();
   const names = new Map(c.brands.map((b) => [b.slug, b.name]));
   const catNames = new Map(c.categories.map((x) => [x.slug, x.name]));
   const inMall = new Set(mallDisplays(c).displays.flatMap((d) => d.products.map((p) => p.id)));

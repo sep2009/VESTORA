@@ -18,7 +18,7 @@ const SHAPES: Record<string, (c: string, d: string) => string> = {
 };
 /** The picture follows what the product IS (its catalog type), so shoes look like shoes and pants like pants. */
 const SHAPE_OF_KIND: Record<string, string> = { tee: "top", shirt: "top", hoodie: "hoodie", jacket: "jacket", coat: "coat", suit: "jacket", trousers: "trousers", dress: "dress", sneaker: "shoe", bag: "bag", watch: "watch", glasses: "eyewear" };
-const shapeFor = (category: string) => SHAPE_OF_KIND[kindForCategory(getCatalog().categories, category)] ?? "top";
+const shapeFor = async (category: string) => SHAPE_OF_KIND[kindForCategory((await getCatalog()).categories, category)] ?? "top";
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 
 /**
@@ -27,14 +27,14 @@ const esc = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`)
  */
 export async function GET(_req: Request, ctx: { params: Promise<{ slug: string; n: string }> }) {
   const { slug, n } = await ctx.params;
-  const p = getProductBySlug(slug);
+  const p = (await getProductBySlug(slug));
   if (!p || !isDemo(p)) return new Response("Not found", { status: 404 });
   const k = Math.max(1, Math.min(3, Number(n) || 1));
   const colour = p.colors[0]?.hex ?? "#b6b0a4";
   const bg = ["#ece8e0", "#dcd8cf", "#e4dfd5"][k - 1]!;
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" role="img" aria-label="${esc(p.name)} (demo illustration)">
 <rect width="400" height="500" fill="${bg}"/>
-<g transform="${k === 2 ? "translate(400 0) scale(-1 1)" : k === 3 ? "translate(40 40) scale(0.9)" : ""}">${SHAPES[shapeFor(p.category)]!(colour, "#2a2a2c")}</g>
+<g transform="${k === 2 ? "translate(400 0) scale(-1 1)" : k === 3 ? "translate(40 40) scale(0.9)" : ""}">${SHAPES[await shapeFor(p.category)]!(colour, "#2a2a2c")}</g>
 <rect x="0" y="448" width="400" height="52" fill="#161618"/>
 <text x="200" y="472" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#e9e4d8" letter-spacing="3">DEMO PRODUCT</text>
 <text x="200" y="490" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#a9a499">illustration · no real photography</text></svg>`;

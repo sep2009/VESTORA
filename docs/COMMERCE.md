@@ -40,7 +40,7 @@ With none of these set, checkout says payments are not configured and refuses to
 
 ## Not done / needs you
 - **No real payments.** The Stripe adapter is written but has **never run against Stripe**; it needs your account keys and a webhook. Test it in Stripe test mode first.
-- **No email.** Reset links and order emails go to `data/db/outbox.log` and the console; connect a mail provider in `deliverEmail`. Until then the confirmation page says email is "once delivery is configured".
+- **No email.** Reset links and order emails are recorded in the `outbox` database table and the console; connect a mail provider in `deliverEmail`. Until then the confirmation page says email is "once delivery is configured".
 - Tax, coupon codes, refunds through a provider, order cancellation by customers, returns, invoices and shipping carrier integration are not built. Shipping prices and countries are fixed in `modules/commerce/shipping.ts` and `types.ts`.
 - File store: one server instance. Production on Supabase needs an adapter for `server/commerce`; the schema and atomic stock function are drafted but untested.
 - Rate limits and the login throttle are in memory.

@@ -4,6 +4,7 @@ import type { User } from "@/modules/commerce/types";
 import { customerFromRequest } from "./customer-session";
 import { limited } from "./limiter";
 import type { Result } from "@/server/store/db";
+import { dbFailure, UNAVAILABLE } from "@/server/db/driver";
 
 type Ctx = { req: Request; user: User | null; body: unknown; ip: string; origin: string };
 type Opts = {
@@ -33,7 +34,7 @@ export async function apiRoute(req: Request, opts: Opts, run: (c: Ctx) => Promis
       const origin = req.headers.get("origin");
       if (origin && origin !== url.origin) return errors(403, "Cross-origin request refused");
     }
-    const user = customerFromRequest(req);
+    const user = await customerFromRequest(req);
     if (opts.auth === "required" && !user) return errors(401, "Please sign in");
     let body: unknown = undefined;
     if (unsafe && req.method !== "DELETE" && !opts.noBody) {
@@ -45,6 +46,8 @@ export async function apiRoute(req: Request, opts: Opts, run: (c: Ctx) => Promis
     if (r instanceof NextResponse) return r;
     return r.ok ? json(r.data) : errors(r.status, ...r.errors);
   } catch (e) {
+    const kind = dbFailure(e);
+    if (kind) { console.error(`[api] database ${kind === "config" ? "not configured" : "unreachable"}:`, e instanceof Error ? e.message : e); return errors(503, UNAVAILABLE); }
     console.error("[api]", req.method, req.url, e);
     return errors(500, "Something went wrong on our side. Please try again.");
   }

@@ -23,6 +23,8 @@ const config: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ["three"],
   poweredByHeader: false,
+  // Database drivers stay out of the bundle (PGlite is development/test only).
+  serverExternalPackages: ["pg", "@electric-sql/pglite"],
   async headers() {
     return [{
       source: "/:path*",

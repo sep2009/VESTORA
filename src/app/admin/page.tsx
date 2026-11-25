@@ -1,23 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { readFileSync } from "node:fs";
-import path from "node:path";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { resolveStock } from "@/modules/catalog/types";
 import { requireAdminPage } from "@/server/auth/page-guard";
 import { getCatalog } from "@/server/catalog/catalog";
-import { dataDir } from "@/server/store/db";
+import { recentAudit } from "@/server/store/db";
 
 export const metadata: Metadata = { title: "Admin dashboard", robots: { index: false } };
 export const dynamic = "force-dynamic";
 
 export default async function AdminHome() {
   const { role } = await requireAdminPage();
-  const c = getCatalog();
+  const c = (await getCatalog());
   const demo = c.products.filter((p) => p.source.kind === "demo").length;
   const out = c.products.filter((p) => resolveStock(p).availability === "out_of_stock").length;
-  let log: string[] = [];
-  try { log = readFileSync(path.join(dataDir(), "audit.log"), "utf8").trim().split("\n").slice(-8).reverse(); } catch { /* none yet */ }
+  const log = (await recentAudit(8)).map((e) => JSON.stringify(e));
   const stat = (label: string, value: number | string, href?: string) => (
     <li className="rounded-md border border-line bg-surface p-4"><p className="text-xs uppercase tracking-[0.16em] text-mute">{label}</p><p className="font-display text-3xl">{href ? <Link href={href} className="hover:text-accent-ink">{value}</Link> : value}</p></li>
   );

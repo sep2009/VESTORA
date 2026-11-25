@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminTaxonomy() {
   const { role } = await requireAdminPage();
-  const c = getCatalog();
+  const c = (await getCatalog());
   return (
     <AdminShell role={role} title="Taxonomy" intro="Categories, collections, brands and department labels.">
       <TaxonomyManager categories={c.categories} collections={c.collections} brands={c.brands} departments={c.departments} role={role} />

@@ -13,10 +13,10 @@ export type TryOnItem = StudioItem & {
 };
 
 /** Every try-on decision is made here, from real product records: what the product is, whether it has a 3D model, whether the configured provider can handle it. */
-export function getTryOnItems(): TryOnItem[] {
-  const c = getCatalog(), st = providerStatus();
+export async function getTryOnItems(): Promise<TryOnItem[]> {
+  const c = await getCatalog(), st = providerStatus();
   const byId = new Map(c.products.map((p) => [p.id, p]));
-  return getStudioItems().map((it) => {
+  return (await getStudioItems()).map((it) => {
     const p = byId.get(it.id)!;
     const category = garmentCategoryFor(it.kind);
     let reason: string | null = null;

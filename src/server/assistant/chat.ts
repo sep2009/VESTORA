@@ -19,8 +19,8 @@ export type ChatResponse = {
 };
 const TIMEOUT = () => Number(process.env.ASSISTANT_TIMEOUT_MS) || 20_000;
 
-function buildCtx(items: readonly StyleItem[], c: ChatContext) {
-  const facts = getFacts(items), names = getNames(facts), known = new Set(items.map((i) => i.id)), a = c.authorized;
+async function buildCtx(items: readonly StyleItem[], c: ChatContext) {
+  const facts = await getFacts(items), names = await getNames(facts), known = new Set(items.map((i) => i.id)), a = c.authorized;
   const profile = a.profile && c.profileAnswers ? sanitizeProfile({ answers: c.profileAnswers }, facts) : null;
   const ids = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string" && known.has(x)).slice(0, 100) : []);
   const cart = a.cart ? ids(c.cartProductIds) : [], saved = a.outfits ? ids(c.savedOutfitProductIds) : [];
@@ -46,7 +46,7 @@ function tools(items: readonly StyleItem[], st: AState, ctx: Ctx): ToolApi {
 const withTimeout = <T,>(run: (signal: AbortSignal) => Promise<T>, ms: number): Promise<T> => { const ac = new AbortController(); return new Promise<T>((res, rej) => { const t = setTimeout(() => { ac.abort(); rej(new ProviderError("The model took too long to answer.", "timeout")); }, ms); run(ac.signal).then((v) => { clearTimeout(t); res(v); }, (e) => { clearTimeout(t); rej(e); }); }); };
 
 export async function chat(input: { message: string; state: unknown; context: ChatContext; history?: { role: "user" | "assistant"; text: string }[]; testMode?: string | null }): Promise<ChatResponse> {
-  const items = getStyleItems(), { ctx, known, used } = buildCtx(items, input.context);
+  const items = await getStyleItems(), { ctx, known, used } = await buildCtx(items, input.context);
   const state = sanitizeState(input.state, ctx.facts, known);
   const rules = answer(items, input.message, state, ctx);
   const st = assistantProviderStatus();
@@ -72,8 +72,8 @@ export async function chat(input: { message: string; state: unknown; context: Ch
   }
 }
 
-export function alternatives(input: { state: unknown; context: ChatContext; outfitIds: string[]; slot: Slot; exclude?: string[]; limit?: number }): AItem[] {
-  const items = getStyleItems(), { ctx, known } = buildCtx(items, input.context);
+export async function alternatives(input: { state: unknown; context: ChatContext; outfitIds: string[]; slot: Slot; exclude?: string[]; limit?: number }): Promise<AItem[]> {
+  const items = await getStyleItems(), { ctx, known } = await buildCtx(items, input.context);
   const ids = input.outfitIds.filter((id) => known.has(id)).slice(0, 10);
   return alternativesFor(items, sanitizeState(input.state, ctx.facts, known), ctx, ids, input.slot, { limit: input.limit, exclude: (input.exclude ?? []).filter((id) => known.has(id)) });
 }

@@ -13,7 +13,7 @@ export default async function AdminShowroom({ searchParams }: { searchParams: Pr
   const { role } = await requireAdminPage();
   const sp = await searchParams;
   const dept = (DEPARTMENTS as readonly string[]).includes(sp.dept ?? "") ? sp.dept! : "luxury";
-  const c = getCatalog();
+  const c = (await getCatalog());
   const placedAt = new Map(mallDisplays(c).displays.flatMap((d) => d.products.map((p) => [p.id, d.slot.id] as const)));
   const products = c.products.filter((p) => p.department === dept).map((p) => ({ id: p.id, name: p.name, category: p.category, showInMall: p.showInMall, placedAt: placedAt.get(p.id) ?? null, pin: c.pins[p.id] ?? null }));
   return (

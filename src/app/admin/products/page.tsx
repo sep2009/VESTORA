@@ -16,7 +16,7 @@ export default async function AdminProducts({ searchParams }: { searchParams: Pr
   const { role } = await requireAdminPage();
   const sp = await searchParams;
   const q = sp.q?.trim() ?? "", page = Math.max(1, Number(sp.page) || 1);
-  const c = getCatalog();
+  const c = (await getCatalog());
   const brand = new Map(c.brands.map((b) => [b.slug, b.name]));
   const all = c.products.filter((p) => (!sp.dept || p.department === sp.dept) && matchScore(p, brand.get(p.brand) ?? "", q) > 0).sort((a, b) => a.name.localeCompare(b.name));
   const rows = all.slice((page - 1) * PAGE, page * PAGE), pages = Math.max(1, Math.ceil(all.length / PAGE));

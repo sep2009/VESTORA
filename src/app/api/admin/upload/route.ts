@@ -13,6 +13,6 @@ export async function POST(req: Request) {
   const form = await req.formData().catch(() => null);
   const kind = form?.get("kind"), file = form?.get("file");
   if ((kind !== "image" && kind !== "model") || !(file instanceof File)) return NextResponse.json({ errors: ["Send multipart fields: kind (image|model) and file"] }, { status: 400 });
-  const r = saveUpload(kind as UploadKind, Buffer.from(await file.arrayBuffer()));
+  const r = await saveUpload(kind as UploadKind, Buffer.from(await file.arrayBuffer()));
   return r.ok ? NextResponse.json({ url: r.url, bytes: r.bytes }, { status: 201 }) : NextResponse.json({ errors: [r.error] }, { status: r.status });
 }

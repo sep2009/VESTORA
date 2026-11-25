@@ -129,7 +129,7 @@ t("address deleted", r.status === 200);
 r = await new Client().call("POST", "/api/auth/forgot", { email: "nobody@example.com" });
 const r2 = await new Client().call("POST", "/api/auth/forgot", { email });
 t("forgot answers identically", r.status === 200 && r2.status === 200 && r.json.message === r2.json.message);
-const outbox = readFileSync("data/db/outbox.log", "utf8").trim().split("\n").map((l) => JSON.parse(l)).reverse().find((m) => m.to === email);
+const outbox = (await admin.call("GET", "/api/admin/outbox")).json?.messages?.find((m) => m.recipient === email);
 const token = outbox?.body.match(/token=([\w-]+)/)?.[1];
 t("reset link delivered to outbox (mail not configured)", !!token);
 r = await new Client().call("POST", "/api/auth/reset", { token: "x".repeat(40), password: "another long password" });

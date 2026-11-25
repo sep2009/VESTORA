@@ -10,7 +10,7 @@ Eleven simple steps, one per screen, with a progress bar and numbered jump butto
 
 ## The style profile
 Saved answers plus a derived profile: department and product-type weights (a combination you like implies its pieces, a little weaker than a direct choice), style weights, liked and avoided colors, formality (0–1), occasions, seasons, budget range with currency, brands, summary **style tags** (for example "minimalist", "leans formal", "neutral palette", "weekend") and interest tags. Derived data is **always recomputed from the answers**, including on the server, so tampered stored data has no effect.
-- Stored on the device (`vestora-style-v1`). Signed in, it is also saved to the account (`data/db/style-profiles.json`; newest copy wins) so it follows you. Delete it from the quiz page or the For you page: it is removed from the device and the account.
+- Stored on the device (`vestora-style-v1`). Signed in, it is also saved to the account (the `style_profiles` database table; newest copy wins) so it follows you. Delete it from the quiz page or the For you page: it is removed from the device and the account.
 
 ## Recommendation engine
 `rank()` scores every product that passes the **hard rules**, then sorts. Deterministic, linear in the number of products, run on the server from one catalog read (72 products: well under a millisecond per product), no network calls.

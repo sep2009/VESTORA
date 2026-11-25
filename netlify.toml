@@ -1,0 +1,14 @@
+# Netlify build settings. Next.js is built and served by the Netlify Next.js runtime (installed automatically).
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Required site environment variables (Site configuration > Environment variables):
+#   NETLIFY_DATABASE_URL   provided automatically once Netlify Database is enabled for the site
+#   SESSION_SECRET         32+ random characters
+#   ADMIN_PASSWORD_HASH    from `node scripts/hash-password.mjs "<password>"`
+# Payments, AI providers and the rest: see docs/DEPLOYMENT.md. Do NOT set VESTORA_DB, ALLOW_TEST_* or RATE_LIMIT_SCALE on Netlify.

@@ -6,10 +6,10 @@ import { getIndex, mallDisplays } from "@/server/catalog/index-data";
 
 export const dynamic = "force-dynamic";
 
-export default function ExplorePage() {
-  const catalog = getCatalog();
+export default async function ExplorePage() {
+  const catalog = (await getCatalog());
   const { displays } = mallDisplays(catalog);
-  const featured = getIndex().items.filter((i) => i.availability === "in_stock").sort((a, b) => Number(b.featured) - Number(a.featured)).slice(0, 6);
+  const featured = (await getIndex()).items.filter((i) => i.availability === "in_stock").sort((a, b) => Number(b.featured) - Number(a.featured)).slice(0, 6);
   return (
     <>
       <Container className="pt-8 pb-6 sm:pt-16 sm:pb-8">

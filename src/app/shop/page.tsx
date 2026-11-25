@@ -21,13 +21,13 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
   const sp = await searchParams;
   const query = parseQuery(sp);
   const page = Math.max(1, Number(Array.isArray(sp.page) ? sp.page[0] : sp.page) || 1);
-  const { products, brands, categories, collections } = getCatalog();
+  const { products, brands, categories, collections } = (await getCatalog());
   if (products.length === 0) {
     return <PageShell eyebrow="Shop mode" title="Shop"><EmptyState title="No products connected">The catalog is empty. Add verified product records to <code>data/catalog</code> or connect a product feed (see <code>data/catalog/README.md</code>).</EmptyState></PageShell>;
   }
   const f = facets(products, brands, categories);
   const found = queryProducts(products, brands, query);
-  const index = new Map(getIndex().items.map((i) => [i.id, i]));
+  const index = new Map((await getIndex()).items.map((i) => [i.id, i]));
   const shown = found.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map((p) => index.get(p.id)!);
   const pages = Math.max(1, Math.ceil(found.length / PAGE_SIZE));
   const active = (query.audience?.length ?? 0) + (query.collection?.length ?? 0) + (query.brand?.length ?? 0) + (query.category?.length ?? 0) + (query.department?.length ?? 0) + (query.size?.length ?? 0) + (query.color?.length ?? 0) + (query.min !== undefined ? 1 : 0) + (query.max !== undefined ? 1 : 0) + (query.available ? 1 : 0);

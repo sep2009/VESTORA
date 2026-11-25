@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const u = await requireCustomer(`/account/orders/${id}`);
-  const o = getOrder(id);
+  const o = (await getOrder(id));
   if (!o || o.userId !== u.id) notFound();
   return (
     <PageShell eyebrow="Account" title={`Order ${o.id}`}><AccountNav />

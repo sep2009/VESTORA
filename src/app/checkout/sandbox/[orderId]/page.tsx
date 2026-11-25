@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export default async function Page({ params, searchParams }: { params: Promise<{ orderId: string }>; searchParams: Promise<{ t?: string }> }) {
   const [{ orderId }, { t }] = await Promise.all([params, searchParams]);
   const provider = activeProvider();
-  const order = getOrder(orderId);
+  const order = (await getOrder(orderId));
   if (!provider || provider.id !== "sandbox" || !order || t !== orderToken(order.id)) notFound();
   return <SandboxPay orderId={order.id} token={t!} amount={formatMoney({ amount: order.totals.total, currency: order.totals.currency })} paymentStatus={order.payment.status} />;
 }

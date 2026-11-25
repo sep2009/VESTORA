@@ -7,8 +7,8 @@ import { getCatalog } from "@/server/catalog/catalog";
 export const metadata: Metadata = { title: "Categories" };
 export const dynamic = "force-dynamic";
 
-export default function CategoriesPage() {
-  const { products, categories } = getCatalog();
+export default async function CategoriesPage() {
+  const { products, categories } = (await getCatalog());
   const count = (key: "category" | "department") => { const m = new Map<string, number>(); products.forEach((p) => m.set(p[key], (m.get(p[key]) ?? 0) + 1)); return [...m]; };
   return (
     <PageShell eyebrow="Shop mode" title="Categories and departments">

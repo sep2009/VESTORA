@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: "Your orders", robots: { index: false
 export const dynamic = "force-dynamic";
 export default async function Page() {
   const u = await requireCustomer("/account/orders");
-  const orders = ordersForUser(u.id);
+  const orders = (await ordersForUser(u.id));
   return (
     <PageShell eyebrow="Account" title="Your orders"><AccountNav />
       {orders.length === 0 ? <EmptyState title="No orders yet" icon="box" action={<Button href="/shop" variant="secondary">Shop</Button>}>Orders you place while signed in appear here.</EmptyState> : (

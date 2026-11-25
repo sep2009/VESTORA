@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export default async function EditProduct({ params }: { params: Promise<{ id: string }> }) {
   const { role } = await requireAdminPage();
   const { id } = await params;
-  const c = getCatalog();
+  const c = (await getCatalog());
   const initial = id === "new" ? null : c.products.find((p) => p.id === id) ?? null;
   if (id !== "new" && !initial) notFound();
   return (

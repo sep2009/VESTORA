@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function Page({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
   const [user, sp] = await Promise.all([currentCustomer(), searchParams]);
   if (!user) return <PageShell eyebrow="Account" title="Sign in" intro="Sign in to see your orders, save addresses and keep favorites on every device."><AuthForms next={sp.next ?? null} /></PageShell>;
-  const orders = ordersForUser(user.id);
+  const orders = (await ordersForUser(user.id));
   return (
     <PageShell eyebrow="Account" title={`Hello, ${user.name.split(" ")[0]}`} intro={user.email}>
       <AccountNav />

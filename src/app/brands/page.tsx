@@ -8,8 +8,8 @@ import { getIndex } from "@/server/catalog/index-data";
 export const metadata: Metadata = { title: "Brands" };
 export const dynamic = "force-dynamic";
 
-export default function BrandsPage() {
-  const { brands } = getIndex();
+export default async function BrandsPage() {
+  const { brands } = (await getIndex());
   return (
     <PageShell eyebrow="Shop mode" title="Brands" intro="Every brand in the catalog. Brand names are shown for identification only and do not imply any affiliation or endorsement.">
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

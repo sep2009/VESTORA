@@ -19,7 +19,7 @@ export function createCustomerToken(user: Pick<User, "id" | "passwordVersion">, 
   return `${payload}.${sign(payload).toString("base64url")}`;
 }
 
-export function verifyCustomerToken(token: string | undefined | null, now = Date.now()): User | null {
+export async function verifyCustomerToken(token: string | undefined | null, now = Date.now()): Promise<User | null> {
   if (!token) return null;
   const [payload, sig] = token.split(".");
   if (!payload || !sig) return null;
@@ -28,13 +28,13 @@ export function verifyCustomerToken(token: string | undefined | null, now = Date
     if (given.length !== expected.length || !timingSafeEqual(given, expected)) return null;
     const d = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as { u?: string; pv?: number; exp?: number };
     if (typeof d.u !== "string" || typeof d.exp !== "number" || d.exp < now) return null;
-    const user = readStore().data.users.find((x) => x.id === d.u);
+    const user = (await readStore()).data.users.find((x) => x.id === d.u);
     return user && user.passwordVersion === d.pv ? user : null;
   } catch { return null; }
 }
 
 const cookieOf = (req: Request) => req.headers.get("cookie")?.split(/;\s*/).map((c) => c.split("=")).find(([k]) => k === CUSTOMER_COOKIE)?.slice(1).join("=");
-export const customerFromRequest = (req: Request): User | null => (process.env.SESSION_SECRET ? verifyCustomerToken(cookieOf(req)) : null);
+export const customerFromRequest = (req: Request): Promise<User | null> => (process.env.SESSION_SECRET ? verifyCustomerToken(cookieOf(req)) : Promise.resolve(null));
 
 export function sessionCookie(req: Request, token: string | null): string {
   const secure = new URL(req.url).protocol === "https:" || req.headers.get("x-forwarded-proto") === "https";

@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminOrder({ params }: { params: Promise<{ id: string }> }) {
   const { role } = await requireAdminPage();
-  const o = getOrder((await params).id);
+  const o = (await getOrder((await params).id));
   if (!o) notFound();
   return (
     <AdminShell role={role} title={`Order ${o.id}`}>

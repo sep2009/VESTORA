@@ -1,23 +1,23 @@
 import "server-only";
-import { randomBytes } from "node:crypto";
-import { mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
-import path from "node:path";
-import { dataDir } from "@/server/store/db";
+import { ready } from "@/server/store/db";
 import type { Answers, Consent } from "@/modules/style/core";
 
-/** A signed-in shopper's quiz answers and personalization choices, so they follow the account. Derived data is recomputed on read, never stored. */
+/** A signed-in shopper's quiz answers and personalization choices, so they follow the account (table `style_profiles`). Derived data is recomputed on read, never stored. */
 type Rec = { userId: string; answers: Answers; consent: Consent; createdAt: number; updatedAt: number };
-const file = () => path.join(dataDir(), "style-profiles.json");
-let queue: Promise<unknown> = Promise.resolve();
-const read = (): Rec[] => { try { return JSON.parse(readFileSync(file(), "utf8")) as Rec[]; } catch { return []; } };
-const write = (d: Rec[]) => { mkdirSync(dataDir(), { recursive: true }); const tmp = `${file()}.${randomBytes(4).toString("hex")}.tmp`; writeFileSync(tmp, JSON.stringify(d)); renameSync(tmp, file()); };
-function update<T>(fn: (d: Rec[]) => T): Promise<T> { const run = async () => { const d = read(); const r = fn(d); write(d); return r; }; const n = queue.then(run, run); queue = n.catch(() => undefined); return n; }
 
-export const getStored = (userId: string): Rec | null => read().find((r) => r.userId === userId) ?? null;
-export const putStored = (userId: string, answers: Answers, consent: Consent) => update((d) => {
-  const i = d.findIndex((r) => r.userId === userId), now = Date.now();
-  const rec: Rec = { userId, answers, consent, createdAt: i >= 0 ? d[i]!.createdAt : now, updatedAt: now };
-  if (i >= 0) d[i] = rec; else d.push(rec);
+export async function getStored(userId: string): Promise<Rec | null> {
+  const db = await ready();
+  const r = (await db.query<{ data: Rec }>("select data from style_profiles where user_id = $1", [userId])).rows[0];
+  return r?.data ?? null;
+}
+export async function putStored(userId: string, answers: Answers, consent: Consent): Promise<Rec> {
+  const db = await ready(), now = Date.now();
+  const prev = await getStored(userId);
+  const rec: Rec = { userId, answers, consent, createdAt: prev?.createdAt ?? now, updatedAt: now };
+  await db.query("insert into style_profiles (user_id, data, updated_at) values ($1, $2::jsonb, now()) on conflict (user_id) do update set data = excluded.data, updated_at = now()", [userId, JSON.stringify(rec)]);
   return rec;
-});
-export const deleteStored = (userId: string) => update((d) => { const n = d.length; const rest = d.filter((r) => r.userId !== userId); d.length = 0; d.push(...rest); return n - rest.length; });
+}
+export async function deleteStored(userId: string): Promise<number> {
+  const db = await ready();
+  return (await db.query("delete from style_profiles where user_id = $1 returning user_id", [userId])).rows.length;
+}

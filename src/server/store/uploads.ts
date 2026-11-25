@@ -1,12 +1,9 @@
 import "server-only";
 import { randomBytes } from "node:crypto";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import path from "node:path";
-import { dataDir } from "./db";
+import { ready } from "./db";
 
 export const LIMITS = { image: 5 * 1024 * 1024, model: 25 * 1024 * 1024 } as const;
 export type UploadKind = keyof typeof LIMITS;
-const uploadDir = () => path.join(process.env.VESTORA_UPLOAD_DIR ?? path.join(dataDir(), "..", "uploads"));
 
 type Sniffed = { ext: string; mime: string } | null;
 const startsWith = (b: Buffer, sig: number[], off = 0) => sig.every((v, i) => b[off + i] === v);
@@ -38,23 +35,24 @@ export function sniff(kind: UploadKind, b: Buffer): Sniffed {
   return null;
 }
 
-export function saveUpload(kind: UploadKind, bytes: Buffer): { ok: true; url: string; bytes: number } | { ok: false; status: number; error: string } {
+/** Uploaded files are stored in the database (table `uploads`), never on disk. The public path is /api/uploads/<images|models>/<name>. */
+export async function saveUpload(kind: UploadKind, bytes: Buffer): Promise<{ ok: true; url: string; bytes: number } | { ok: false; status: number; error: string }> {
   if (bytes.length === 0) return { ok: false, status: 422, error: "The file is empty" };
   if (bytes.length > LIMITS[kind]) return { ok: false, status: 413, error: `File too large (limit ${Math.round(LIMITS[kind] / 1024 / 1024)} MB)` };
   const t = sniff(kind, bytes);
   if (!t) return { ok: false, status: 415, error: kind === "image" ? "Not a supported image (PNG, JPEG, WebP, GIF or AVIF)" : "Not a valid GLB/GLTF 2.0 model (embedded resources only)" };
-  const dir = path.join(uploadDir(), kind === "image" ? "images" : "models");
-  mkdirSync(dir, { recursive: true });
-  const name = `${randomBytes(8).toString("hex")}.${t.ext}`;
-  writeFileSync(path.join(dir, name), bytes, { flag: "wx" });
-  return { ok: true, url: `/api/uploads/${kind === "image" ? "images" : "models"}/${name}`, bytes: bytes.length };
+  const folder = kind === "image" ? "images" : "models", name = `${randomBytes(8).toString("hex")}.${t.ext}`;
+  const db = await ready();
+  await db.query("insert into uploads (name, kind, mime, bytes) values ($1, $2, $3, $4)", [`${folder}/${name}`, kind, t.mime, bytes]);
+  return { ok: true, url: `/api/uploads/${folder}/${name}`, bytes: bytes.length };
 }
 
 const SAFE = /^(images|models)\/[a-f0-9]{16}\.(png|jpg|webp|gif|avif|glb|gltf)$/;
-const MIME: Record<string, string> = { png: "image/png", jpg: "image/jpeg", webp: "image/webp", gif: "image/gif", avif: "image/avif", glb: "model/gltf-binary", gltf: "model/gltf+json" };
 
 /** Read an uploaded file by its public path. Anything that is not exactly one of our generated names is refused (no traversal). */
-export function readUpload(rel: string): { bytes: Buffer; mime: string } | null {
+export async function readUpload(rel: string): Promise<{ bytes: Buffer; mime: string } | null> {
   if (!SAFE.test(rel)) return null;
-  try { return { bytes: readFileSync(path.join(uploadDir(), rel)), mime: MIME[rel.split(".").pop()!]! }; } catch { return null; }
+  const db = await ready();
+  const r = (await db.query<{ bytes: Buffer; mime: string }>("select bytes, mime from uploads where name = $1", [rel])).rows[0];
+  return r ? { bytes: Buffer.from(r.bytes), mime: r.mime } : null;
 }
