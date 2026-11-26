@@ -2,7 +2,7 @@ import "server-only";
 
 /**
  * Database connection. PRODUCTION uses PostgreSQL through the connection string Netlify Database provides
- * (NETLIFY_DATABASE_URL; DATABASE_URL works too). Nothing is ever written to the filesystem.
+ * (NETLIFY_DB_URL; NETLIFY_DATABASE_URL and DATABASE_URL work too). Nothing is ever written to the filesystem.
  *
  * Local development and the automated tests, when no connection string is set and NODE_ENV is not "production", use PGlite:
  * a real PostgreSQL engine (WebAssembly) held in memory, seeded on first use. It is never used in production: a missing
@@ -23,7 +23,8 @@ export function dbFailure(e: unknown): "config" | "unreachable" | null {
 }
 export const UNAVAILABLE = "The service is temporarily unavailable. Please try again in a moment.";
 
-export const connectionString = () => process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL || null;
+/** NETLIFY_DB_URL is what Netlify Database sets; NETLIFY_DATABASE_URL is its older name; DATABASE_URL is any other PostgreSQL (e.g. Neon). */
+export const connectionString = () => process.env.NETLIFY_DB_URL || process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL || null;
 
 type G = { __vestoraDb?: Promise<Db> };
 const g = globalThis as unknown as G;
@@ -61,7 +62,7 @@ async function connectPglite(): Promise<Db> {
 export function getDb(): Promise<Db> {
   if (!g.__vestoraDb) {
     const url = connectionString();
-    if (!url && process.env.NODE_ENV === "production" && process.env.VESTORA_DB !== "pglite") throw new DbConfigError("No database is configured. Set NETLIFY_DATABASE_URL (Netlify Database) or DATABASE_URL to a PostgreSQL connection string.");
+    if (!url && process.env.NODE_ENV === "production" && process.env.VESTORA_DB !== "pglite") throw new DbConfigError("No database is configured. Set NETLIFY_DB_URL (Netlify Database) or DATABASE_URL to a PostgreSQL connection string.");
     const p = url ? connectPostgres(url) : connectPglite();
     g.__vestoraDb = p;
     p.catch(() => { if (g.__vestoraDb === p) g.__vestoraDb = undefined; });

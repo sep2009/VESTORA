@@ -3,7 +3,7 @@
 **Status: not production-ready.** The application is complete and tested against demo data and test providers, but real payments, email, a shared database, product data and AI providers are NOT configured. Read "Blocking requirements" before going live.
 
 ## Blocking requirements (nothing here is done for you)
-1. **Database.** PostgreSQL (Netlify Database) is implemented: see `docs/DATABASE.md`. You must enable it for the site (it provides `NETLIFY_DATABASE_URL`). The schema and the demo seed apply automatically on first use. The Supabase SQL under `supabase/migrations` is an older, unused draft.
+1. **Database.** PostgreSQL (Netlify Database) is implemented: see `docs/DATABASE.md`. Either enable Netlify Database (it provides `NETLIFY_DB_URL`; credit-based plans) or set `DATABASE_URL` to another PostgreSQL, such as a free Neon project. The schema and the demo seed apply automatically on first use. The Supabase SQL under `supabase/migrations` is an older, unused draft.
 2. **A payment provider.** Stripe Checkout is implemented (`src/server/payments/stripe.ts`) but **has never run against Stripe**. Without `STRIPE_SECRET_KEY` + `STRIPE_WEBHOOK_SECRET` checkout refuses to take orders. Do not enable `PAYMENT_WEBHOOK_SECRET`/`ALLOW_TEST_PAYMENTS` in production (the test sandbox moves no money).
 3. **Email.** Password resets and order emails are written to the `outbox` table. Connect a mail service in `deliverEmail` (`src/server/commerce/customers.ts`) before launch, or customers cannot recover passwords.
 4. **Real products and rights.** The 72 products are labelled demo data with drawn placeholders. Import real products with licensed images (non-demo records require a source URL, price, image and licence).
@@ -20,7 +20,7 @@
 | `TRYON_PROVIDER` (+ provider credentials) | optional | Empty = photo try-on shown as unavailable. `test` = labelled development provider (needs `ALLOW_TEST_TRYON=1` in production; do not). |
 | `ASSISTANT_PROVIDER` (+ credentials) | optional | Empty = rule-based stylist. `test` = scripted development provider (not AI; `ALLOW_TEST_ASSISTANT=1` needed in production; do not). |
 | `TRYON_DAILY_LIMIT`, `TRYON_RATE_PER_HOUR`, `TRYON_TIMEOUT_MS`, `TRYON_POLL_MS`, `ASSISTANT_TIMEOUT_MS`, `ASSISTANT_RATE_PER_MIN` | optional | Limits and timeouts. |
-| `NETLIFY_DATABASE_URL` (or `DATABASE_URL`) | **yes** | PostgreSQL connection string. Provided automatically by Netlify Database. Without it the production app answers 503 and `/api/health` reports `not_configured`. |
+| `NETLIFY_DB_URL` or `DATABASE_URL` | **yes** | PostgreSQL connection string. `NETLIFY_DB_URL` is provided automatically by Netlify Database. Without it the production app answers 503 and `/api/health` reports `not_configured`. |
 | `DB_POOL_MAX` | optional | Connections per function instance (default 3). |
 | `VESTORA_DB=pglite` | **local only** | Lets a production build use the in-memory PGlite engine for verification. Never set on Netlify. |
 | `RATE_LIMIT_SCALE` | **tests only** | Never set in production. |

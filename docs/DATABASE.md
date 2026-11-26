@@ -3,7 +3,8 @@
 All persistent data lives in PostgreSQL. **Nothing is written to, or read from, the filesystem at runtime** (the old `data/db/store.json`, `data/uploads` and `data/private` are gone). That was the cause of the Netlify HTTP 500: a serverless filesystem is read-only, so the first request that tried to create or update the JSON store failed.
 
 ## Connection
-- Production: `NETLIFY_DATABASE_URL` (provided by Netlify Database; `DATABASE_URL` also works). Driver: `pg` with a small pool (`DB_POOL_MAX`, default 3) and TLS.
+- Production: `NETLIFY_DB_URL` (provided by Netlify Database), or `DATABASE_URL` for any other PostgreSQL such as a free Neon project; the older name `NETLIFY_DATABASE_URL` also works. The first one set, in the order `NETLIFY_DB_URL`, `NETLIFY_DATABASE_URL`, `DATABASE_URL`, is used.
+- The app applies its own migrations (`src/server/db`), not Netlify's `netlify/database/migrations` system, which Netlify documents as optional. Driver: `pg` with a small pool (`DB_POOL_MAX`, default 3) and TLS.
 - No connection string in production = a clear configuration error: API calls answer **503** "temporarily unavailable", `/api/health` returns `{"ok":false,"database":{"error":"not_configured"}}`, and the server log says why. Nothing is faked.
 - Development and tests without a connection string use **PGlite**, a real PostgreSQL engine in WebAssembly, in memory (`PGLITE_DATA_DIR` optionally keeps data between restarts). `VESTORA_DB=pglite` allows it with a production build for local verification. Never set it on Netlify.
 
@@ -32,7 +33,7 @@ On the first request against an **empty** database the labelled demo data (`data
 
 ## Migrations
 - Automatic: the first request on each instance applies any missing migrations (ledger + advisory lock, safe when instances start together).
-- Manual / CI: `NETLIFY_DATABASE_URL=postgres://… npm run db:migrate`.
+- Manual / CI: `DATABASE_URL=postgres://… npm run db:migrate`.
 - Add a migration by appending `{ id, sql }` to `MIGRATIONS`; never edit an applied one.
 
 ## Testing the real driver locally
